@@ -40,7 +40,11 @@ $(document).ready(function() {
     });
 
     $('#add-to-cart-modal .modal-footer > .yes-button').click(function() {
-        closeModal('add-to-cart-modal');
+        if($('#quantity-field').val() !== '') {
+            closeModal('add-to-cart-modal');
+        } else {
+            $('#quantity-field').focus();
+        }
     });
 
     $('#add-to-cart-modal .modal-footer > .no-button').click(function() {
