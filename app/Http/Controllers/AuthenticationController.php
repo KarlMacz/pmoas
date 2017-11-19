@@ -170,7 +170,7 @@ class AuthenticationController extends Controller
             'email' => 'required|string|email|max:255|unique:accounts',
             'password' => 'required|alpha_num|min:5|max:26|confirmed',
             'first_name' => 'required|string|max:255',
-            'middle_name' => 'string|nullable|max:255',
+            'middle_name' => 'string|max:255',
             'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact_number' => [
