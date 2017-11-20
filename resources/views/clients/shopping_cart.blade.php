@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if($cart->items->count() > 0)
+                @if($cart)
                     <?php
                         $totalAmount = 0;
                     ?>
@@ -56,7 +56,7 @@
                     </tr>
                 @endif
             </tbody>
-            @if($cart->items->count() > 0)
+            @if($cart)
                 <tfoot>
                     <tr>
                         <th class="text-right" colspan="4">Total:</th>
@@ -65,7 +65,7 @@
                 </tfoot>
             @endif
         </table>
-        @if($cart->items->count() > 0)
+        @if($cart)
             <div class="text-right">
                 <a href="" class="btn btn-primary"><span class="fa fa-check fa-fw"></span> Proceed to Order</a>
             </div>
