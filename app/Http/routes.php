@@ -61,6 +61,10 @@ Route::group(['as' => 'clients.'], function() {
         Route::get('payments', ['as' => 'payments', 'uses' => 'ClientController@payments']);
         Route::get('contracts', ['as' => 'contracts', 'uses' => 'ClientController@contracts']);
     });
+
+    Route::group(['as' => 'post.'], function() {
+        Route::get('contracts/view', ['as' => 'contracts_view', 'uses' => 'ClientController@postViewContracts']);
+    });
 });
 
 Route::group(['as' => 'cart.'], function() {
