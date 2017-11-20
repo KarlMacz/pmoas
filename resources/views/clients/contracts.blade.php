@@ -1,5 +1,13 @@
 @extends('layouts.clients')
 
+@section('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
+@section('resources')
+    <script src="{{ asset('js/custom/clients/contracts.js') }}"></script>
+@endsection
+
 @section('content')
     <div class="page-header">
         <h1 class="no-margin">Contracts</h1>
@@ -9,6 +17,7 @@
             <thead>
                 <tr>
                     <th width="10%">ID</th>
+                    <th>Type</th>
                     <th>Date Created</th>
                     <th width="10%"></th>
                 </tr>
@@ -18,8 +27,11 @@
                     @foreach($contracts as $contract)
                         <tr>
                             <td class="text-center">{{ $contract->id }}</td>
+                            <td class="text-center">{{ $contract->type }}</td>
                             <td class="text-center">{{ date('F d, Y (h:i A)', strtotime($contract->created_at)) }}</td>
-                            <td></td>
+                            <td>
+                                <button class="view-contract-button btn btn-primary btn-xs" data-id="{{ $contract->id }}"><span class="fa fa-eye fa-fw"></span> View</button>
+                            </td>
                         </tr>
                     @endforeach
                 @else
