@@ -171,6 +171,7 @@ return [
         /*
          * Other Service Providers
          */
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -217,6 +218,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /*
+         * Other Class Aliases
+         */
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
