@@ -1,12 +1,6 @@
 $(document).ready(function() {
     $('.view-contract-button').click(function() {
-        openModal('loading-modal');
-
-        ajaxRequest('/contracts/view', 'POST', {
-            id: $(this).data('id')
-        }, function(response) {
-            closeModal('loading-modal');
-            setModalContent('status-modal', 'View Contract', response.message);
-        });
+        setModalContent('status-modal', 'View Contract', '<iframe src="' + $('meta[name="main-route"]').attr('content') + '/contracts/view/' + $(this).data('id') + '" frameborder="0"></iframe>');
+        delayOpenModal('status-modal');
     });
 });

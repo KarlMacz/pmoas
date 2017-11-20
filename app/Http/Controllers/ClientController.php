@@ -55,7 +55,30 @@ class ClientController extends Controller
         ]);
     }
 
-    public function postViewContracts(Request $request) {
-        $contract = Contracts::where('id', $request->input('id'))->first();
+    public function viewContracts($code) {
+        $contracts = Contracts::get();
+
+        foreach($contracts as $contract) {
+            if(hash('sha256', $contract->id) === $code) {
+                $data['contract'] = $contract;
+
+                break;
+            }
+        }
+
+        $pdf = PDF::loadView('pdf.contract', $data);
+
+        if($contract) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Contract found.',
+                'view' => $pdf->stream('contract_' . hash('sha256', $contract) . '.pdf')
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Contract doesn\'t exist.'
+            ]);
+        }
     }
 }
