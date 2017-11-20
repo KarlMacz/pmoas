@@ -28,10 +28,10 @@
                     @foreach($contracts as $contract)
                         <tr>
                             <td class="text-center">{{ $contract->id }}</td>
-                            <td class="text-center">{{ $contract->type }}</td>
+                            <td>{{ $contract->type }}</td>
                             <td class="text-center">{{ date('F d, Y (h:i A)', strtotime($contract->created_at)) }}</td>
-                            <td>
-                                <button class="view-contract-button btn btn-primary btn-xs" data-id="{{ hash('sha256', $contract->id) }}"><span class="fa fa-eye fa-fw"></span> View</button>
+                            <td class="text-center">
+                                <button class="view-contract-button btn btn-primary btn-xs" data-id="{{ hash('sha256', $contract->id) }}"><span class="fa fa-th-list fa-fw"></span> View</button>
                             </td>
                         </tr>
                     @endforeach

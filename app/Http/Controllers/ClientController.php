@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth;
+use PDF;
 
 use App\Contracts;
 use App\Logs;
@@ -66,19 +67,10 @@ class ClientController extends Controller
             }
         }
 
-        $pdf = PDF::loadView('pdf.contract', $data);
+        if($data['contract']) {
+            $pdf = PDF::loadView('pdf.contract', $data);
 
-        if($contract) {
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'Contract found.',
-                'view' => $pdf->stream('contract_' . hash('sha256', $contract) . '.pdf')
-            ]);
-        } else {
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Contract doesn\'t exist.'
-            ]);
+            return $pdf->stream();
         }
     }
 }
