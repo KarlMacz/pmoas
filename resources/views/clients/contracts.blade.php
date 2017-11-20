@@ -1,6 +1,7 @@
 @extends('layouts.clients')
 
 @section('meta')
+    <meta name="main-route" content="{{ url('/') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
@@ -30,7 +31,7 @@
                             <td class="text-center">{{ $contract->type }}</td>
                             <td class="text-center">{{ date('F d, Y (h:i A)', strtotime($contract->created_at)) }}</td>
                             <td>
-                                <button class="view-contract-button btn btn-primary btn-xs" data-id="{{ $contract->id }}"><span class="fa fa-eye fa-fw"></span> View</button>
+                                <button class="view-contract-button btn btn-primary btn-xs" data-id="{{ hash('sha256', $contract->id) }}"><span class="fa fa-eye fa-fw"></span> View</button>
                             </td>
                         </tr>
                     @endforeach
