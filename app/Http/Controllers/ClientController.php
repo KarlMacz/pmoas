@@ -54,4 +54,8 @@ class ClientController extends Controller
             'contracts' => Contracts::where('contractee_id', Auth::user()->id)->get()
         ]);
     }
+
+    public function postViewContracts(Request $request) {
+        $contract = Contracts::where('id', $request->input('id'))->first();
+    }
 }
