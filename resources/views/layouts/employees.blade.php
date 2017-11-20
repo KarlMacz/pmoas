@@ -50,8 +50,13 @@
         <div class="sidebar" style="margin-top: 0;">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
+                    <li><a href="{{ route('employees.get.index') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
                     <li>
-                        <a href="{{ route('employees.get.index') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="#"><i class="fa fa-shopping-bag fa-fw"></i> Products<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="{{ route('employees.get.products') }}"><span class="fa fa-th-list fa-fw"></span> View All Products</a></li>
+                            <li><a href="{{ route('employees.get.products_add') }}"><span class="fa fa-plus fa-fw"></span> Add Product</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-users fa-fw"></i> Clients <span class="fa arrow"></span></a>
@@ -77,5 +82,25 @@
         </div>
     </div>
 @yield('modals')
+    <div id="status-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">...</h4>
+                </div>
+                <div class="modal-body">...</div>
+            </div>
+        </div>
+    </div>
+    <div id="loading-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div style="margin-bottom: 10px;"><span class="fa fa-spinner fa-pulse fa-3x"></span></div>
+                    <h4 class="no-margin">Please Wait...</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description', 1000);
             $table->string('image')->nullable();
             $table->double('price_per_piece');
             $table->integer('minimum_pieces_per_bulk')->unsigned()->default(1);

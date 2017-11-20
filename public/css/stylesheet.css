@@ -33,6 +33,19 @@ blockquote footer {
     margin-top: 0;
 }
 
+.row.equalize {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row.equalize > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
 /**
  * Customized SB Admin 2
  */

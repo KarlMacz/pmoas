@@ -14,6 +14,8 @@ use App\Accounts;
 use App\Clients;
 use App\Employees;
 use App\Logs;
+use App\Products;
+use App\Stocks;
 
 class EmployeeController extends Controller
 {
@@ -29,6 +31,28 @@ class EmployeeController extends Controller
 
         return view('employees.index', [
             'logs' => Logs::orderBy('created_at', 'desc')->get()
+        ]);
+    }
+
+    public function products() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.products', [
+            'products' => Products::get()
+        ]);
+    }
+
+    public function addProduct() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.add_products');
+    }
+
+    public function editProduct($id) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.edit_products', [
+            'product' => Products::where('id', $id)->first()
         ]);
     }
 
@@ -202,5 +226,113 @@ class EmployeeController extends Controller
         }
 
         return redirect()->route('employees.get.employees_register');
+    }
+
+    public function postAddProduct(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:1',
+            'min_pieces' => 'required|numeric|min:1',
+            'description' => 'required|string|max:1000',
+            'quantity.*' => 'required|numeric|min:1',
+            'expiration_date.*' => 'required|date'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.products_edit')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $quantity = 0;
+
+        foreach($request->input('quantity') as $qty) {
+            $quantity += $qty;
+        }
+
+        $product = Products::create([
+            'name' => $request->input('name'),
+            'price_per_piece' => $request->input('price'),
+            'minimum_pieces_per_bulk' => $request->input('min_pieces'),
+            'description' => $request->input('description'),
+            'remaining_quantity' => $quantity
+        ]);
+
+        if($product) {
+            $id = $product->id;
+
+            foreach($request->input('quantity') as $index => $qty) {
+                Stocks::create([
+                    'product_id' => $id,
+                    'quantity' => $qty,
+                    'expiration_date' => $request->input('expiration_date')[$index]
+                ]);
+            }
+
+            session()->flash('flash_status', 'Success');
+            session()->flash('flash_message', 'Product has been added.');
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to add product.');
+        }
+
+        return redirect()->route('employees.get.products_add');
+    }
+
+    public function postEditProduct($id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:1',
+            'min_pieces' => 'required|numeric|min:1',
+            'description' => 'required|string|max:1000'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.products_edit')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $product = Products::where('id', $id)->update([
+            'name' => $request->input('name'),
+            'price_per_piece' => $request->input('price'),
+            'minimum_pieces_per_bulk' => $request->input('min_pieces'),
+            'description' => $request->input('description')
+        ]);
+
+        if($product) {
+            session()->flash('flash_status', 'Success');
+            session()->flash('flash_message', 'Product has been edited.');
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to edit product.');
+        }
+
+        return redirect()->route('employees.get.products_edit', $id);
+    }
+
+    public function postDeleteProduct(Request $request) {
+        $stocks = Stocks::where('product_id', $request->input('id'))->delete();
+
+        if($stocks) {
+            $product = Products::where('id', $request->input('id'))->delete();
+
+            if($product) {
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Product has been deleted.'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Successfully delete all product stocks but failed to delete product information.'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to delete product.'
+            ]);
+        }
     }
 }

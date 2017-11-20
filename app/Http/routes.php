@@ -40,6 +40,9 @@ Route::group(['as' => 'auth.'], function() {
 Route::group(['as' => 'employees.'], function() {
     Route::group(['as' => 'get.'], function() {
         Route::get('dashboard', ['as' => 'index', 'uses' => 'EmployeeController@index']);
+        Route::get('products_catalogue', ['as' => 'products', 'uses' => 'EmployeeController@products']);
+        Route::get('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@addProduct']);
+        Route::get('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@editProduct']);
         Route::get('employees/view', ['as' => 'employees_view', 'uses' => 'EmployeeController@viewEmployees']);
         Route::get('employees/register', ['as' => 'employees_register', 'uses' => 'EmployeeController@registerEmployee']);
         Route::get('clients/view', ['as' => 'clients_view', 'uses' => 'EmployeeController@viewClients']);
@@ -48,6 +51,9 @@ Route::group(['as' => 'employees.'], function() {
 
     Route::group(['as' => 'post.'], function() {
         Route::post('dashboard', ['as' => 'index', 'uses' => 'EmployeeController@index']);
+        Route::post('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@postAddProduct']);
+        Route::post('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@postEditProduct']);
+        Route::post('products_catalogue/delete', ['as' => 'products_delete', 'uses' => 'EmployeeController@postDeleteProduct']);
         Route::post('employees/register', ['as' => 'employees_register', 'uses' => 'EmployeeController@postRegisterEmployee']);
         Route::post('company_clients/register', ['as' => 'company_clients_register', 'uses' => 'EmployeeController@postRegisterCompanyClient']);
     });
