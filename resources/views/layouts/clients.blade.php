@@ -56,16 +56,13 @@
                         <a href="{{ route('clients.get.index') }}"><i class="fa fa-home fa-fw"></i> Home</a>
                     </li>
                     <li>
-                        <a href="{{ route('clients.get.products') }}"><i class="fa fa-shopping-bag fa-fw"></i> Products</a>
+                        <a href="{{ route('clients.get.products') }}"><i class="fa fa-shopping-bag fa-fw"></i> Products Catalogue</a>
                     </li>
                     <li>
-                        <a href="{{ route('clients.get.shopping_cart') }}"><i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart</a>
+                        <a href="{{ route('cart.get.index') }}"><i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart</a>
                     </li>
                     <li>
-                        <a href="{{ route('clients.get.billings') }}"><i class="fa fa-dollar fa-fw"></i> Billings</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('clients.get.payments') }}"><i class="fa fa-money fa-fw"></i> Payments</a>
+                        <a href="{{ route('clients.get.orders') }}"><i class="fa fa-cubes fa-fw"></i> Orders</a>
                     </li>
                     <li>
                         <a href="{{ route('clients.get.contracts') }}"><i class="fa fa-list-alt fa-fw"></i> Contracts</a>
@@ -78,5 +75,25 @@
         </div>
     </div>
 @yield('modals')
+    <div id="status-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">...</h4>
+                </div>
+                <div class="modal-body">...</div>
+            </div>
+        </div>
+    </div>
+    <div id="loading-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div style="margin-bottom: 10px;"><span class="fa fa-spinner fa-pulse fa-3x"></span></div>
+                    <h4 class="no-margin">Please Wait...</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

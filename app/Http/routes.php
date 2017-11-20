@@ -17,7 +17,7 @@ Route::group(['as' => 'home.'], function() {
     });
 
     Route::group(['as' => 'post.'], function() {
-        Route::post('feedbacks/create', ['as' => 'create_feedbacks', 'uses' => 'HomeController@postCreateFeedback']);
+        Route::post('feedbacks/create', ['as' => 'feedbacks_create', 'uses' => 'HomeController@postCreateFeedback']);
     });
 });
 
@@ -57,10 +57,20 @@ Route::group(['as' => 'clients.'], function() {
     Route::group(['as' => 'get.'], function() {
         Route::get('home', ['as' => 'index', 'uses' => 'ClientController@index']);
         Route::get('products', ['as' => 'products', 'uses' => 'ClientController@products']);
-        Route::get('shopping_cart', ['as' => 'shopping_cart', 'uses' => 'ClientController@shoppingCart']);
-        Route::get('billings', ['as' => 'billings', 'uses' => 'ClientController@billings']);
+        Route::get('orders', ['as' => 'orders', 'uses' => 'ClientController@orders']);
         Route::get('payments', ['as' => 'payments', 'uses' => 'ClientController@payments']);
         Route::get('contracts', ['as' => 'contracts', 'uses' => 'ClientController@contracts']);
+    });
+});
+
+Route::group(['as' => 'cart.'], function() {
+    Route::group(['as' => 'get.'], function() {
+        Route::get('cart', ['as' => 'index', 'uses' => 'CartController@index']);
+    });
+
+    Route::group(['as' => 'post.'], function() {
+        Route::post('cart/add', ['as' => 'cart_add', 'uses' => 'CartController@postAddItemToCart']);
+        Route::post('cart/remove', ['as' => 'cart_remove', 'uses' => 'CartController@postRemoveItemFromCart']);
     });
 });
 

@@ -25,8 +25,10 @@ class EmployeeController extends Controller
     }
 
     public function index() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.index', [
-            'logs' => Logs::get()
+            'logs' => Logs::orderBy('created_at', 'desc')->get()
         ]);
     }
 
@@ -34,6 +36,8 @@ class EmployeeController extends Controller
         if(Auth::user()->user_info->position !== 'Administrator') {
             return view('employees.get.index');
         }
+
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('employees.view_employees', [
             'employees' => Accounts::where('role', 'Employee')->get()
@@ -45,16 +49,22 @@ class EmployeeController extends Controller
             return view('employees.get.index');
         }
 
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.register_employees');
     }
 
     public function viewClients() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.view_clients', [
             'clients' => Accounts::where('role', 'Client')->get()
         ]);
     }
 
     public function registerCompanyClient() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.register_clients');
     }
 
@@ -104,6 +114,8 @@ class EmployeeController extends Controller
             ]);
 
             if($client) {
+                $this->createLog(Auth::user()->id, 'Success', 'registered ' . $request->input('first_name') . ' ' . $request->input('last_name') . ' to the system.');
+
                 session()->flash('flash_status', 'Success');
                 session()->flash('flash_message', 'Company client has been registered.');
             } else {
@@ -175,6 +187,8 @@ class EmployeeController extends Controller
                 ], function($message) use ($email_address, $full_name) {
                     $message->to($email_address, $full_name)->subject(config('company.name') . ' Account Verification');
                 });
+
+                $this->createLog(Auth::user()->id, 'Success', 'registered ' . $request->input('first_name') . ' ' . $request->input('last_name') . ' to the system.');
 
                 session()->flash('flash_status', 'Success');
                 session()->flash('flash_message', 'Employee has been registered. An e-mail has been sent to the employee\' for account verification.');

@@ -14,12 +14,11 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('account_id')->unsigned();
-            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->integer('transaction_id')->unsigned();
+            $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
             $table->integer('quantity')->unsigned();
-            $table->double('total_price');
             $table->timestamps();
         });
     }

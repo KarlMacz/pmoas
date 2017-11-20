@@ -16,7 +16,9 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('account_id')->unsigned();
             $table->foreign('account_id')->references('id')->on('accounts');
-            $table->string('status')->default('processing');
+            $table->double('total_price');
+            $table->string('payment_method');
+            $table->string('status')->default('Pending');
             $table->timestamps();
         });
     }

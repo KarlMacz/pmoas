@@ -16,8 +16,8 @@ class CreateLogsTable extends Migration
             $table->increments('id');
             $table->integer('account_id')->unsigned();
             $table->foreign('account_id')->references('id')->on('accounts');
-            $table->string('action');
             $table->string('status');
+            $table->string('action', 1000);
             $table->timestamps();
         });
     }

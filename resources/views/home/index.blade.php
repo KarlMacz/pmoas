@@ -164,7 +164,7 @@
                     @if(Auth::check())
                         <div class="well">
                             @include('partials.flash')
-                            <form action="{{ route('home.post.create_feedbacks') }}" method="POST">
+                            <form action="{{ route('home.post.feedbacks_create') }}" method="POST">
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-sm-8">

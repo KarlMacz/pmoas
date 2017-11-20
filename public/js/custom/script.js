@@ -34,6 +34,12 @@ function closeModal(id) {
     $('#' + id + '.modal').modal('hide');
 }
 
+function delayCloseModal(id) {
+    setTimeout(function() {
+        $('#' + id + '.modal').modal('hide');
+    }, 2000);
+}
+
 function setModalContent(id, title, content) {
     $('#' + id + '.modal .modal-title').html(title);
     $('#' + id + '.modal .modal-body').html(content);

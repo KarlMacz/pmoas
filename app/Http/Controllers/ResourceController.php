@@ -12,6 +12,15 @@ use App\Products;
 
 class ResourceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => [
+                'dateTime'
+            ]
+        ]);
+    }
+
     public function dateTime() {
         return response()->json([
             'date' => date('F d, Y'),

@@ -6,17 +6,24 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Auth;
+use Validator;
+
 use App\Feedbacks;
 
 class HomeController extends Controller
 {
     public function index() {
+        if(Auth::check()) {
+            $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+        }
+
         return view('home.index', [
             'feedbacks' => Feedbacks::get()
         ]);
     }
 
-    public function postCreateFeedbacks(Request $request) {
+    public function postCreateFeedback(Request $request) {
         if(Auth::check()) {
             $validator = Validator::make($request->all(), [
                 'comment' => 'required|string|max:1000',
@@ -35,6 +42,8 @@ class HomeController extends Controller
             ]);
 
             if($result->id) {
+                $this->createLog(Auth::user()->id, 'Success', 'posted a feedback.');
+
                 session()->flash('flash_status', 'Success');
                 session()->flash('flash_message', 'Feedback has been sent.');
             } else {
@@ -42,7 +51,7 @@ class HomeController extends Controller
                 session()->flash('flash_message', 'Failed to send feedback.');
             }
 
-            return redirect()->route('home.get.index');
+            return redirect('/#comments-and-suggestions-section');
         } else {
             return redirect()->route('auth.get.index');
         }
