@@ -45,9 +45,9 @@
     <header class="mastify dim">
         <div class="mastify-content">
             <div class="mastify-content-inner text-center">
-                <h1 class="text-success text-shadow"><img src="{{ asset('img/logo-success.png') }}"> {{ config('company.name') }}</h1>
-                <p>Start Bootstrap can help you build better websites using the Bootstrap CSS framework! Just download your template and start going, no strings attached!</p>
-                <a href="{{ route('auth.get.register') }}" class="btn btn-primary btn-xl page-scroll">Register Now</a>
+                <h1 class="text-success text-shadow" style="margin-bottom: 0;"><img src="{{ asset('img/logo-success.png') }}"> {{ config('company.name') }}</h1>
+                <h4 style="margin-top: 0;">Provides high quality products that surpass industry standards.</h4>
+                <a href="{{ route('auth.get.register') }}" class="btn btn-info btn-xl page-scroll">Register Now</a>
             </div>
         </div>
     </header>
