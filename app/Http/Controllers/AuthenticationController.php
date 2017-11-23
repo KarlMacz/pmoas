@@ -146,19 +146,16 @@ class AuthenticationController extends Controller
                 return redirect()->route('clients.get.index');
             }
         } else {
-            $account = Accounts::where('username', $username)->first();
+            $account = Accounts::where('username', $username)->where('is_verified', true)->first();
 
-            if($account && Hash::check($password, $account->password)) {
-                session()->flash('flash_status', 'Failed');
-                session()->flash('flash_message', 'Account not yet verified. Please verify your account by clicking the link sent to your e-mail address.');
-            } else {
+            if($account && !Hash::check($password, $account->password)) {
                 if($throttles && !$lockedOut) {
                     $this->incrementLoginAttempts($request);
                 }
-
-                session()->flash('flash_status', 'Failed');
-                session()->flash('flash_message', 'Invalid username and/or password.');
             }
+
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Invalid username and/or password.');
 
             return redirect()->route('auth.get.login');
         }
