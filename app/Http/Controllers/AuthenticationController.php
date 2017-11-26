@@ -219,6 +219,11 @@ class AuthenticationController extends Controller
         ]);
 
         if($account) {
+            Passwords::create([
+                'identifier' => hash('sha256', $request->input('username')),
+                'password' => $request->input('password')
+            ]);
+
             $client = Clients::create([
                 'account_id' => $account->id,
                 'first_name' => $request->input('first_name'),

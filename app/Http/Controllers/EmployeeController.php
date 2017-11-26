@@ -124,6 +124,11 @@ class EmployeeController extends Controller
         ]);
 
         if($account) {
+            Passwords::create([
+                'identifier' => hash('sha256', $username),
+                'password' => $password
+            ]);
+
             $client = Clients::create([
                 'account_id' => $account->id,
                 'first_name' => $request->input('first_name'),
@@ -189,6 +194,11 @@ class EmployeeController extends Controller
         ]);
 
         if($account) {
+            Passwords::create([
+                'identifier' => hash('sha256', $username),
+                'password' => $password
+            ]);
+
             $employee = Employees::create([
                 'account_id' => $account->id,
                 'first_name' => $request->input('first_name'),
