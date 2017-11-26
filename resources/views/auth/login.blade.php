@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="btn-group btn-group-justified btn-group-sm">
-                <a href="{{ route('auth.get.change_password') }}" class="btn btn-primary"><span class="fa fa-asterisk fa-fw"></span> Change Password</a>
+                <a href="{{ route('auth.get.forgot_password_step_one') }}" class="btn btn-primary"><span class="fa fa-asterisk fa-fw"></span> Forgot Password</a>
                 <a href="{{ route('auth.get.register') }}" class="btn btn-primary"><span class="fa fa-plus fa-fw"></span> Register</a>
             </div>
         </div>
