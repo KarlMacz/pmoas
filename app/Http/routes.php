@@ -26,14 +26,16 @@ Route::group(['as' => 'auth.'], function() {
         Route::get('login', ['as' => 'login', 'uses' => 'AuthenticationController@login']);
         Route::get('logout', ['as' => 'logout', 'uses' => 'AuthenticationController@logout']);
         Route::get('register', ['as' => 'register', 'uses' => 'AuthenticationController@register']);
-        Route::get('change_password', ['as' => 'change_password', 'uses' => 'AuthenticationController@changePassword']);
+        Route::get('forgot_password/step_1', ['as' => 'forgot_password_step_one', 'uses' => 'AuthenticationController@forgotPasswordStepOne']);
+        Route::get('forgot_password/step_2/{username}', ['as' => 'forgot_password_step_two', 'uses' => 'AuthenticationController@forgotPasswordStepTwo']);
         Route::get('verification/{code}', ['as' => 'verification', 'uses' => 'AuthenticationController@verification']);
     });
 
     Route::group(['as' => 'post.'], function() {
         Route::post('login', ['as' => 'login', 'uses' => 'AuthenticationController@postLogin']);
         Route::post('register', ['as' => 'register', 'uses' => 'AuthenticationController@postRegister']);
-        Route::post('change_password', ['as' => 'change_password', 'uses' => 'AuthenticationController@postChangePassword']);
+        Route::post('forgot_password/step_1', ['as' => 'forgot_password_step_one', 'uses' => 'AuthenticationController@postForgotPasswordStepOne']);
+        Route::post('forgot_password/step_2', ['as' => 'forgot_password_step_two', 'uses' => 'AuthenticationController@postForgotPasswordStepTwo']);
     });
 });
 

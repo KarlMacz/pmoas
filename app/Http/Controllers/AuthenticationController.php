@@ -91,8 +91,30 @@ class AuthenticationController extends Controller
         return view('auth.register');
     }
 
-    public function changePassword() {
-        return view('auth.change_password');
+    public function forgotPasswordStepOne() {
+        return view('auth.forgot_password.step_one');
+    }
+
+    public function forgotPasswordStepTwo($username) {
+        if($username) {
+            $account = Accounts::where('username', $username)->first();
+
+            if($account) {
+                return view('auth.forgot_password.step_two', [
+                    'account' => $account
+                ]);
+            } else {
+                session()->flash('flash_status', 'Failed');
+                session()->flash('flash_message', 'Username doesn\'t exist.');
+
+                return redirect()->route('auth.get.forgot_password_step_one');
+            }
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Please enter your Username.');
+
+            return redirect()->route('auth.get.forgot_password_step_one');
+        }
     }
 
     public function verification($code)
@@ -221,7 +243,7 @@ class AuthenticationController extends Controller
                 });
 
                 session()->flash('flash_status', 'Success');
-                session()->flash('flash_message', 'Client has been registered. Please check your email for account verification.');
+                session()->flash('flash_message', 'Client has been registered. Please check your e-mail address for account verification.');
             } else {
                 session()->flash('flash_status', 'Failed');
                 session()->flash('flash_message', 'Failed to register client.');
@@ -232,5 +254,70 @@ class AuthenticationController extends Controller
         }
 
         return redirect()->route('auth.get.login');
+    }
+
+    public function postForgotPasswordStepOne(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|alpha_num|min:5|max:26'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('auth.get.forgot_password_step_one')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $account = Accounts::where('username', $request->input('username'))->first();
+
+        if($account) {
+            return redirect()->route('auth.get.forgot_password_step_two', $request->input('username'));
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Username doesn\'t exist.');
+
+            return redirect()->route('auth.get.forgot_password_step_one');
+        }
+    }
+
+    public function postForgotPasswordStepTwo(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'answer' => 'required|string|max:255'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('auth.get.forgot_password_step_two')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $account = Accounts::where('username', $request->input('username'))->first();
+
+        if($account) {
+            if($account->user_info->secret_answer === $request->input('answer')) {
+                $email_address = $account->email;
+                $full_name = $account->first_name . ' ' . $account->last_name;
+
+                Mail::send('emails.forgot_password', [
+                    'account' => $account
+                ], function($message) use ($email_address, $full_name) {
+                    $message->to($email_address, $full_name)->subject(config('company.name') . ' Forgot Password');
+                });
+
+                session()->flash('flash_status', 'Success');
+                session()->flash('flash_message', 'Your account information has been sent to your e-mail address.');
+
+                return redirect()->route('auth.get.login');
+            } else {
+                session()->flash('flash_status', 'Failed');
+                session()->flash('flash_message', 'Your answer is incorrect.');
+
+                return redirect()->route('auth.get.forgot_password_step_two', $request->input('username'));
+            }
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Username doesn\'t exist.');
+
+            return redirect()->route('auth.get.forgot_password_step_one');
+        }
     }
 }
