@@ -215,7 +215,7 @@ class EmployeeController extends Controller
                 $this->createLog(Auth::user()->id, 'Success', 'registered ' . $request->input('first_name') . ' ' . $request->input('last_name') . ' to the system.');
 
                 session()->flash('flash_status', 'Success');
-                session()->flash('flash_message', 'Employee has been registered. An e-mail has been sent to the employee\' for account verification.');
+                session()->flash('flash_message', 'Employee has been registered. An e-mail has been sent to the employee\' e-mail address for account verification.');
             } else {
                 session()->flash('flash_status', 'Failed');
                 session()->flash('flash_message', 'Failed to register employee.');
