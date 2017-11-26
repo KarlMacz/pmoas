@@ -22,7 +22,7 @@ class EmployeeSeeder extends Seeder
             'role' => 'Employee'
         ]);
 
-        if($account->id) {
+        if($account) {
             Employees::create([
                 'account_id' => $account->id,
                 'first_name' => 'Juan',
@@ -31,7 +31,7 @@ class EmployeeSeeder extends Seeder
                 'address' => '',
                 'gender' => 'Male',
                 'contact_number' => '09261234567',
-                'position' => 'Administrator',
+                'position' => 'Administrator'
             ]);
         }
     }
