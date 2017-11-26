@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 use App\Accounts;
 use App\Employees;
+use App\Passwords;
 
 class EmployeeSeeder extends Seeder
 {
@@ -23,6 +24,11 @@ class EmployeeSeeder extends Seeder
         ]);
 
         if($account) {
+            Passwords::create([
+                'identifier' => hash('sha256', 'admin'),
+                'password' => 'admin'
+            ]);
+
             Employees::create([
                 'account_id' => $account->id,
                 'first_name' => 'Juan',

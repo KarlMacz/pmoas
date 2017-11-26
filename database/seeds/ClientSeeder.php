@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Seeder;
 
+use App\Accounts;
+use App\Clients;
+use App\Passwords;
+
 class ClientSeeder extends Seeder
 {
     /**
@@ -20,6 +24,11 @@ class ClientSeeder extends Seeder
         ]);
 
         if($account) {
+            Passwords::create([
+                'identifier' => hash('sha256', 'client'),
+                'password' => 'client'
+            ]);
+
             Clients::create([
                 'account_id' => $account->id,
                 'first_name' => 'Juanito',
