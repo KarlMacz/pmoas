@@ -16,6 +16,7 @@ use Validator;
 
 use App\Accounts;
 use App\Clients;
+use App\Passwords;
 
 class AuthenticationController extends Controller
 {
@@ -299,17 +300,25 @@ class AuthenticationController extends Controller
 
         if($account) {
             if($account->user_info->secret_answer === $request->input('answer')) {
-                $email_address = $account->email;
-                $full_name = $account->first_name . ' ' . $account->last_name;
+                $pass = Passwords::where('identifier', hash('sha256', $request->input('username')))->first();
 
-                Mail::send('emails.forgot_password', [
-                    'account' => $account
-                ], function($message) use ($email_address, $full_name) {
-                    $message->to($email_address, $full_name)->subject(config('company.name') . ' Forgot Password');
-                });
+                if($pass) {
+                    $email_address = $account->email;
+                    $full_name = $account->first_name . ' ' . $account->last_name;
 
-                session()->flash('flash_status', 'Success');
-                session()->flash('flash_message', 'Your account information has been sent to your e-mail address.');
+                    Mail::send('emails.forgot_password', [
+                        'account' => $account,
+                        'password' => $pass->password
+                    ], function($message) use ($email_address, $full_name) {
+                        $message->to($email_address, $full_name)->subject(config('company.name') . ' Forgot Password');
+                    });
+
+                    session()->flash('flash_status', 'Success');
+                    session()->flash('flash_message', 'Your account information has been sent to your e-mail address.');
+                } else {
+                    session()->flash('flash_status', 'Failed');
+                    session()->flash('flash_message', 'Failed to send your account information to your e-mail address.');
+                }
 
                 return redirect()->route('auth.get.login');
             } else {

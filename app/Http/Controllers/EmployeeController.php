@@ -14,6 +14,7 @@ use App\Accounts;
 use App\Clients;
 use App\Employees;
 use App\Logs;
+use App\Passwords;
 use App\Products;
 use App\Stocks;
 
