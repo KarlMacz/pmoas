@@ -45,6 +45,7 @@
                 @include('partials.flash')
                 <form action="{{ route('employees.post.contract_documents_add', $contract->id) }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
+                    <input type="hidden" name="id" value="{{ $contract->id }}">
                     <div class="form-group">
                         <input type="file" name="document" class="form-control">
                     </div>

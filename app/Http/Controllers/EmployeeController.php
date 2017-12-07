@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth;
+use File;
 use Mail;
+use Storage;
 use Validator;
 
 use App\Accounts;
@@ -458,5 +460,43 @@ class EmployeeController extends Controller
                 'message' => 'Failed to delete contract.'
             ]);
         }
+    }
+
+    public function postAddDocument(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'document' => 'mimes:jpg,jpeg,png,bmp,doc,docx,xls,xlsx,ppt,pptx,pdf'
+        ], [
+            'document.mimes' => 'The file type must be jpg, jpeg, png, bmp, doc, docx, xls, xlsx, ppt, pptx, pdf.'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.contract_documents')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $id = $request->input('id');
+
+        if($request->hasFile('document')) {
+            $document = $request->file('document');
+            $documentFilename = date('Y_m_d_His') . '_document_' . $document->getClientOriginalName();
+
+            $query = Documents::create([
+                'contract_id' => $id,
+                'filename' => $documentFilename
+            ]);
+
+            if($query) {
+                Storage::disk('document')->put($documentFilename, File::get($document->getRealPath()));
+            } else {
+                session()->flash('flash_status', 'Failed');
+                session()->flash('flash_message', 'Failed to create contract.');
+            }
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to create contract.');
+        }
+
+        return redirect()->route('employees.get.contract_documents', $id);
     }
 }
