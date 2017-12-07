@@ -18,6 +18,13 @@ class CreateContractsTable extends Migration
             $table->foreign('contractor_id')->references('id')->on('accounts');
             $table->integer('contractee_id')->unsigned();
             $table->foreign('contractee_id')->references('id')->on('accounts');
+            $table->date('lifespan_start');
+            $table->date('lifespan_end');
+            $table->string('type');
+            $table->string('structure', 1000);
+            $table->double('maximum_amount');
+            $table->double('holdback_amount');
+            $table->string('mode_of_payment');
             $table->timestamps();
         });
     }

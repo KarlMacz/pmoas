@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="page-header">
-        <h1 class="no-margin">Products</h1>
+        <h1 class="no-margin">Products Catalogue</h1>
         <div>Add Product</div>
     </div>
     <div class="container-spacious">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="well">
+            <div class="well lighten">
                 <div style="margin-bottom: 10px;">
                     <button type="button" class="add-stock-button btn btn-primary btn-sm"><span class="fa fa-plus fa-fw"></span> Add Stock</button>
                 </div>
@@ -70,8 +70,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <label for="quantity-field" class="input-group-addon">Quantity:</label>
-                                    <input type="number" name="quantity[]" id="quantity-field" class="form-control" min="1" placeholder="Quantity" required>
+                                    <label class="input-group-addon">Quantity:</label>
+                                    <input type="number" name="quantity[]" class="form-control" min="1" placeholder="Quantity" required>
                                 </div>
                             </div>
                         </div>

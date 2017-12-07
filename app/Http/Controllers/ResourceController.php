@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Hash;
+use Storage;
 
 use App\Products;
 
@@ -26,6 +27,18 @@ class ResourceController extends Controller
             'date' => date('F d, Y'),
             'time' => date('h:i A')
         ]);
+    }
+
+    public function download($type, $file) {
+        if($type === 'document' || $type === 'contract') {
+            if(Storage::disk($type)->exists($file)) {
+                return response()->download(storage_path('app/' . $type . '/' . $file));
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function postProducts() {

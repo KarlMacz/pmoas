@@ -15,4 +15,8 @@ class Contracts extends Model
     public function contractee() {
         return $this->belongsTo('App\Accounts', 'contractee_id');
     }
+
+    public function rules() {
+        return $this->hasMany('App\ContractRules', 'contract_id');
+    }
 }

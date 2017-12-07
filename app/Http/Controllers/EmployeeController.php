@@ -12,6 +12,9 @@ use Validator;
 
 use App\Accounts;
 use App\Clients;
+use App\Contracts;
+use App\ContractRules;
+use App\Documents;
 use App\Employees;
 use App\Logs;
 use App\Passwords;
@@ -57,14 +60,14 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function viewEmployees() {
+    public function employees() {
         if(Auth::user()->user_info->position !== 'Administrator') {
             return view('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
-        return view('employees.view_employees', [
+        return view('employees.employees', [
             'employees' => Accounts::where('role', 'Employee')->get()
         ]);
     }
@@ -79,10 +82,10 @@ class EmployeeController extends Controller
         return view('employees.register_employees');
     }
 
-    public function viewClients() {
+    public function clients() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
-        return view('employees.view_clients', [
+        return view('employees.clients', [
             'clients' => Accounts::where('role', 'Client')->get()
         ]);
     }
@@ -91,6 +94,25 @@ class EmployeeController extends Controller
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('employees.register_clients');
+    }
+
+    public function contracts() {
+        return view('employees.contracts', [
+            'contracts' => Contracts::get()
+        ]);
+    }
+
+    public function addContract() {
+        return view('employees.add_contracts', [
+            'clients' => Accounts::where('role', 'Client')->get()
+        ]);
+    }
+
+    public function document($id) {
+        return view('employees.documents', [
+            'contract' => Contracts::where('id', $id)->first(),
+            'documents' => Documents::where('contract_id', $id)->get()
+        ]);
     }
 
     public function postRegisterCompanyClient(Request $request) {
@@ -336,13 +358,104 @@ class EmployeeController extends Controller
             } else {
                 return response()->json([
                     'status' => 'Failed',
-                    'message' => 'Successfully delete all product stocks but failed to delete product information.'
+                    'message' => 'Successfully deleted all product stocks but failed to delete product information.'
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Failed to delete product.'
+            ]);
+        }
+    }
+
+    public function postAddContract(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'client' => 'required',
+            'lifespan_start' => 'required',
+            'lifespan_end' => 'required',
+            'type' => 'required|string|max:255',
+            'structure' => 'required|string|max:1000',
+            'rules.*' => 'required|string|max:255'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.add_contracts')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $contract = Contracts::create([
+            'contractor_id' => Auth::user()->id,
+            'contractee_id' => $request->input('client'),
+            'lifespan_start' => $request->input('lifespan_start'),
+            'lifespan_end' => $request->input('lifespan_end'),
+            'type' => $request->input('type'),
+            'structure' => $request->input('structure'),
+            'maximum_amount' => $request->input('maximum_amount'),
+            'holdback_amount' => $request->input('holdback_amount'),
+            'mode_of_payment' => $request->input('payment_mode')
+        ]);
+
+        if($contract) {
+            $ctr = 0;
+
+            foreach($request->input('rules') as $rule) {
+                $contractRule = ContractRules::create([
+                    'contract_id' => $contract->id,
+                    'rule' => $rule
+                ]);
+
+                if($contractRule) {
+                    $ctr++;
+                }
+            }
+
+            if($ctr > 0) {
+                session()->flash('flash_status', 'Success');
+                session()->flash('flash_message', 'Contract has been created.');
+            } else {
+                session()->flash('flash_status', 'Failed');
+                session()->flash('flash_message', 'Failed to create contract.');
+            }
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to create contract.');
+        }
+
+        return redirect()->route('employees.get.contracts_add');
+    }
+
+    public function postDeleteContract(Request $request) {
+        $documents = Documents::where('contract_id', $request->input('id'))->delete();
+
+        if($documents) {
+            $contractRules = ContractRules::where('contract_id', $request->input('id'))->delete();
+            
+            if($contractRules) {
+                $contract = Contracts::where('id', $request->input('id'))->delete();
+
+                if($contract) {
+                    return response()->json([
+                        'status' => 'Success',
+                        'message' => 'Contract has been deleted.'
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Successfully deleted all documents but failed to delete contract.'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Successfully deleted all documents but failed to delete contract.'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to delete contract.'
             ]);
         }
     }

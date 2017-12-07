@@ -52,19 +52,30 @@
                 <ul class="nav" id="side-menu">
                     <li><a href="{{ route('employees.get.index') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
                     <li>
-                        <a href="#"><i class="fa fa-shopping-bag fa-fw"></i> Products<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-shopping-bag fa-fw"></i> Products Catalogue<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{ route('employees.get.products') }}"><span class="fa fa-th-list fa-fw"></span> View All Products</a></li>
                             <li><a href="{{ route('employees.get.products_add') }}"><span class="fa fa-plus fa-fw"></span> Add Product</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-users fa-fw"></i> Clients <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="{{ route('employees.get.clients_view') }}"><span class="fa fa-th-list fa-fw"></span> View All Clients</a></li>
-                            <li><a href="{{ route('employees.get.company_clients_register') }}"><span class="fa fa-plus fa-fw"></span> Register Company Client</a></li>
-                        </ul>
-                    </li>
+                    @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor')
+                        <li>
+                            <a href="#"><i class="fa fa-folder fa-fw"></i> Contract Management <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="{{ route('employees.get.contracts') }}"><span class="fa fa-th-list fa-fw"></span> Enterprise Contract Control</a></li>
+                                <li><a href="{{ route('employees.get.contracts_add') }}"><span class="fa fa-plus fa-fw"></span> Contract Creation</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Employee - Sales Department')
+                        <li>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> Customer Data or Accounts <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="{{ route('employees.get.clients_view') }}"><span class="fa fa-th-list fa-fw"></span> View All Clients</a></li>
+                                <li><a href="{{ route('employees.get.company_clients_register') }}"><span class="fa fa-plus fa-fw"></span> Register Company Client</a></li>
+                            </ul>
+                        </li>
+                    @endif
                     @if(Auth::user()->user_info->position === 'Administrator')
                         <li>
                             <a href="#"><i class="fa fa-suitcase fa-fw"></i> Employees <span class="fa arrow"></span></a>
@@ -73,6 +84,7 @@
                                 <li><a href="{{ route('employees.get.employees_register') }}"><span class="fa fa-plus fa-fw"></span> Register Employee</a></li>
                             </ul>
                         </li>
+                        <li><a href="{{ route('maintenance.get.index') }}"><i class="fa fa-wrench fa-fw"></i> Maintenance</a></li>
                     @endif
                 </ul>
             </div>

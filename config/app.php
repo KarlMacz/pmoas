@@ -172,6 +172,7 @@ return [
          * Other Service Providers
          */
         Barryvdh\DomPDF\ServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
     ],
 
     /*

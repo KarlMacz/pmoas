@@ -62,6 +62,24 @@ return [
             'bucket' => 'your-bucket',
         ],
 
+        // Custom Storage
+        'database' => [
+            'driver' => 'local',
+            'root' => storage_path('app/databases'),
+            'visibility' => 'public',
+        ],
+        'compressed_file' => [
+            'driver' => 'local',
+            'root' => storage_path('app/compressed_files'),
+        ],
+        'document' => [
+            'driver' => 'local',
+            'root' => storage_path('app/documents'),
+        ],
+        'contract' => [
+            'driver' => 'local',
+            'root' => storage_path('app/contracts'),
+        ],
     ],
 
 ];

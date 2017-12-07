@@ -13,6 +13,8 @@ use App\Feedbacks;
 
 class HomeController extends Controller
 {
+    use Utilities;
+    
     public function index() {
         if(Auth::check()) {
             $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
