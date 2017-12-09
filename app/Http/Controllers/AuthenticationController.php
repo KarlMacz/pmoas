@@ -22,8 +22,7 @@ class AuthenticationController extends Controller
 {
     use AuthenticatesUsers, ThrottlesLogins, Utilities;
 
-    protected function hasTooManyLoginAttempts(Request $request)
-    {
+    protected function hasTooManyLoginAttempts(Request $request) {
         $un = $request->get('username');
         $userAccount = Accounts::where('username', $un)->first();
 
@@ -46,8 +45,7 @@ class AuthenticationController extends Controller
         );
     }
 
-    protected function incrementLoginAttempts(Request $request)
-    {
+    protected function incrementLoginAttempts(Request $request) {
         $un = $request->get('username');
         Accounts::where('username', $un)->increment('login_attempts');
 
@@ -56,8 +54,7 @@ class AuthenticationController extends Controller
         );
     }
 
-    protected function sendLockoutResponse(Request $request)
-    {
+    protected function sendLockoutResponse(Request $request) {
         $seconds = $this->secondsRemainingOnLockout($request);
 
         session()->flash('flash_status', 'Failed');
@@ -79,8 +76,7 @@ class AuthenticationController extends Controller
         }
     }
 
-    public function logout()
-    {
+    public function logout() {
         $this->createLog(Auth::user()->id, 'Success', 'has logged out.');
 
         Auth::logout();
@@ -118,8 +114,7 @@ class AuthenticationController extends Controller
         }
     }
 
-    public function verification($code)
-    {
+    public function verification($code) {
         $account = Accounts::where('verification_code', $code)->first();
 
         if($account) {

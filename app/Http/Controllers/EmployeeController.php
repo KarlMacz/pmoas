@@ -27,8 +27,7 @@ class EmployeeController extends Controller
 {
     use Utilities;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware(['auth', 'employees']);
     }
 
