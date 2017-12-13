@@ -37,7 +37,7 @@
                             </td>
                             <td class="text-center">{{ $transaction->payment_method }}</td>
                             <td class="text-center">{{ $transaction->delivery_status }}</td>
-                            <td>
+                            <td class="text-center">
                                 @if($transaction->payment_method === 'PayPal')
                                     <button class="btn btn-info btn-xs"><span class="fa fa-paypal"></span> PayPal</button>
                                 @endif
@@ -46,7 +46,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td class="text-center" colspan="5">No transactions found.</td>
+                        <td class="text-center" colspan="6">No transactions found.</td>
                     </tr>
                 @endif
             </tbody>

@@ -110,11 +110,15 @@ class ClientController extends Controller
                 ]);
 
                 foreach($cartItems as $cartItem) {
-                    Orders::create([
+                    $ord = Orders::create([
                         'transaction_id' => $transaction->id,
                         'product_id' => $cartItem->product_id,
                         'quantity' => $cartItem->quantity
                     ]);
+
+                    if($ord) {
+                        Products::where('id', $cartItem->product_id)->decrement('remaining_quantity', $cartItem->quantity);
+                    }
                 }
 
                 CartItems::where('cart_id', $cart->id)->delete();
