@@ -13,6 +13,9 @@
                 <p>Your account has been created. But in order to use your account, we need you to verify the account registered under your e-mail address.</p>
                 <p><strong>Username</strong>: {{ $account->username }}</p>
                 <p><strong>Password</strong>: {{ $password }}</p>
+                <div class="text-center">
+                    <a href="{{ route('auth.get.verification', ['code' => $account->verification_code]) }}" class="btn btn-primary">Verify Account</a>
+                </div>
                 <p class="text-right">
                     Sincerely,<br>
                     Essential Ingredients Specialist Provider Inc.
