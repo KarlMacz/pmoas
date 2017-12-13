@@ -19,7 +19,8 @@
                     <th width="10%">ID</th>
                     <th>Transaction Date</th>
                     <th>Product(s)</th>
-                    <th width="20%">Status</th>
+                    <th width="15%">Payment Method</th>
+                    <th width="15%">Status</th>
                     <th width="10%"></th>
                 </tr>
             </thead>
@@ -30,11 +31,16 @@
                             <td class="text-center">{{ $transaction->id }}</td>
                             <td class="text-center">{{ date('F d, Y (h:i A)', strtotime($transaction->created_at)) }}</td>
                             <td>
-                                <ul class="no-margin">
-                                    @foreach($transaction->orders as $order)
-                                        <li>{{ $order->product->name }} <strong>{{ $order->quantity }}</strong></li>
-                                    @endforeach
-                                </ul>
+                                @foreach($transaction->orders as $order)
+                                    <div>{{ $order->product->name }} (x{{ $order->quantity }})</div>
+                                @endforeach
+                            </td>
+                            <td class="text-center">{{ $transaction->payment_method }}</td>
+                            <td class="text-center">{{ $transaction->delivery_status }}</td>
+                            <td>
+                                @if($transaction->payment_method === 'PayPal')
+                                    <button class="btn btn-info btn-xs"><span class="fa fa-paypal"></span> PayPal</button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

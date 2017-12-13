@@ -51,6 +51,7 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li><a href="{{ route('employees.get.index') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
+                    @if(Auth::user()->user_info->position === 'Administrator')
                     <li>
                         <a href="#"><i class="fa fa-shopping-bag fa-fw"></i> Products Catalogue<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -58,12 +59,26 @@
                             <li><a href="{{ route('employees.get.products_add') }}"><span class="fa fa-plus fa-fw"></span> Add Product</a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Employee - Logistics Department')
+                        <li><a href="{{ route('employees.get.warehouse') }}"><i class="fa fa-home fa-fw"></i> Warehouse Management</a></li>
+                    @endif
                     @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor')
                         <li>
                             <a href="#"><i class="fa fa-folder fa-fw"></i> Contract Management <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li><a href="{{ route('employees.get.contracts') }}"><span class="fa fa-th-list fa-fw"></span> Enterprise Contract Control</a></li>
                                 <li><a href="{{ route('employees.get.contracts_add') }}"><span class="fa fa-plus fa-fw"></span> Contract Creation</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if(Auth::user()->user_info->position === 'Administrator')
+                        <li>
+                            <a href="#"><i class="fa fa-line-chart fa-fw"></i> Accounting <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="{{ route('employees.get.accounting_sales') }}"><span class="fa fa-th-list fa-fw"></span> Sales</a></li>
+                                <li><a href="{{ route('employees.get.accounting_expenses') }}"><span class="fa fa-th-list fa-fw"></span> Expenses</a></li>
+                                <li><a href="{{ route('employees.get.accounting_income') }}"><span class="fa fa-th-list fa-fw"></span> Income</a></li>
                             </ul>
                         </li>
                     @endif
@@ -84,8 +99,25 @@
                                 <li><a href="{{ route('employees.get.employees_register') }}"><span class="fa fa-plus fa-fw"></span> Register Employee</a></li>
                             </ul>
                         </li>
+                    @endif
+                    @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department')
+                        <li>
+                            <a href="#"><i class="fa fa-print fa-fw"></i> Reports <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="{{ route('employees.get.reports_sales') }}"><span class="fa fa-file-o fa-fw"></span> Sales Report</a></li>
+                                @if(Auth::user()->user_info->position !== 'Employee - Sales Department')
+                                    <li><a href="{{ route('employees.get.reports_inventory') }}"><span class="fa fa-file-o fa-fw"></span> Inventory Report</a></li>
+                                    <li><a href="{{ route('employees.get.reports_delivery') }}"><span class="fa fa-file-o fa-fw"></span> Delivery Report</a></li>
+                                    <li><a href="{{ route('employees.get.reports_supplier') }}"><span class="fa fa-file-o fa-fw"></span> Supplier Report</a></li>
+                                    <li><a href="{{ route('employees.get.reports_product_information') }}"><span class="fa fa-file-o fa-fw"></span> Product Information Report</a></li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+                    @if(Auth::user()->user_info->position === 'Administrator')
                         <li><a href="{{ route('maintenance.get.index') }}"><i class="fa fa-wrench fa-fw"></i> Maintenance</a></li>
                     @endif
+                    <li><a href="{{ route('employees.get.help') }}"><i class="fa fa-question fa-fw"></i> Help</a></li>
                 </ul>
             </div>
         </div>

@@ -52,21 +52,12 @@
         <div class="sidebar" style="margin-top: 0;">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="{{ route('clients.get.index') }}"><i class="fa fa-home fa-fw"></i> Home</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('clients.get.products') }}"><i class="fa fa-shopping-bag fa-fw"></i> Products Catalogue</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cart.get.index') }}"><i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('clients.get.orders') }}"><i class="fa fa-cubes fa-fw"></i> Orders</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('clients.get.contracts') }}"><i class="fa fa-list-alt fa-fw"></i> Contracts</a>
-                    </li>
+                    <li><a href="{{ route('clients.get.index') }}"><i class="fa fa-home fa-fw"></i> Home</a></li>
+                    <li><a href="{{ route('clients.get.products') }}"><i class="fa fa-shopping-bag fa-fw"></i> Products Catalogue</a></li>
+                    <li><a href="{{ route('cart.get.index') }}"><i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart</a></li>
+                    <li><a href="{{ route('clients.get.orders') }}"><i class="fa fa-cubes fa-fw"></i> Orders</a></li>
+                    <li><a href="{{ route('clients.get.contracts') }}"><i class="fa fa-list-alt fa-fw"></i> Contracts</a></li>
+                    <li><a href="{{ route('clients.get.help') }}"><i class="fa fa-question fa-fw"></i> Help</a></li>
                 </ul>
             </div>
         </div>

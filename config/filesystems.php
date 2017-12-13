@@ -80,6 +80,26 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/contracts'),
         ],
+        'sales_report' => [
+            'driver' => 'local',
+            'root' => storage_path('app/reports/sales'),
+        ],
+        'inventory_report' => [
+            'driver' => 'local',
+            'root' => storage_path('app/reports/inventories'),
+        ],
+        'delivery_report' => [
+            'driver' => 'local',
+            'root' => storage_path('app/reports/deliveries'),
+        ],
+        'supplier_report' => [
+            'driver' => 'local',
+            'root' => storage_path('app/reports/suppliers'),
+        ],
+        'product_information_report' => [
+            'driver' => 'local',
+            'root' => storage_path('app/reports/product_information'),
+        ],
     ],
 
 ];

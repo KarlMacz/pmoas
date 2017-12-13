@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Artisan;
 use Storage;
 
 class MaintenanceController extends Controller
@@ -30,17 +31,23 @@ class MaintenanceController extends Controller
     }
 
     public function postBackup(Request $request) {
-        return redirect()->back();
-        
         switch($request->input('id')) {
             case hash('sha256', date('Y-m-d') . '_database'):
+                Artisan::call('backup:run', [
+                    '--only-db' => true,
+                    '--only-to-disk' => 'database'
+                ]);
+
                 break;
             case hash('sha256', date('Y-m-d') . '_files'):
-                break;
-            default:
-                return redirect()->back();
+                Artisan::call('backup:run', [
+                    '--only-files' => true,
+                    '--only-to-disk' => 'compressed_file'
+                ]);
 
                 break;
         }
+
+        return redirect()->route('maintenance.get.index');
     }
 }

@@ -26,18 +26,22 @@ class AuthenticationController extends Controller
         $un = $request->get('username');
         $userAccount = Accounts::where('username', $un)->first();
 
-        if($userAccount->login_attempts <= 3) {
-            $loginDecayMinutes = 1;
-        } else if($userAccount->login_attempts > 3 && $userAccount->login_attempts <=6) {
-            $loginDecayMinutes = 5;
-        } else if($userAccount->login_attempts > 6 && $userAccount->login_attempts <=9) {
-            $loginDecayMinutes = 10;
-        } else if($userAccount->login_attempts > 9 && $userAccount->login_attempts <=12) {
-            $loginDecayMinutes = 30;
-        } else if($userAccount->login_attempts > 12 && $userAccount->login_attempts <=15) {
-            $loginDecayMinutes = 60;
+        if($userAccount) {
+            if($userAccount->login_attempts <= 3) {
+                $loginDecayMinutes = 1;
+            } else if($userAccount->login_attempts > 3 && $userAccount->login_attempts <=6) {
+                $loginDecayMinutes = 5;
+            } else if($userAccount->login_attempts > 6 && $userAccount->login_attempts <=9) {
+                $loginDecayMinutes = 10;
+            } else if($userAccount->login_attempts > 9 && $userAccount->login_attempts <=12) {
+                $loginDecayMinutes = 30;
+            } else if($userAccount->login_attempts > 12 && $userAccount->login_attempts <=15) {
+                $loginDecayMinutes = 60;
+            } else {
+                $loginDecayMinutes = 1440;
+            }
         } else {
-            $loginDecayMinutes = 1440;
+            $loginDecayMinutes = 0;
         }
 
         return app(RateLimiter::class)->tooManyAttempts(

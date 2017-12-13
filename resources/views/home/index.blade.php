@@ -30,7 +30,11 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{ Auth::user()->user_info->first_name . ' ' . Auth::user()->user_info->last_name }}</span> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ route('clients.get.index') }}">Client Page</a></li>
+                                @if(Auth::user()->role === 'Employee')
+                                    <li><a href="{{ route('employees.get.index') }}">Employee Page</a></li>
+                                @else
+                                    <li><a href="{{ route('clients.get.index') }}">Client Page</a></li>
+                                @endif
                                 <li class="divider"></li>
                                 <li><a href="{{ route('auth.get.logout') }}">Logout</a></li>
                             </ul>

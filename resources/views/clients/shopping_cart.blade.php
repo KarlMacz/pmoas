@@ -13,6 +13,7 @@
         <h1 class="no-margin">Shopping Cart</h1>
     </div>
     <div class="container-fluid">
+        @include('partials.flash')
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -65,10 +66,27 @@
                 </tfoot>
             @endif
         </table>
-        @if($cart)
-            <div class="text-right">
-                <a href="" class="btn btn-primary"><span class="fa fa-check fa-fw"></span> Proceed to Order</a>
-            </div>
+        @if($cart->items->count() > 0)
+            <hr>
+            <form action="{{ route('clients.post.orders_add') }}" method="POST">
+                {{ csrf_field() }}
+                <div class="form-group{{ $errors->has('payment_method') ? ' has-error' : '' }}">
+                    <label for="payment-method-field">Payment Method:</label>
+                    <select name="payment_method" id="payment-method-field" class="form-control" required>
+                        <option value="" selected disabled>Select an option...</option>
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                        <option value="PayPal">PayPal</option>
+                    </select>
+                    @if ($errors->has('payment_method'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('payment_method') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-primary"><span class="fa fa-check fa-fw"></span> Order Product(s)</button>
+                </div>
+            </form>
         @endif
     </div>
 @endsection

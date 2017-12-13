@@ -16,9 +16,11 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('account_id')->unsigned();
             $table->foreign('account_id')->references('id')->on('accounts');
-            $table->double('total_price');
-            $table->string('payment_method');
-            $table->string('status')->default('Pending');
+            $table->double('amount_paid')->default(0.00);
+            $table->double('total_amount')->default(0.00);
+            $table->string('payment_method')->default('Cash on Delivery');
+            $table->string('delivery_status')->default('Pending');
+            $table->timestamp('datetime_delivered')->nullable();
             $table->timestamps();
         });
     }

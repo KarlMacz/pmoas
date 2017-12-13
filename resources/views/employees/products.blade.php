@@ -11,6 +11,7 @@
 @section('content')
     <div class="page-header">
         <h1 class="no-margin">Products Catalogue</h1>
+        <div>View All Products</div>
     </div>
     <div class="container-fluid">
         <table class="table table-striped table-bordered">

@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'eisp.system@gmail.com', 'name' => 'EISP System'],
+    'from' => ['address' => 'system@eingredientsspecialist.com', 'name' => 'Essential Ingredients Specialist Provider Inc. System'],
 
     /*
     |--------------------------------------------------------------------------

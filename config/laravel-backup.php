@@ -8,7 +8,7 @@ return [
          * The name of this application. You can use this name to monitor
          * the backups.
          */
-        'name' => env('APP_URL'),
+        'name' => '',
 
         'source' => [
 
@@ -19,7 +19,10 @@ return [
                  * specify individual files as well.
                  */
                 'include' => [
-                    base_path(),
+                    // base_path(),
+                    storage_path('app/documents'),
+                    storage_path('app/contracts'),
+                    storage_path('app/reports'),
                 ],
 
                 /*
@@ -27,9 +30,10 @@ return [
                  * You can specify individual files as well.
                  */
                 'exclude' => [
+                    // base_path(),
                     base_path('vendor'),
                     base_path('node_modules'),
-                    storage_path(),
+                    // storage_path(),
                 ],
 
                 /*
@@ -53,7 +57,9 @@ return [
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-                'local',
+                // 'local',
+                'database',
+                'compressed_file',
             ],
         ],
     ],
@@ -108,7 +114,7 @@ return [
     'monitorBackups' => [
         [
             'name' => env('APP_URL'),
-            'disks' => ['local'],
+            'disks' => ['database', 'compressed_file'], // ['local'],
             'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],
@@ -142,9 +148,9 @@ return [
             'whenBackupWasSuccessful'     => ['log'],
             'whenCleanupWasSuccessful'    => ['log'],
             'whenHealthyBackupWasFound'   => ['log'],
-            'whenBackupHasFailed'         => ['log', 'mail'],
-            'whenCleanupHasFailed'        => ['log', 'mail'],
-            'whenUnhealthyBackupWasFound' => ['log', 'mail'],
+            'whenBackupHasFailed'         => ['log'], // ['log', 'mail'],
+            'whenCleanupHasFailed'        => ['log'], // ['log', 'mail'],
+            'whenUnhealthyBackupWasFound' => ['log'], // ['log', 'mail'],
         ],
 
         /*

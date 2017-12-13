@@ -14,17 +14,6 @@
                     <h4 data-load="date" class="no-margin"></h4>
                     <h2 data-load="time" class="no-margin"></h2>
                 </div>
-                <h3 class="column-header">Logs</h3>
-                <div style="overflow-y: scroll; padding-right: 5px; max-height: 400px;">
-                    <div class="list-group">
-                        @foreach($logs as $index => $log)
-                            <div class="list-group-item{{ ($index === 0 ? ' active' : '') }}">
-                                <h4 class="list-group-item-heading">{{ date('F d, Y (h:i A)', strtotime($log->created_at)) }}</h4>
-                                <p class="list-group-item-text">You {{ $log->action }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
             </div>
         </div>
     </div>

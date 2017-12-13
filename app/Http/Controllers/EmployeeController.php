@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Auth;
 use File;
 use Mail;
+use PDF;
 use Storage;
 use Validator;
 
@@ -22,10 +23,11 @@ use App\Logs;
 use App\Passwords;
 use App\Products;
 use App\Stocks;
+use App\Transactions;
 
 class EmployeeController extends Controller
 {
-    use Utilities;
+    use Reports, Utilities;
 
     public function __construct() {
         $this->middleware(['auth', 'employees']);
@@ -37,6 +39,12 @@ class EmployeeController extends Controller
         return view('employees.index', [
             'logs' => Logs::orderBy('created_at', 'desc')->get()
         ]);
+    }
+
+    public function help() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.help');
     }
 
     public function products() {
@@ -57,6 +65,22 @@ class EmployeeController extends Controller
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('employees.edit_products', [
+            'product' => Products::where('id', $id)->first()
+        ]);
+    }
+
+    public function warehouse() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.warehouse', [
+            'products' => Products::get()
+        ]);
+    }
+
+    public function warehouseRestock($id) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.warehouse_restock', [
             'product' => Products::where('id', $id)->first()
         ]);
     }
@@ -97,23 +121,141 @@ class EmployeeController extends Controller
         return view('employees.register_clients');
     }
 
+    public function accountingSales() {
+        return view('employees.accounting_sales', [
+            'transactions' => Transactions::get()
+        ]);
+    }
+
+    public function accountingExpenses() {
+        return view('employees.accounting_expenses', [
+            'stocks' => Stocks::get()
+        ]);
+    }
+
+    public function accountingIncome() {
+        return view('employees.accounting_income', [
+            'transactions' => Transactions::get(),
+            'stocks' => Stocks::get()
+        ]);
+    }
+
     public function contracts() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.contracts', [
             'contracts' => Contracts::get()
         ]);
     }
 
     public function addContract() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.add_contracts', [
             'clients' => Accounts::where('role', 'Client')->get()
         ]);
     }
 
     public function document($id) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.documents', [
             'contract' => Contracts::where('id', $id)->first(),
             'documents' => Documents::where('contract_id', $id)->get()
         ]);
+    }
+
+    public function salesReport() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        if(!Storage::disk('sales_report')->exists(date('Y_m_d', strtotime('-1 day')) . '_daily_sales_report.pdf')) {
+            $this->generateSalesReport('daily');
+        }
+
+        if(!Storage::disk('sales_report')->exists(date('Y_m', strtotime('-1 month')) . '_monthly_sales_report.pdf')) {
+            $this->generateSalesReport('monthly');
+        }
+
+        if(!Storage::disk('sales_report')->exists(date('Y', strtotime('-1 year')) . '_yearly_sales_report.pdf')) {
+            $this->generateSalesReport('yearly');
+        }
+        
+        return view('reports.sales_reports', [
+            'reports' => Storage::disk('sales_report')->files()
+        ]);
+    }
+
+    public function inventoryReport() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        if(!Storage::disk('inventory_report')->exists(date('Y_m_d') . '_inventory_report.pdf')) {
+            $this->generateInventoryReport();
+        }
+        
+        return view('reports.inventory_reports', [
+            'reports' => Storage::disk('inventory_report')->files()
+        ]);
+    }
+
+    public function deliveryReport() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+        
+        if(!Storage::disk('delivery_report')->exists(date('Y_m_d', strtotime('-1 day')) . '_delivery_report.pdf')) {
+            $this->generateDeliveryReport();
+        }
+
+        return view('reports.delivery_reports', [
+            'reports' => Storage::disk('delivery_report')->files()
+        ]);
+    }
+
+    public function supplierReport() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+        
+        return view('reports.supplier_reports', [
+            'reports' => Storage::disk('supplier_report')->files()
+        ]);
+    }
+
+    public function productInformationReport() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        if(!Storage::disk('product_information_report')->exists(date('Y_m_d') . '_product_information_report.pdf')) {
+            $this->generateProductInformationReport();
+        }
+        
+        return view('reports.product_information_reports', [
+            'reports' => Storage::disk('product_information_report')->files()
+        ]);
+    }
+
+    public function viewReport($type, $file) {
+        $disk = null;
+
+        switch($type) {
+            case 'sales':
+                $disk = 'sales_report';
+                
+                break;
+            case 'inventory':
+                $disk = 'inventory_report';
+                
+                break;
+            case 'delivery':
+                $disk = 'delivery_report';
+                
+                break;
+            case 'supplier':
+                $disk = 'supplier_report';
+                
+                break;
+            case 'product_information':
+                $disk = 'product_information_report';
+                
+                break;
+        }
+
+        return response(Storage::disk($disk)->get($file), 200)->header('Content-Type', 'application/pdf');
     }
 
     public function postRegisterCompanyClient(Request $request) {
@@ -289,7 +431,8 @@ class EmployeeController extends Controller
             'price_per_piece' => $request->input('price'),
             'minimum_pieces_per_bulk' => $request->input('min_pieces'),
             'description' => $request->input('description'),
-            'remaining_quantity' => $quantity
+            'remaining_quantity' => $quantity,
+            'quantity_critical_level' => ceil($quantity * 0.25)
         ]);
 
         if($product) {
@@ -322,7 +465,7 @@ class EmployeeController extends Controller
         ]);
 
         if($validator->fails()) {
-            return redirect()->route('employees.get.products_edit')
+            return redirect()->route('employees.get.products_edit', $id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -368,6 +511,50 @@ class EmployeeController extends Controller
                 'message' => 'Failed to delete product.'
             ]);
         }
+    }
+
+    public function postWarehouseRestock($id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'required|numeric|min:1',
+            'expiration_date' => 'required|date'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.warehouse_restock', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $productInfo = Products::where('id', $id)->first();
+        $newQuantity = $productInfo->remaining_quantity + $request->input('quantity');
+
+        $stock = Stocks::create([
+            'product_id' => $id,
+            'quantity' => $request->input('quantity'),
+            'expiration_date' => $request->input('expiration_date')
+        ]);
+
+        if($stock) {
+            $product = Products::where('id', $id)->update([
+                'remaining_quantity' => $newQuantity,
+                'quantity_critical_level' => ceil($newQuantity * 0.25)
+            ]);
+
+            if($product) {
+                session()->flash('flash_status', 'Success');
+                session()->flash('flash_message', 'Product re-stock successful.');
+            } else {
+                Stocks::where('id', $stock->id)->delete();
+
+                session()->flash('flash_status', 'Failed');
+                session()->flash('flash_message', 'Failed to re-stock product.');
+            }
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to re-stock product.');
+        }
+
+        return redirect()->route('employees.get.warehouse_restock', $id);
     }
 
     public function postAddContract(Request $request) {

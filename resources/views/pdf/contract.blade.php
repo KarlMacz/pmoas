@@ -1,42 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>De Ocampo Memorial College</title>
+    <title>{{ config('company.name') }}</title>
     <style>
         * {
             font-family: 'Helvetica', sans-serif;
         }
+        
         h1, h2, h3, h4, h5, h6 {
             font-weight: thin;
         }
+
         .pagenum:before {
             content: counter(page);
         }
+
         .table {
-            border: 1px solid #2c8700;
+            border: 1px solid #18bc9c;
             border-spacing: none;
+            width: 100%;
         }
+
         .table thead > tr {
-            background: #2c8700;
+            background: #18bc9c;
             color: white;
         }
+
         .table tbody > tr:nth-child(even) {
             background: white;
         }
+
         .table tbody > tr:nth-child(odd) {
             background: #eee;
         }
+
         .table th, .table td {
             padding: 5px 10px;
             box-sizing: border-box;
         }
+
         .table td {
             font-size: 0.75em;
         }
+
         .header {
             margin-bottom: 50px;
             text-align: center;
         }
+
         .footer {
             border-top: 1px solid #222;
             color: #777;
@@ -46,33 +57,43 @@
             left: 0;
             right: 0;
         }
+
         .no-margin {
             margin: 0;
         }
+
         .full-width {
             width: 100%;
         }
+
         .gap-top {
             margin-top: 5px;
         }
+
         .gap-bottom {
             margin-bottom: 5px;
         }
+
         .gap-left {
             margin-left: 5px;
         }
+
         .gap-right {
             margin-right: 5px;
         }
+
         .text-left {
             text-align: left;
         }
+
         .text-right {
             text-align: right;
         }
+
         .text-center {
             text-align: center;
         }
+
         .logo {
             height: 65px;
         }
@@ -81,7 +102,7 @@
 <body>
     <div class="header">
         <img class="logo" src="img/logo.png">
-        <h1 class="no-margin">Essential Ingredients Specialist Provider Inc.</h1>
+        <h1 class="no-margin">{{ config('company.name') }}</h1>
         <h3 class="no-margin">Contract</h3>
     </div>
     <div class="footer">

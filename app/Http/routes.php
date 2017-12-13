@@ -45,13 +45,25 @@ Route::group(['as' => 'employees.'], function() {
         Route::get('products_catalogue', ['as' => 'products', 'uses' => 'EmployeeController@products']);
         Route::get('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@addProduct']);
         Route::get('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@editProduct']);
+        Route::get('warehouse_management', ['as' => 'warehouse', 'uses' => 'EmployeeController@warehouse']);
+        Route::get('warehouse_management/restock/{id}', ['as' => 'warehouse_restock', 'uses' => 'EmployeeController@warehouseRestock']);
         Route::get('enterprise_contracts', ['as' => 'contracts', 'uses' => 'EmployeeController@contracts']);
         Route::get('enterprise_contracts/add', ['as' => 'contracts_add', 'uses' => 'EmployeeController@addContract']);
         Route::get('enterprise_contracts/{id}/document', ['as' => 'contract_documents', 'uses' => 'EmployeeController@document']);
+        Route::get('accounting/sales', ['as' => 'accounting_sales', 'uses' => 'EmployeeController@accountingSales']);
+        Route::get('accounting/expenses', ['as' => 'accounting_expenses', 'uses' => 'EmployeeController@accountingExpenses']);
+        Route::get('accounting/income', ['as' => 'accounting_income', 'uses' => 'EmployeeController@accountingIncome']);
         Route::get('employees', ['as' => 'employees_view', 'uses' => 'EmployeeController@employees']);
         Route::get('employees/register', ['as' => 'employees_register', 'uses' => 'EmployeeController@registerEmployee']);
         Route::get('clients', ['as' => 'clients_view', 'uses' => 'EmployeeController@clients']);
         Route::get('company_clients/register', ['as' => 'company_clients_register', 'uses' => 'EmployeeController@registerCompanyClient']);
+        Route::get('reports/sales', ['as' => 'reports_sales', 'uses' => 'EmployeeController@salesReport']);
+        Route::get('reports/inventory', ['as' => 'reports_inventory', 'uses' => 'EmployeeController@inventoryReport']);
+        Route::get('reports/delivery', ['as' => 'reports_delivery', 'uses' => 'EmployeeController@deliveryReport']);
+        Route::get('reports/supplier', ['as' => 'reports_supplier', 'uses' => 'EmployeeController@supplierReport']);
+        Route::get('reports/product_information', ['as' => 'reports_product_information', 'uses' => 'EmployeeController@productInformationReport']);
+        Route::get('reports/view/{type}/{file}', ['as' => 'reports_view', 'uses' => 'EmployeeController@viewReport']);
+        Route::get('help/employees', ['as' => 'help', 'uses' => 'EmployeeController@help']);
     });
 
     Route::group(['as' => 'post.'], function() {
@@ -59,6 +71,7 @@ Route::group(['as' => 'employees.'], function() {
         Route::post('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@postAddProduct']);
         Route::post('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@postEditProduct']);
         Route::post('products_catalogue/delete', ['as' => 'products_delete', 'uses' => 'EmployeeController@postDeleteProduct']);
+        Route::post('warehouse_management/restock/{id}', ['as' => 'warehouse_restock', 'uses' => 'EmployeeController@postWarehouseRestock']);
         Route::post('enterprise_contracts/add', ['as' => 'contracts_add', 'uses' => 'EmployeeController@postAddContract']);
         Route::post('enterprise_contracts/delete', ['as' => 'contracts_delete', 'uses' => 'EmployeeController@postDeleteContract']);
         Route::post('enterprise_contracts/{id}/document/add', ['as' => 'contract_documents_add', 'uses' => 'EmployeeController@postAddDocument']);
@@ -76,6 +89,11 @@ Route::group(['as' => 'clients.'], function() {
         Route::get('payments', ['as' => 'payments', 'uses' => 'ClientController@payments']);
         Route::get('contracts', ['as' => 'contracts', 'uses' => 'ClientController@contracts']);
         Route::get('contracts/view/{code}', ['as' => 'contracts_view', 'uses' => 'ClientController@viewContract']);
+        Route::get('help/clients', ['as' => 'help', 'uses' => 'ClientController@help']);
+    });
+
+    Route::group(['as' => 'post.'], function() {
+        Route::post('orders/add', ['as' => 'orders_add', 'uses' => 'ClientController@postOrder']);
     });
 });
 

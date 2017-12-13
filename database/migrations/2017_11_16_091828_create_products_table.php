@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->double('price_per_piece');
             $table->integer('minimum_pieces_per_bulk')->unsigned()->default(1);
             $table->integer('remaining_quantity');
+            $table->integer('quantity_critical_level');
             $table->timestamps();
         });
     }
