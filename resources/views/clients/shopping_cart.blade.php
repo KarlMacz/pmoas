@@ -66,7 +66,7 @@
                 </tfoot>
             @endif
         </table>
-        @if($cart->items->count() > 0)
+        @if($cart)
             <hr>
             <form action="{{ route('clients.post.orders_add') }}" method="POST">
                 {{ csrf_field() }}
