@@ -10,6 +10,8 @@
             <tr>
                 <th width="10%">ID</th>
                 <th>Name</th>
+                <th>Username</th>
+                <th>Password</th>
                 <th>Birth Date</th>
                 <th>Age</th>
                 <th>Address</th>
@@ -23,6 +25,8 @@
                 <tr>
                     <td>{{ $client->id }}</td>
                     <td>{{ $client->user_info->first_name . ' ' . $client->user_info->last_name }}</td>
+                    <td>{{ $client->username }}</td>
+                    <td>{{ $client->password_info() }}</td>
                     <td>{{ date('F d, Y', strtotime($client->user_info->birth_date)) }}</td>
                     <td>{{ $client->user_info->age() }}</td>
                     <td>{{ $client->user_info->address }}</td>
