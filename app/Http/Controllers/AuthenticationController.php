@@ -188,9 +188,9 @@ class AuthenticationController extends Controller
             'username' => 'required|alpha_num|min:5|max:26|unique:accounts',
             'email' => 'required|string|email|max:255|unique:accounts',
             'password' => 'required|alpha_num|min:5|max:26|confirmed',
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|alpha|max:255',
+            'middle_name' => 'alpha|max:255',
+            'last_name' => 'required|alpha|max:255',
             'address' => 'required|string|max:255',
             'contact_number' => [
                 'required',
