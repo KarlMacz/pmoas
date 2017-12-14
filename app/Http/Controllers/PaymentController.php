@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth;
+use Input;
 
 use App\Orders;
 use App\Products;
@@ -45,8 +46,8 @@ class PaymentController extends Controller
                 ]);
 
                 if($trn) {
-                    $paymentId = Request::input('paymentId');
-                    $payerId = Request::input('PayerID');
+                    $paymentId = Input::get('paymentId');
+                    $payerId = Input::get('PayerID');
 
                     $payment = Payment::get($paymentId, $this->api_context);
 
