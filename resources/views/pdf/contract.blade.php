@@ -122,11 +122,11 @@
             <tbody>
                 <tr>
                     <td width="25%" class="text-right">Client's Name:</td>
-                    <td>{{ $contract->contractee->first_name . ' ' . $contract->contractee->last_name }}</td>
+                    <td>{{ $contract->contractee->user_info->first_name . ' ' . $contract->contractee->user_info->last_name }}</td>
                 </tr>
                 <tr>
                     <td width="25%" class="text-right">Contractor's Name:</td>
-                    <td>{{ $contract->contractor->first_name . ' ' . $contract->contractor->last_name }}</td>
+                    <td>{{ $contract->contractor->user_info->first_name . ' ' . $contract->contractor->user_info->last_name }}</td>
                 </tr>
                 <tr>
                     <td width="25%" class="text-right">Contract Lifespan:</td>
