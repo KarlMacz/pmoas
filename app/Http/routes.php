@@ -70,6 +70,7 @@ Route::group(['as' => 'employees.'], function() {
     Route::group(['as' => 'post.'], function() {
         Route::post('dashboard', ['as' => 'index', 'uses' => 'EmployeeController@index']);
         Route::post('client_orders/confirm', ['as' => 'orders_confirm', 'uses' => 'EmployeeController@postConfirmOrder']);
+        Route::post('client_orders/mark', ['as' => 'orders_mark', 'uses' => 'EmployeeController@postMarkOrder']);
         Route::post('client_orders/delete', ['as' => 'orders_delete', 'uses' => 'EmployeeController@postDeleteOrder']);
         Route::post('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@postAddProduct']);
         Route::post('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@postEditProduct']);

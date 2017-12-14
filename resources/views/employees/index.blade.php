@@ -6,7 +6,63 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-8"></div>
+            <div class="col-sm-8">
+                <h3 class="column-header">
+                    <span>Pending Client Order(s)</span>
+                    @if($pendingTransactions->count() > 0)
+                        <a href="{{ route('employees.get.orders') }}" class="btn btn-primary btn-xs pull-right"><span class="fa fa-reply fa-fw"></span> Go to Client Orders</a>
+                    @endif
+                </h3>
+                @if($pendingTransactions->count() > 0)
+                    @foreach($pendingTransactions as $transaction)
+                        @if($transaction->delivery_status === 'Pending')
+                            <div class="alert alert-success">
+                                <h3 class="no-margin">Transaction ID No. {{ sprintf('%010d', $transaction->id) }}</h3>
+                                <h5 style="margin: 15px 0;">
+                                    <ul>
+                                        @foreach($transaction->orders as $order)
+                                            <li>{{ $order->product->name }} (x{{ $order->quantity }})</li>
+                                        @endforeach
+                                    </ul>
+                                </h5>
+                                <h5 class="text-right no-margin">Pending</h5>
+                            </div>
+                        @endif
+                    @endforeach
+                @else
+                    <div class="alert alert-primary">
+                        <h5 class="text-center no-margin">No pending client orders found.</h5>
+                    </div>
+                @endif
+                <br>
+                <h3 class="column-header">
+                    <span>Dispatched Client Order(s)</span>
+                    @if($dispatchedTransactions->count() > 0)
+                        <a href="{{ route('employees.get.orders') }}" class="btn btn-primary btn-xs pull-right"><span class="fa fa-reply fa-fw"></span> Go to Client Orders</a>
+                    @endif
+                </h3>
+                @if($dispatchedTransactions->count() > 0)
+                    @foreach($dispatchedTransactions as $transaction)
+                        @if($transaction->delivery_status === 'Dispatched')
+                            <div class="alert alert-info">
+                                <h3 class="no-margin">Transaction ID No. {{ sprintf('%010d', $transaction->id) }}</h3>
+                                <h5 style="margin: 15px 0;">
+                                    <ul>
+                                        @foreach($transaction->orders as $order)
+                                            <li>{{ $order->product->name }} (x{{ $order->quantity }})</li>
+                                        @endforeach
+                                    </ul>
+                                </h5>
+                                <h5 class="text-right no-margin">Dispatched last {{ date('F d, Y (h:i A)', strtotime($transaction->datetime_delivered)) }}</h5>
+                            </div>
+                        @endif
+                    @endforeach
+                @else
+                    <div class="alert alert-primary">
+                        <h5 class="text-center no-margin">No dispatched client orders found.</h5>
+                    </div>
+                @endif
+            </div>
             <div class="col-sm-4">
                 <div class="alert alert-success">
                     <h4 data-load="date" class="no-margin"></h4>

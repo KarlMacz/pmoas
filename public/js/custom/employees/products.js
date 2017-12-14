@@ -11,7 +11,7 @@ $(document).ready(function() {
         closeModal('delete-product-modal');
         delayOpenModal('loading-modal', 'static');
 
-        ajaxRequest('products_catalogue/delete', 'POST', {
+        ajaxRequest('/products_catalogue/delete', 'POST', {
             id: productId
         }, function(response) {
             closeModal('loading-modal');

@@ -29,7 +29,9 @@ class ClientController extends Controller
     public function index() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
-        return view('clients.index');
+        return view('clients.index', [
+            'transactions' => Transactions::where('account_id', Auth::user()->id)->whereIn('delivery_status', ['Pending', 'Dispatched'])->get()
+        ]);
     }
 
     public function help() {

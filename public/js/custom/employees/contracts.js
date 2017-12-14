@@ -11,7 +11,7 @@ $(document).ready(function() {
         closeModal('delete-contract-modal');
         delayOpenModal('loading-modal', 'static');
 
-        ajaxRequest('enterprise_contracts/delete', 'POST', {
+        ajaxRequest('/enterprise_contracts/delete', 'POST', {
             id: contractId
         }, function(response) {
             closeModal('loading-modal');

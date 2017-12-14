@@ -30,12 +30,14 @@
                             <td class="text-center">{{ $transaction->payment_method }}</td>
                             <td class="text-center">{{ $transaction->delivery_status }}</td>
                             <td class="text-center">
-                                @if($transaction->payment_method === 'PayPal')
-                                    <form action="{{ route('payments.post.paypal_payment') }}" method="POST">
-                                        {{ csrf_field() }}
-                                        <input type="hidden" name="id" value="{{ $transaction->id }}">
-                                        <button type="submit" class="btn btn-info btn-xs"><span class="fa fa-paypal"></span> PayPal</button>
-                                    </form>
+                                @if($transaction->amount_paid >= $transaction->total_amount)
+                                    @if($transaction->payment_method === 'PayPal')
+                                        <form action="{{ route('payments.post.paypal_payment') }}" method="POST">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="id" value="{{ $transaction->id }}">
+                                            <button type="submit" class="btn btn-info btn-xs"><span class="fa fa-paypal"></span> PayPal</button>
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                         </tr>

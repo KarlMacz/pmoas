@@ -37,6 +37,8 @@ class EmployeeController extends Controller
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('employees.index', [
+            'pendingTransactions' => Transactions::where('delivery_status', 'Pending')->get(),
+            'dispatchedTransactions' => Transactions::where('delivery_status', 'Dispatched')->get(),
             'logs' => Logs::orderBy('created_at', 'desc')->get()
         ]);
     }
@@ -697,20 +699,54 @@ class EmployeeController extends Controller
 
         if($transaction) {
             $query = Transactions::where('id', $request->input('id'))->update([
-                'delivery_status' => 'Delivered',
+                'delivery_status' => 'Dispatched',
                 'datetime_delivered' => date('Y-m-d')
             ]);
 
             if($query) {
-                session()->flash('flash_status', 'Success');
-                session()->flash('flash_message', '');
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Transaction has been confirmed.'
+                ]);
             } else {
-                session()->flash('flash_status', 'Success');
-                session()->flash('flash_message', '');
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Failed to confirm transaction.'
+                ]);
             }
         } else {
-            session()->flash('flash_status', 'Failed');
-            session()->flash('flash_message', 'Failed to create contract.');
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Transaction doesn\'t exist.'
+            ]);
+        }
+    }
+
+    public function postMarkOrder(Request $request) {
+        $transaction = Transactions::where('id', $request->input('id'))->first();
+
+        if($transaction) {
+            $query = Transactions::where('id', $request->input('id'))->update([
+                'delivery_status' => 'Dispatched',
+                'datetime_delivered' => date('Y-m-d')
+            ]);
+
+            if($query) {
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Transaction has been marked as delivered.'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Failed to mark transaction as delivered.'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Transaction doesn\'t exist.'
+            ]);
         }
     }
 
@@ -718,11 +754,15 @@ class EmployeeController extends Controller
         $transaction = Transactions::where('id', $request->input('id'))->delete();
 
         if($transaction) {
-            session()->flash('flash_status', 'Success');
-            session()->flash('flash_message', 'Transaction has been deleted.');
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Transaction has been deleted.'
+            ]);
         } else {
-            session()->flash('flash_status', 'Failed');
-            session()->flash('flash_message', 'Failed to delete transaction.');
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to delete transaction.'
+            ]);
         }
     }
 }

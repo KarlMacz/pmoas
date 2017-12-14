@@ -48,8 +48,10 @@
                                     @else
                                         <button class="confirm-transaction-button btn btn-primary btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-check fa-fw"></span> Confirm</button>
                                     @endif
+                                    <button class="delete-transaction-button btn btn-danger btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-trash fa-fw"></span> Delete</button>
+                                @else
+                                    <button class="mark-transaction-button btn btn-primary btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-check fa-fw"></span> Mark as Delivered</button>
                                 @endif
-                                <button class="delete-transaction-button btn btn-danger btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-trash fa-fw"></span> Delete</button>
                             </td>
                         </tr>
                     @endforeach
@@ -74,6 +76,22 @@
                 <div class="modal-body">
                     Are you sure you want to confirm this transaction? Confirming transaction means all products specified are ready to be delivered to the client.<br><br>
                     For transactions that used PayPal as a payment method, confirming transaction also means that payment has already been made.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="yes-button btn btn-success btn-sm"><span class="fa fa-plus fa-fw"></span> Yes</button>
+                    <button type="button" class="no-button btn btn-danger btn-sm"><span class="fa fa-times fa-fw"></span> No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mark-transaction-modal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Mark Transaction as Delivered</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to mark this transaction? Marking transaction means all products has been delivered to the client.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="yes-button btn btn-success btn-sm"><span class="fa fa-plus fa-fw"></span> Yes</button>
