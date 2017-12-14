@@ -152,7 +152,7 @@
                     <td width="25%" class="text-right">Rules / Prohibitions:</td>
                     <td>
                         @foreach($contract->rules as $rule)
-                            <div>{{ $rules->rule }}</div>
+                            <div>{{ $rule->rule }}</div>
                         @endforeach
                     </td>
                 </tr>
