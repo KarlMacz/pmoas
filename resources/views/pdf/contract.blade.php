@@ -103,7 +103,7 @@
     <div class="header">
         <img class="logo" src="img/logo.png">
         <h1 class="no-margin">{{ config('company.name') }}</h1>
-        <h3 class="no-margin">Contract</h3>
+        <h3 class="no-margin">{{ $contract->type }} Contract</h3>
     </div>
     <div class="footer">
         <script type="text/php">
@@ -118,7 +118,46 @@
         </script>
     </div>
     <div class="body">
-        This is a sample contract.
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td width="25%" class="text-right">Client's Name:</td>
+                    <td>{{ $contract->contractee->first_name . ' ' . $contract->contractee->last_name }}</td>
+                </tr>
+                <tr>
+                    <td width="25%" class="text-right">Contractor's Name:</td>
+                    <td>{{ $contract->contractor->first_name . ' ' . $contract->contractor->last_name }}</td>
+                </tr>
+                <tr>
+                    <td width="25%" class="text-right">Contract Lifespan:</td>
+                    <td>{{ date('F d, Y', strtotime($contract->lifespan_start)) . ' - ' . date('F d, Y', strtotime($contract->lifespan_end)) }}</td>
+                </tr>
+                <tr>
+                    <td width="25%" class="text-right">Maximum Amount:</td>
+                    <td>{{ $contract->maximum_amount }}</td>
+                </tr>
+                <tr>
+                    <td width="25%" class="text-right">Holdback Amount:</td>
+                    <td>{{ $contract->holdback_amount }}</td>
+                </tr>
+                <tr>
+                    <td width="25%" class="text-right">Mode of Payment:</td>
+                    <td>{{ $contract->mode_of_payment }}</td>
+                </tr>
+                <tr>
+                    <td width="25%" class="text-right">Structure:</td>
+                    <td>{{ $contract->structure }}</td>
+                </tr>
+                <tr>
+                    <td width="25%" class="text-right">Rules / Prohibitions:</td>
+                    <td>
+                        @foreach($contract->rules as $rule)
+                            <div>{{ $rules->rule }}</div>
+                        @endforeach
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
