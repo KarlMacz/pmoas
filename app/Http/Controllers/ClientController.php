@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Auth;
+use Input;
 use PDF;
 use Validator;
 
@@ -33,6 +34,20 @@ class ClientController extends Controller
         return view('clients.index', [
             'transactions' => Transactions::where('account_id', Auth::user()->id)->whereIn('delivery_status', ['Pending', 'Dispatched'])->get()
         ]);
+    }
+
+    public function search() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        if(Input::has('search')) {
+            $search = Input::get('search');
+
+            return view('clients.search', [
+                'products' => Products::where('id', $search)->orWhere('name', 'like', '%' . $search . '%')->get()
+            ]);
+        } else {
+            return redirect()->route('clients.get.index');
+        }
     }
 
     public function help() {

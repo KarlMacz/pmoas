@@ -52,6 +52,16 @@
         <div class="sidebar" style="margin-top: 0;">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
+                    <li style="padding: 10px 15px;">
+                        <form action="{{ route('clients.get.search') }}" method="GET">
+                            <div class="form-group no-margin">
+                                <div class="input-group">
+                                    <label for="search-field" class="input-group-addon"><span class="fa fa-search fa-fw"></span></label>
+                                    <input type="text" name="search" id="search-field" class="form-control" required>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
                     <li><a href="{{ route('clients.get.index') }}"><i class="fa fa-home fa-fw"></i> Home</a></li>
                     <li><a href="{{ route('clients.get.products') }}"><i class="fa fa-shopping-bag fa-fw"></i> Products Catalogue</a></li>
                     <li><a href="{{ route('cart.get.index') }}"><i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart</a></li>

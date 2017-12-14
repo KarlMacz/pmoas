@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use Auth;
 use File;
+use Input;
 use Mail;
 use PDF;
 use Storage;
@@ -41,6 +42,28 @@ class EmployeeController extends Controller
             'dispatchedTransactions' => Transactions::where('delivery_status', 'Dispatched')->get(),
             'logs' => Logs::orderBy('created_at', 'desc')->get()
         ]);
+    }
+
+    public function search() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        if(Input::has('search')) {
+            $search = Input::get('search');
+
+            return view('employees.search', [
+                'transactions' => Transactions::where('id', $search)->get(),
+                'products' => Products::where('id', $search)->orWhere('name', 'like', '%' . $search . '%')->get()
+                /*'employees' => Accounts::join('employees', 'accounts.id', '=', 'employees.account_id')
+                    ->where('accounts.id', $search)
+                    ->orWhere('accounts.username', $search)
+                    ->orWhere('employees.first_name', 'like', '%' . $search . '%')
+                    ->orWhere('employees.middle_name', 'like', '%' . $search . '%')
+                    ->orWhere('employees.last_name', 'like', '%' . $search . '%')
+                ->get()*/
+            ]);
+        } else {
+            return redirect()->route('employees.get.index');
+        }
     }
 
     public function help() {
