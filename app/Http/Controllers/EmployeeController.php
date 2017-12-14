@@ -258,6 +258,12 @@ class EmployeeController extends Controller
         return response(Storage::disk($disk)->get($file), 200)->header('Content-Type', 'application/pdf');
     }
 
+    public function orders() {
+        return view('employees.client_orders', [
+            'transactions' => Transactions::get()
+        ]);
+    }
+
     public function postRegisterCompanyClient(Request $request) {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -684,5 +690,39 @@ class EmployeeController extends Controller
         }
 
         return redirect()->route('employees.get.contract_documents', $id);
+    }
+
+    public function postConfirmOrder(Request $request) {
+        $transaction = Transactions::where('id', $request->input('id'))->first();
+
+        if($transaction) {
+            $query = Transactions::where('id', $request->input('id'))->update([
+                'delivery_status' => 'Delivered',
+                'datetime_delivered' => date('Y-m-d')
+            ]);
+
+            if($query) {
+                session()->flash('flash_status', 'Success');
+                session()->flash('flash_message', '');
+            } else {
+                session()->flash('flash_status', 'Success');
+                session()->flash('flash_message', '');
+            }
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to create contract.');
+        }
+    }
+
+    public function postDeleteOrder(Request $request) {
+        $transaction = Transactions::where('id', $request->input('id'))->delete();
+
+        if($transaction) {
+            session()->flash('flash_status', 'Success');
+            session()->flash('flash_message', 'Transaction has been deleted.');
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to delete transaction.');
+        }
     }
 }

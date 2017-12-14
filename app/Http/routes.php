@@ -42,6 +42,7 @@ Route::group(['as' => 'auth.'], function() {
 Route::group(['as' => 'employees.'], function() {
     Route::group(['as' => 'get.'], function() {
         Route::get('dashboard', ['as' => 'index', 'uses' => 'EmployeeController@index']);
+        Route::get('client_orders', ['as' => 'orders', 'uses' => 'EmployeeController@orders']);
         Route::get('products_catalogue', ['as' => 'products', 'uses' => 'EmployeeController@products']);
         Route::get('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@addProduct']);
         Route::get('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@editProduct']);
@@ -68,6 +69,8 @@ Route::group(['as' => 'employees.'], function() {
 
     Route::group(['as' => 'post.'], function() {
         Route::post('dashboard', ['as' => 'index', 'uses' => 'EmployeeController@index']);
+        Route::post('client_orders/confirm', ['as' => 'orders_confirm', 'uses' => 'EmployeeController@postConfirmOrder']);
+        Route::post('client_orders/delete', ['as' => 'orders_delete', 'uses' => 'EmployeeController@postDeleteOrder']);
         Route::post('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@postAddProduct']);
         Route::post('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@postEditProduct']);
         Route::post('products_catalogue/delete', ['as' => 'products_delete', 'uses' => 'EmployeeController@postDeleteProduct']);
@@ -86,7 +89,6 @@ Route::group(['as' => 'clients.'], function() {
         Route::get('home', ['as' => 'index', 'uses' => 'ClientController@index']);
         Route::get('products', ['as' => 'products', 'uses' => 'ClientController@products']);
         Route::get('orders', ['as' => 'orders', 'uses' => 'ClientController@orders']);
-        Route::get('payments', ['as' => 'payments', 'uses' => 'ClientController@payments']);
         Route::get('contracts', ['as' => 'contracts', 'uses' => 'ClientController@contracts']);
         Route::get('contracts/view/{code}', ['as' => 'contracts_view', 'uses' => 'ClientController@viewContract']);
         Route::get('help/clients', ['as' => 'help', 'uses' => 'ClientController@help']);
@@ -94,6 +96,16 @@ Route::group(['as' => 'clients.'], function() {
 
     Route::group(['as' => 'post.'], function() {
         Route::post('orders/add', ['as' => 'orders_add', 'uses' => 'ClientController@postOrder']);
+    });
+});
+
+Route::group(['as' => 'payments.'], function() {
+    Route::group(['as' => 'get.'], function() {
+        Route::get('payment/paypal/status/{tid?}', ['as' => 'paypal_status', 'uses' => 'PaymentController@payPalStatus']);
+    });
+
+    Route::group(['as' => 'post.'], function() {
+        Route::post('payment/paypal/settle', ['as' => 'paypal_payment', 'uses' => 'PaymentController@postPayPalPayment']);
     });
 });
 

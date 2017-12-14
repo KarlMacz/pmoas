@@ -1,13 +1,5 @@
 @extends('layouts.clients')
 
-@section('meta')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-@endsection
-
-@section('resources')
-    <script src="{{ asset('js/custom/clients/shopping_cart.js') }}"></script>
-@endsection
-
 @section('content')
     <div class="page-header">
         <h1 class="no-margin">Orders</h1>
@@ -39,7 +31,11 @@
                             <td class="text-center">{{ $transaction->delivery_status }}</td>
                             <td class="text-center">
                                 @if($transaction->payment_method === 'PayPal')
-                                    <button class="btn btn-info btn-xs"><span class="fa fa-paypal"></span> PayPal</button>
+                                    <form action="{{ route('payments.post.paypal_payment') }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="id" value="{{ $transaction->id }}">
+                                        <button type="submit" class="btn btn-info btn-xs"><span class="fa fa-paypal"></span> PayPal</button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>
