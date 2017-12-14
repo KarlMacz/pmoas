@@ -20,34 +20,34 @@
 
                     foreach($transactions as $transaction) {
                         $totalEarnings += $transaction->total_amount;
-                    }
 
-                    foreach($stocks as $stock) {
-                        $totalExpenses += $stock->total_amount;
+                        if($transaction->cancellations->count() > 0) {
+                            $totalExpenses += $transaction->total_amount_cancelled;
+                        }
                     }
                 ?>
                 <tr>
                     <td>
-                        <h2>Total Earnings:</h2>
+                        <h3 class="no-margin">Total Earnings:</h3>
                     </td>
                     <td>
-                        <h2>Php <span class="pull-right">{{ $totalEarnings }}</span></h2>
+                        <h3 class="no-margin">Php <span class="pull-right">{{ $totalEarnings }}</span></h3>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h2>Total Expenses:</h2>
+                        <h3 class="no-margin">Total Expenses:</h3>
                     </td>
                     <td>
-                        <h2>Php <span class="pull-right">{{ $totalExpenses }}</span></h2>
+                        <h3 class="no-margin">Php <span class="pull-right">{{ $totalExpenses }}</span></h3>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-right">
-                        <h2>Total Income:</h2>
+                        <h3 class="no-margin">Total Income:</h3>
                     </td>
                     <td>
-                        <h2>Php <span class="pull-right">{{ $totalEarnings - $totalExpenses }}</span></h2>
+                        <h3 class="no-margin">Php <span class="pull-right">{{ $totalEarnings - $totalExpenses }}</span></h3>
                     </td>
                 </tr>
             </tbody>

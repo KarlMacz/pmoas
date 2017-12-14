@@ -124,21 +124,26 @@ class EmployeeController extends Controller
     }
 
     public function accountingSales() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.accounting_sales', [
             'transactions' => Transactions::get()
         ]);
     }
 
     public function accountingExpenses() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.accounting_expenses', [
-            'stocks' => Stocks::get()
+            'transactions' => Transactions::get()
         ]);
     }
 
     public function accountingIncome() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.accounting_income', [
-            'transactions' => Transactions::get(),
-            'stocks' => Stocks::get()
+            'transactions' => Transactions::get()
         ]);
     }
 
@@ -232,6 +237,8 @@ class EmployeeController extends Controller
     }
 
     public function viewReport($type, $file) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         $disk = null;
 
         switch($type) {
@@ -261,8 +268,18 @@ class EmployeeController extends Controller
     }
 
     public function orders() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
         return view('employees.client_orders', [
             'transactions' => Transactions::get()
+        ]);
+    }
+
+    public function returnProducts() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.return_products', [
+            'transactions' => Transactions::where('delivery_status', 'Delivered')->get()
         ]);
     }
 
@@ -727,8 +744,7 @@ class EmployeeController extends Controller
 
         if($transaction) {
             $query = Transactions::where('id', $request->input('id'))->update([
-                'delivery_status' => 'Dispatched',
-                'datetime_delivered' => date('Y-m-d')
+                'delivery_status' => 'Delivered'
             ]);
 
             if($query) {

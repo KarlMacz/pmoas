@@ -43,6 +43,7 @@ Route::group(['as' => 'employees.'], function() {
     Route::group(['as' => 'get.'], function() {
         Route::get('dashboard', ['as' => 'index', 'uses' => 'EmployeeController@index']);
         Route::get('client_orders', ['as' => 'orders', 'uses' => 'EmployeeController@orders']);
+        Route::get('client_return_products', ['as' => 'products_return', 'uses' => 'EmployeeController@returnProducts']);
         Route::get('products_catalogue', ['as' => 'products', 'uses' => 'EmployeeController@products']);
         Route::get('products_catalogue/add', ['as' => 'products_add', 'uses' => 'EmployeeController@addProduct']);
         Route::get('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@editProduct']);
@@ -90,6 +91,8 @@ Route::group(['as' => 'clients.'], function() {
         Route::get('home', ['as' => 'index', 'uses' => 'ClientController@index']);
         Route::get('products', ['as' => 'products', 'uses' => 'ClientController@products']);
         Route::get('orders', ['as' => 'orders', 'uses' => 'ClientController@orders']);
+        Route::get('return_products', ['as' => 'products_return', 'uses' => 'ClientController@returnProducts']);
+        Route::get('return_products/{id}', ['as' => 'products_return_process', 'uses' => 'ClientController@returnProductsProcess']);
         Route::get('contracts', ['as' => 'contracts', 'uses' => 'ClientController@contracts']);
         Route::get('contracts/view/{code}', ['as' => 'contracts_view', 'uses' => 'ClientController@viewContract']);
         Route::get('help/clients', ['as' => 'help', 'uses' => 'ClientController@help']);
@@ -97,6 +100,7 @@ Route::group(['as' => 'clients.'], function() {
 
     Route::group(['as' => 'post.'], function() {
         Route::post('orders/add', ['as' => 'orders_add', 'uses' => 'ClientController@postOrder']);
+        Route::post('return_products/{id}', ['as' => 'products_return_process', 'uses' => 'ClientController@postReturnProductsProcess']);
     });
 });
 

@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->double('amount_paid')->default(0.00);
             $table->double('total_amount')->default(0.00);
+            $table->double('total_amount_cancelled')->default(0.00);
             $table->string('payment_method')->default('Cash on Delivery');
             $table->string('delivery_status')->default('Pending');
             $table->timestamp('datetime_delivered')->nullable();

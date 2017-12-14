@@ -9,28 +9,37 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Product Name</th>
-                <th>Quantity Stocked</th>
-                <th>Date & Time Stocked</th>
+                <th>Product(s) Returned</th>
                 <th>Total Amount</th>
             </tr>
         </thead>
         <tbody>
             <?php
                 $totalExpenses = 0;
+                $ctr = 0;
             ?>
-            @foreach($stocks as $stock)
-                <?php
-                    $totalExpenses += $stock->total_amount;
-                ?>
-                <tr>
-                    <td>{{ $stock->id }}</td>
-                    <td>{{ $stock->product->name }}</td>
-                    <td>{{ $stock->quantity }}</td>
-                    <td>{{ date('F d, Y', strtotime($stock->created_at)) }}</td>
-                    <td>Php {{ $stock->total_amount }}</td>
-                </tr>
-            @endforeach
+            @if($transactions->count() > 0)
+                @foreach($transactions as $transaction)
+                    <?php
+                        $totalExpenses += $transaction->total_amount_cancelled;
+
+                        if($transaction->cancellations->count() > 0) {
+                            $ctr++;
+                        }
+                    ?>
+                    @if($transaction->cancellations->count() > 0)
+                        <tr>
+                            <td>{{ $transaction->id }}</td>
+                            <td>
+                                @foreach($transaction->cancellations as $cancellation)
+                                    <div>{{ $cancellation->product->name }} (x{{ $cancellation->quantity }})</div>
+                                @endforeach
+                            </td>
+                            <td>Php {{ $transaction->total_amount_cancelled }}</td>
+                        </tr>
+                    @endif
+                @endforeach
+            @endif
         </tbody>
         <tfoot>
             <tr>

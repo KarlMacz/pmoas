@@ -10,6 +10,7 @@ use Auth;
 use PDF;
 use Validator;
 
+use App\Cancellations;
 use App\Carts;
 use App\CartItems;
 use App\Contracts;
@@ -53,6 +54,22 @@ class ClientController extends Controller
 
         return view('clients.orders', [
             'transactions' => Transactions::where('account_id', Auth::user()->id)->get()
+        ]);
+    }
+
+    public function returnProducts() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('clients.return_products', [
+            'transactions' => Transactions::where('account_id', Auth::user()->id)->where('delivery_status', 'Delivered')->get()
+        ]);
+    }
+
+    public function returnProductsProcess($id) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('clients.process_return_products', [
+            'transaction' => Transactions::where('id', $id)->first()
         ]);
     }
 
@@ -137,5 +154,55 @@ class ClientController extends Controller
         }
 
         return redirect()->route('cart.get.index');
+    }
+
+    public function postReturnProductsProcess($id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'id.*' => 'required|numeric',
+            'quantity.*' => 'required|numeric|min:0'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('clients.get.products_return', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $totalAmountCancelled = 0;
+        $ctr = 0;
+
+        foreach($request->input('id') as $index => $pid) {
+            if($request->input('quantity.' . $index) > 0) {
+                $product = Products::where('id', $pid)->first();
+
+                $cancellation = Cancellations::create([
+                    'transaction_id' => $id,
+                    'product_id' => $pid,
+                    'quantity' => $request->input('quantity.' . $index)
+                ]);
+
+                if($cancellation) {
+                    $totalAmountCancelled += ($product->price_per_piece * $request->input('quantity.' . $index));
+
+                    $ctr++;
+                }
+            }
+        }
+
+        if($ctr > 0) {
+            Transactions::where('id', $id)->update([
+                'total_amount_cancelled' => $totalAmountCancelled
+            ]);
+
+            session()->flash('flash_status', 'Success');
+            session()->flash('flash_message', 'Return products successful.');
+
+            return redirect()->route('clients.get.products_return');
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to return products.');
+
+            return redirect()->route('clients.get.products_return_process', $id);
+        }
     }
 }

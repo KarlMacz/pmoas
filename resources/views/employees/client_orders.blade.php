@@ -49,8 +49,10 @@
                                         <button class="confirm-transaction-button btn btn-primary btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-check fa-fw"></span> Confirm</button>
                                     @endif
                                     <button class="delete-transaction-button btn btn-danger btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-trash fa-fw"></span> Delete</button>
-                                @else
+                                @elseif($transaction->delivery_status === 'Dispatched')
                                     <button class="mark-transaction-button btn btn-primary btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-check fa-fw"></span> Mark as Delivered</button>
+                                @else
+                                    <div class="text-center">No actions needed to perform.</div>
                                 @endif
                             </td>
                         </tr>

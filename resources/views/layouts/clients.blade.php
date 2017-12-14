@@ -56,6 +56,7 @@
                     <li><a href="{{ route('clients.get.products') }}"><i class="fa fa-shopping-bag fa-fw"></i> Products Catalogue</a></li>
                     <li><a href="{{ route('cart.get.index') }}"><i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart</a></li>
                     <li><a href="{{ route('clients.get.orders') }}"><i class="fa fa-cubes fa-fw"></i> Orders</a></li>
+                    <li><a href="{{ route('clients.get.products_return') }}"><i class="fa fa-reply fa-fw"></i> Return Products</a></li>
                     <li><a href="{{ route('clients.get.contracts') }}"><i class="fa fa-list-alt fa-fw"></i> Contracts</a></li>
                     <li><a href="{{ route('clients.get.help') }}"><i class="fa fa-question fa-fw"></i> Help</a></li>
                 </ul>

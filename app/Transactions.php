@@ -15,4 +15,8 @@ class Transactions extends Model
     public function orders() {
         return $this->hasMany('App\Orders', 'transaction_id');
     }
+
+    public function cancellations() {
+        return $this->hasMany('App\Cancellations', 'transaction_id');
+    }
 }
