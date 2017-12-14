@@ -19,7 +19,7 @@ class ClientSeeder extends Seeder
             'username' => 'client',
             'email' => 'client.juanito@gmail.com',
             'password' => bcrypt('client'),
-            'is_verified' => false,
+            'is_verified' => true,
             'role' => 'Client'
         ]);
 
