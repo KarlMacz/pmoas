@@ -14,6 +14,7 @@
 Route::group(['as' => 'home.'], function() {
     Route::group(['as' => 'get.'], function() {
         Route::get('/', ['as' => 'index', 'uses' => 'HomeController@index']);
+        Route::get('test', ['as' => 'test', 'uses' => 'HomeController@test']);
     });
 
     Route::group(['as' => 'post.'], function() {

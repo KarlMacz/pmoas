@@ -14,6 +14,10 @@ use App\Feedbacks;
 class HomeController extends Controller
 {
     use Utilities;
+
+    public function test() {
+        return view('home.test');
+    }
     
     public function index() {
         if(Auth::check()) {
