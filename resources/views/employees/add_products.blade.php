@@ -11,7 +11,7 @@
     </div>
     <div class="container-spacious">
         @include('partials.flash')
-        <form action="{{ route('employees.post.products_add') }}" method="POST">
+        <form action="{{ route('employees.post.products_add') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="row">
                 <div class="col-sm-4">
@@ -56,6 +56,19 @@
                         @if ($errors->has('description'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('description') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group{{ $errors->has('product_image') ? ' has-error' : '' }}">
+                        <label for="product-image-field">Image:</label>
+                        <input type="file" name="product_image" id="product-image-field" class="form-control">
+                        @if ($errors->has('product_image'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('product_image') }}</strong>
                             </span>
                         @endif
                     </div>

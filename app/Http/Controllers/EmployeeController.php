@@ -458,12 +458,13 @@ class EmployeeController extends Controller
             'price' => 'required|numeric|min:1',
             'min_pieces' => 'required|numeric|min:1',
             'description' => 'required|string|max:1000',
+            'product_image' => 'mimes:jpg,jpeg,png,bmp',
             'quantity.*' => 'required|numeric|min:1',
             'expiration_date.*' => 'required|date'
         ]);
 
         if($validator->fails()) {
-            return redirect()->route('employees.get.products_edit')
+            return redirect()->route('employees.get.products_add')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -474,9 +475,19 @@ class EmployeeController extends Controller
             $quantity += $qty;
         }
 
+        if($request->hasFile('product_image')) {
+            $image = $request->file('product_image');
+            $imageFilename = date('Y_m_d_His') . '_' . $this->generateRandomDigit(5) . '.' . $image->getClientOriginalExtension();
+            
+            $image->move('uploads', $imageFilename);
+        } else {
+            $imageFilename = null;
+        }
+
         $product = Products::create([
             'name' => $request->input('name'),
             'price_per_piece' => $request->input('price'),
+            'image' => $imageFilename,
             'minimum_pieces_per_bulk' => $request->input('min_pieces'),
             'description' => $request->input('description'),
             'remaining_quantity' => $quantity,
@@ -490,6 +501,7 @@ class EmployeeController extends Controller
                 Stocks::create([
                     'product_id' => $id,
                     'quantity' => $qty,
+                    'total_amount' => ($qty * $request->input('price')),
                     'expiration_date' => $request->input('expiration_date')[$index]
                 ]);
             }

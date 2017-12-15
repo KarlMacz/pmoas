@@ -30,7 +30,7 @@
                         <tr>
                             <td class="text-center">
                                 @if($product->image)
-                                    <img src="{{ asset('img/' . $product->image) }}">
+                                    <img src="{{ asset('uploads/' . $product->image) }}" style="width: 100%;">
                                 @else
                                     No Image Available
                                 @endif
