@@ -30,7 +30,7 @@
                             <td class="text-center">{{ $transaction->payment_method }}</td>
                             <td class="text-center">{{ $transaction->delivery_status }}</td>
                             <td class="text-center">
-                                @if($transaction->amount_paid >= $transaction->total_amount)
+                                @if($transaction->amount_paid !== $transaction->total_amount)
                                     @if($transaction->payment_method === 'PayPal')
                                         <form action="{{ route('payments.post.paypal_payment') }}" method="POST">
                                             {{ csrf_field() }}
