@@ -2,8 +2,7 @@
 
 @section('content')
     <div class="page-header">
-        <h1 class="no-margin">Customer Data or Accounts</h1>
-        <div>View All Clients</div>
+        <h1 class="no-margin">Test Page</h1>
     </div>
     <div class="container-fluid">
         <?php

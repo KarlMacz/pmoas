@@ -25,7 +25,13 @@
                                         @endforeach
                                     </ul>
                                 </h5>
-                                <h5 class="text-right no-margin">Pending</h5>
+                                <h5 class="text-right no-margin">
+                                    @if($transaction->amount_paid === $transaction->total_amount)
+                                        <span class="text-info">Paid</span>
+                                    @else
+                                        <span class="text-danger">Not yet paid</span>
+                                    @endif
+                                </h5>
                             </div>
                         @endif
                     @endforeach
