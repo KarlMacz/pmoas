@@ -34,7 +34,7 @@
                         <tr>
                             <td class="text-center">
                                 @if($cartItem->product->image)
-                                    <img src="{{ asset('img/' . $cartItem->product->image) }}">
+                                    <img src="{{ asset('uploads/' . $cartItem->product->image) }}" style="width: 100%;">
                                 @else
                                     No Image Available
                                 @endif

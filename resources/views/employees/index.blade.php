@@ -16,9 +16,13 @@
                 @if($pendingTransactions->count() > 0)
                     @foreach($pendingTransactions as $transaction)
                         @if($transaction->delivery_status === 'Pending')
-                            <div class="alert alert-success">
+                            <div class="alert{{ ($transaction->amount_paid === $transaction->total_amount ? ' alert-success' : ' alert-danger') }}">
                                 <h3 class="no-margin">Transaction ID No. {{ sprintf('%010d', $transaction->id) }}</h3>
+                                <h5 class="no-margin">Payment Method: {{ $transaction->payment_method }}</h5>
                                 <h5 style="margin: 15px 0;">
+                                    <div style="margin: 0 0 5px 10px;">
+                                        <strong>Product(s):</strong>
+                                    </div>
                                     <ul>
                                         @foreach($transaction->orders as $order)
                                             <li>{{ $order->product->name }} (x{{ $order->quantity }})</li>
@@ -27,9 +31,9 @@
                                 </h5>
                                 <h5 class="text-right no-margin">
                                     @if($transaction->amount_paid === $transaction->total_amount)
-                                        <span class="text-info">Paid</span>
+                                        <span>Paid</span>
                                     @else
-                                        <span class="text-danger">Not yet paid</span>
+                                        <span>Not yet paid</span>
                                     @endif
                                 </h5>
                             </div>
@@ -53,6 +57,9 @@
                             <div class="alert alert-info">
                                 <h3 class="no-margin">Transaction ID No. {{ sprintf('%010d', $transaction->id) }}</h3>
                                 <h5 style="margin: 15px 0;">
+                                    <div style="margin: 0 0 5px 10px;">
+                                        <strong>Product(s):</strong>
+                                    </div>
                                     <ul>
                                         @foreach($transaction->orders as $order)
                                             <li>{{ $order->product->name }} (x{{ $order->quantity }})</li>
