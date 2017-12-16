@@ -40,5 +40,31 @@ class EmployeeSeeder extends Seeder
                 'position' => 'Administrator'
             ]);
         }
+
+        $account = Accounts::create([
+            'username' => 'accountant',
+            'email' => 'accountant.juana@gmail.com',
+            'password' => bcrypt('accountant'),
+            'is_verified' => true,
+            'role' => 'Employee'
+        ]);
+
+        if($account) {
+            Passwords::create([
+                'identifier' => hash('sha256', 'accountant'),
+                'password' => 'accountant'
+            ]);
+
+            Employees::create([
+                'account_id' => $account->id,
+                'first_name' => 'Juana',
+                'last_name' => 'Dela Cruz',
+                'birth_date' => '1996-01-01',
+                'address' => '',
+                'gender' => 'Female',
+                'contact_number' => '09271234567',
+                'position' => 'Accountant'
+            ]);
+        }
     }
 }
