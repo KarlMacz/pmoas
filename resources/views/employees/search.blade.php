@@ -42,5 +42,18 @@
                 <div class="list-group-item text-center">No results found.</div>
             @endif
         </div>
+        <h3>Employees</h3>
+        <div class="list-group">
+            @if($employees->count() > 0)
+                @foreach($employees as $employee)
+                    <div class="list-group-item">
+                        <h2>{{ $employee->user_info->first_name . ' ' . $employee->user_info->last_name }}</h2>
+                        <h4 class="no-margin">Employee ID No. {{ sprintf('%010d', $employee->id) }}</h4>
+                    </div>
+                @endforeach
+            @else
+                <div class="list-group-item text-center">No results found.</div>
+            @endif
+        </div>
     </div>
 @endsection

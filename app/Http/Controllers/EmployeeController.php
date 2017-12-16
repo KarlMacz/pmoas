@@ -52,14 +52,14 @@ class EmployeeController extends Controller
 
             return view('employees.search', [
                 'transactions' => Transactions::where('id', $search)->get(),
-                'products' => Products::where('id', $search)->orWhere('name', 'like', '%' . $search . '%')->get()
-                /*'employees' => Accounts::join('employees', 'accounts.id', '=', 'employees.account_id')
+                'products' => Products::where('id', $search)->orWhere('name', 'like', '%' . $search . '%')->get(),
+                'employees' => Accounts::join('employees', 'accounts.id', '=', 'employees.account_id')
                     ->where('accounts.id', $search)
                     ->orWhere('accounts.username', $search)
                     ->orWhere('employees.first_name', 'like', '%' . $search . '%')
                     ->orWhere('employees.middle_name', 'like', '%' . $search . '%')
                     ->orWhere('employees.last_name', 'like', '%' . $search . '%')
-                ->get()*/
+                ->get()
             ]);
         } else {
             return redirect()->route('employees.get.index');
