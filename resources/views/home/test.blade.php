@@ -6,7 +6,7 @@
     </div>
     <div class="container-fluid">
         <?php
-            use lepiaf\SerialPort\SerialPort;
+            /*use lepiaf\SerialPort\SerialPort;
             use lepiaf\SerialPort\Parser\SeparatorParser;
             use lepiaf\SerialPort\Configure\TTYConfigure;
 
@@ -21,7 +21,8 @@
                     $serialPort->write("1\n");
                     $serialPort->close();
                 }
-            }
+            }*/
         ?>
+        <div>Check your phone for SMS.</div>
     </div>
 @endsection

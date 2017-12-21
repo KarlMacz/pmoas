@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use lepiaf\SerialPort\SerialPort;
+use lepiaf\SerialPort\Parser\SeparatorParser;
+use lepiaf\SerialPort\TTYConfigure;
+
 use App\Accounts;
 use App\Logs;
 
@@ -67,6 +71,25 @@ trait Utilities
             }
         } else {
             return null;
+        }
+    }
+
+    public function sendSms($phoneNumber, $message) {
+        $configure = new TTYConfigure();
+        
+        $configure->removeOption("9600");
+        $configure->setOption(env('COM_BAUD_RATE'));
+
+        $serialPort = new SerialPort(new SeparatorParser(), $configure);
+
+        $serialPort->open(env('COM_PORT'));
+
+        while($data = $serialPort->read()) {
+            if($data === 'OK') {
+                $serialPort->write('AT+CMGF=1\n');
+                $serialPort->write('AT+CMGS="' . $phoneNumber . '"\n' . $message . '\n');
+                $serialPort->close();
+            }
         }
     }
 }

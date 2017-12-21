@@ -15,7 +15,9 @@ class HomeController extends Controller
 {
     use Utilities;
 
-    public function test() {
+    public function test($number) {
+        $this->sendSms($number, 'This is a sample message.');
+
         return view('home.test');
     }
     
