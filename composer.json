@@ -10,8 +10,7 @@
         "barryvdh/laravel-dompdf": "^0.8.1",
         "guzzlehttp/guzzle": "^6.3",
         "spatie/laravel-backup": "^3.0.0",
-        "paypal/rest-api-sdk-php": "*",
-        "lepiaf/serialport": "*"
+        "paypal/rest-api-sdk-php": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
