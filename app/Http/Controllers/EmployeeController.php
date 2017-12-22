@@ -756,6 +756,8 @@ class EmployeeController extends Controller
             ]);
 
             if($query) {
+                @$this->sendSms($transaction->account->user_info->contact_number, 'Your order from ' . config('company.name') . ' has been dispatched. Transaction ID No. ' . sprintf('%010d', $transaction->id) . '.');
+
                 return response()->json([
                     'status' => 'Success',
                     'message' => 'Transaction has been confirmed.'
