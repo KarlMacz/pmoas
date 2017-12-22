@@ -20,7 +20,7 @@ class HomeController extends Controller
 
         return view('home.test');
     }
-    
+
     public function index() {
         if(Auth::check()) {
             $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
