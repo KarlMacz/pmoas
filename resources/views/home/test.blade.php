@@ -10,19 +10,23 @@
             use lepiaf\SerialPort\Parser\SeparatorParser;
             use lepiaf\SerialPort\Configure\TTYConfigure;
 
-            $serialPort = new SerialPort(new SeparatorParser(), new TTYConfigure());
+            $configure = new TTYConfigure();
 
-            $serialPort->open("COM3");
+            $configure->removeOption('9600');
+            $configure->setOption(env('COM_BAUD_RATE'));
+
+            $serialPort = new SerialPort(new SeparatorParser(), $configure);
+
+            $serialPort->open(env('COM_PORT'));
 
             while($data = $serialPort->read()) {
-                echo $data . "\n";
-
-                if($data === "OK") {
-                    $serialPort->write("1\n");
+                if($data === 'OK') {
+                    $serialPort->write('AT+CMGF=1\r');
+                    $serialPort->write('AT+CMGS="' . $phoneNumber . '"\r' . $message . chr(26) . '\r');
                     $serialPort->close();
                 }
             }*/
         ?>
-        <div>Check your phone for SMS.</div>
+        <div class="alert alert-info">Check your phone for SMS.</div>
     </div>
 @endsection
