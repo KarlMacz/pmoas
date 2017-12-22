@@ -77,7 +77,7 @@ trait Utilities
     public function sendSms($phoneNumber, $message) {
         $configure = new TTYConfigure();
         
-        $configure->removeOption("9600");
+        $configure->removeOption('9600');
         $configure->setOption(env('COM_BAUD_RATE'));
 
         $serialPort = new SerialPort(new SeparatorParser(), $configure);
@@ -86,8 +86,8 @@ trait Utilities
 
         while($data = $serialPort->read()) {
             if($data === 'OK') {
-                $serialPort->write('AT+CMGF=1\n');
-                $serialPort->write('AT+CMGS="' . $phoneNumber . '"\n' . $message . '\n');
+                $serialPort->write('AT+CMGF=1\r');
+                $serialPort->write('AT+CMGS="' . $phoneNumber . '"\r' . $message . chr(26) . '\r');
                 $serialPort->close();
             }
         }
