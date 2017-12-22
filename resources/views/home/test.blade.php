@@ -7,21 +7,21 @@
 </head>
 <body>
     <?php
-        use App\Http\Controllers\PhpSerial;
+        // use App\Http\Controllers\PhpSerial;
 
-        $serial = new PhpSerial();
-        $serial->_os = strtolower(env('PC_OS'));
+        // $serial = new PhpSerial();
+        // $serial->_os = strtolower(env('PC_OS'));
 
-        $serial->deviceSet('COM5');
-        $serial->confBaudRate(9600);
-        $serial->deviceOpen('w+');
+        // $serial->deviceSet('COM5');
+        // $serial->confBaudRate(9600);
+        // $serial->deviceOpen('w+');
 
-        stream_set_timeout($serial->_dHandle, 10);
+        // stream_set_timeout($serial->_dHandle, 10);
 
-        $serial->sendMessage('AT', 1);
-        echo $serial->readPort();
+        // $serial->sendMessage('AT', 1);
+        // echo $serial->readPort();
 
-        $serial->deviceClose();
+        // $serial->deviceClose();
     ?>
 </body>
 </html>

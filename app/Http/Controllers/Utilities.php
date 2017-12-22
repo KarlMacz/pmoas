@@ -76,7 +76,7 @@ trait Utilities
 
     public function sendSms($phoneNumber, $message) {
         $serial = new PhpSerial();
-        $serial->_os = 'windows';
+        $serial->_os = strtolower(env('PC_OS'));
 
         $serial->deviceSet(env('COM_PORT'));
         $serial->confBaudRate(env('COM_BAUD_PORT'));
