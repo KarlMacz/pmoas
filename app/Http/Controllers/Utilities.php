@@ -75,14 +75,14 @@ trait Utilities
     }
 
     public function sendSms($phoneNumber, $message) {
-        $serial = new PhpSerial;
+        $serial = new PhpSerial();
+        $serial->_os = 'windows';
 
         $serial->deviceSet(env('COM_PORT'));
+        $serial->confBaudRate(env('COM_BAUD_PORT'));
         $serial->deviceOpen('w+');
 
         stream_set_timeout($serial->_dHandle, 10);
-
-        $serial->confBaudRate(env('COM_BAUD_PORT'));
 
         $serial->sendMessage('AT', 1);
         $serial->sendMessage('AT+CMGF=1\n\r', 1);
