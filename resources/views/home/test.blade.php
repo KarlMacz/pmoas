@@ -17,6 +17,10 @@
 
             $serial->deviceSet(env('COM_PORT'));
             $serial->confBaudRate(env('COM_BAUD_RATE'));
+            $serial->confParity('none');
+            $serial->confCharacterLength(8);
+            $serial->confStopBits(1);
+            $serial->confFlowControl('none');
             $serial->deviceOpen('w+');
 
             $serial->sendMessage("AT+CMGF=1" . chr(13), 2);
