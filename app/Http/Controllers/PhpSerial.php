@@ -559,11 +559,15 @@ class PhpSerial
     {
         $this->_buffer .= $str;
 
+        $flag = false;
+
         if ($this->autoFlush === true) {
-            $this->serialflush();
+            $flag = $this->serialflush();
         }
 
         usleep((int) ($waitForReply * 1000000));
+
+        return $flag;
     }
 
     /**
