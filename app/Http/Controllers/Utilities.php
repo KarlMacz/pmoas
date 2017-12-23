@@ -84,9 +84,10 @@ trait Utilities
 
         stream_set_timeout($serial->_dHandle, 10);
 
-        $serial->sendMessage('AT', 1);
-        $serial->sendMessage('AT+CMGF=1\n\r', 1);
-        $serial->sendMessage('AT+CMGS="' . $phoneNumber . '" ' . $message . '\n\r', 2);
+        $serial->sendMessage("AT+CMGF=1" . chr(13), 2);
+        $serial->sendMessage("AT+CMGS=\"" . $phoneNumber . "\"" . chr(13), 2);
+        $serial->sendMessage("This is a sample message. Sent by " . config('company.name') . ".", 2);
+        $serial->sendMessage(chr(26));
 
         $serial->deviceClose();
     }

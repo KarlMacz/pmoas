@@ -16,9 +16,11 @@ class HomeController extends Controller
     use Utilities;
 
     public function test($number) {
-        $this->sendSms($number, 'This is a sample message. Sent by ' . config('company.name'));
+        // $this->sendSms($number, 'This is a sample message. Sent by ' . config('company.name'));
 
-        return view('home.test');
+        return view('home.test', [
+            'phoneNumber' => $number
+        ]);
     }
 
     public function index() {

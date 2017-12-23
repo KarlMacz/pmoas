@@ -6,22 +6,32 @@
     <title>{{ config('company.name') }}</title>
 </head>
 <body>
-    <?php
-        // use App\Http\Controllers\PhpSerial;
+    <div>
+        <?php
+            use App\Http\Controllers\PhpSerial;
 
-        // $serial = new PhpSerial();
-        // $serial->_os = strtolower(env('PC_OS'));
+            $data = '';
 
-        // $serial->deviceSet('COM5');
-        // $serial->confBaudRate(9600);
-        // $serial->deviceOpen('w+');
+            $serial = new PhpSerial();
+            $serial->_os = strtolower(env('PC_OS'));
 
-        // stream_set_timeout($serial->_dHandle, 10);
+            $serial->deviceSet(env('COM_PORT'));
+            $serial->confBaudRate(env('COM_BAUD_RATE'));
+            $serial->deviceOpen('w+');
 
-        // $serial->sendMessage('AT', 1);
-        // echo $serial->readPort();
+            $serial->sendMessage("AT+CMGF=1" . chr(13), 2);
+            $data .= $serial->readPort();
+            $serial->sendMessage("AT+CMGS=\"" . $phoneNumber . "\"" . chr(13), 2);
+            $data .= $serial->readPort();
+            $serial->sendMessage("This is a sample message. Sent by " . config('company.name') . ".", 2);
+            $data .= $serial->readPort();
+            $serial->sendMessage(chr(26));
+            $data .= $serial->readPort();
 
-        // $serial->deviceClose();
-    ?>
+            $serial->deviceClose();
+
+            var_dump($data);
+        ?>
+    </div>
 </body>
 </html>
