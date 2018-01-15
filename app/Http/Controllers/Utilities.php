@@ -86,8 +86,7 @@ trait Utilities
 
         while($data = $serialPort->read()) {
             if($data === 'OK') {
-                $serialPort->write('AT+CMGF=1\r');
-                $serialPort->write('AT+CMGS="' . $phoneNumber . '"\r' . $message . chr(26) . '\r');
+                $serialPort->write('AT\n\r');
                 $serialPort->close();
             }
         }
