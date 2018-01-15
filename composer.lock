@@ -1754,16 +1754,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.1",
+            "version": "v3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "ca20b8f9ef149f40ff656d52965f240d85f7a8e4"
+                "reference": "26b87b6bca8f8f797331a30b76fdae5342dc26ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ca20b8f9ef149f40ff656d52965f240d85f7a8e4",
-                "reference": "ca20b8f9ef149f40ff656d52965f240d85f7a8e4",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/26b87b6bca8f8f797331a30b76fdae5342dc26ca",
+                "reference": "26b87b6bca8f8f797331a30b76fdae5342dc26ca",
                 "shasum": ""
             },
             "require": {
@@ -1813,7 +1813,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-09T14:14:31+00:00"
+            "time": "2018-01-03T07:37:34+00:00"
         },
         {
             "name": "symfony/finder",
@@ -3751,16 +3751,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.3.14",
+            "version": "v3.3.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "36353762fdca3a0ecdce4640764efc885df979f6"
+                "reference": "7c80d81b5805589be151b85b0df785f0dc3269cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/36353762fdca3a0ecdce4640764efc885df979f6",
-                "reference": "36353762fdca3a0ecdce4640764efc885df979f6",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/7c80d81b5805589be151b85b0df785f0dc3269cf",
+                "reference": "7c80d81b5805589be151b85b0df785f0dc3269cf",
                 "shasum": ""
             },
             "require": {
@@ -3802,7 +3802,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-12-04T14:51:35+00:00"
+            "time": "2018-01-03T07:37:11+00:00"
         },
         {
             "name": "webmozart/assert",
