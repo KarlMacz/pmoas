@@ -75,6 +75,8 @@ trait Utilities
     }
 
     public function sendSms($phoneNumber, $message) {
+        $output = '';
+
         $serial = new PhpSerial();
         $serial->_os = strtolower(env('PC_OS'));
 
@@ -84,11 +86,17 @@ trait Utilities
 
         stream_set_timeout($serial->_dHandle, 10);
 
-        $serial->sendMessage("AT+CMGF=1" . chr(13), 2);
-        $serial->sendMessage("AT+CMGS=\"" . $phoneNumber . "\"" . chr(13), 2);
-        $serial->sendMessage("This is a sample message. Sent by " . config('company.name') . ".", 2);
-        $serial->sendMessage(chr(26));
+        $serial->sendMessage("AT+CREG=1\n\r", 2);
+        $output .= ':::' . $serial->readPort();
+        $serial->sendMessage("AT+CMGF=1\n\r", 2);
+        $output .= ':::' . $serial->readPort();
+        $serial->sendMessage("AT+CMGS=\"" . $phoneNumber . "\"\n\r", 2);
+        $output .= ':::' . $serial->readPort();
+        $serial->sendMessage($message . chr(26), 2);
+        $output .= ':::' . $serial->readPort();
 
         $serial->deviceClose();
+
+        return $output;
     }
 }

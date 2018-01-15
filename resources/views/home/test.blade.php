@@ -5,42 +5,34 @@
         return ($formula ? 'OK' : 'ERROR');
     }
 
-    $data = '';
-    $comPort = 'COM6';
-    $baud = env('COM_BAUD_RATE', 9600);
+    $serial = new PhpSerial();
+    $serial->_os = 'windows';
 
-    $serial = new PhpSerial;
-    $serial->_os = strtolower(env('PC_OS'));
+    $serial->deviceSet('COM4');
+    $serial->confBaudRate(9600);
+    $serial->deviceOpen('w+');
 
-    $serial->deviceSet($comPort);
-    // $serial->confBaudRate(115200);
-    // $serial->confCharacterLength(8);
-    // $serial->confStopBits(1);
-    // $serial->confParity('none');
-    // $serial->confFlowControl('none');
-    $serial->_exec('mode ' . $comPort . ' BAUD=' . $baud . ' PARITY=n DATA=8 STOP=1 xon=off octs=off rts=off dtr=on');
-    $isOpen = $serial->deviceOpen();
+    stream_set_timeout($serial->_dHandle, 10);
 
-    if($isOpen) {
-        // $serial->sendMessage("AT+CMGF=1" . chr(13), 2);
-        // $data .= $serial->readPort();
-        // $serial->sendMessage("AT+CMGS=\"" . $phoneNumber . "\"" . chr(13), 2);
-        // $data .= $serial->readPort();
-        // $serial->sendMessage("This is a sample message. Sent by " . config('company.name') . ".", 2);
-        // $data .= $serial->readPort();
-        // $serial->sendMessage(chr(26));
-        // $data .= $serial->readPort();
+    $serial->sendMessage("AT+CREG=1\n\r");
 
-        $serial->sendMessage("AT+CMGF=1\r\n", 3);
-        $serial->sendMessage("AT+CMGS=\"" . $phoneNumber . "\"\r\n", 3);
-        $serial->sendMessage("Bal\r\n", 3);
-        $serial->sendMessage(chr(26) . "\r\n", 3);
+    var_dump($serial->readPort());
+    echo '<br>';
 
-        sleep(6);
-        var_dump($serial->readPort());
+    $serial->sendMessage("AT+CMGF=1\n\r", 2);
 
-        $serial->deviceClose();
-    } else {
-        echo 'Unable to open device.';
-    }
+    var_dump($serial->readPort());
+    echo '<br>';
+
+    $serial->sendMessage("AT+CMGS=\"09068563348\"\n\r", 2);
+    
+    var_dump($serial->readPort());
+    echo '<br>';
+
+    $serial->sendMessage("Test Message. " . date('Y-m-d H:i:s') . chr(26), 2);
+    
+    var_dump($serial->readPort());
+    echo '<br>';
+
+    $serial->deviceClose();
 ?>

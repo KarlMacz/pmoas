@@ -15,12 +15,10 @@ class HomeController extends Controller
 {
     use Utilities;
 
-    public function test($number) {
-        // $this->sendSms($number, 'This is a sample message. Sent by ' . config('company.name'));
+    public function test() {
+        // $this->sendSms($number, $message);
 
-        return view('home.test', [
-            'phoneNumber' => $number
-        ]);
+        return view('home.test');
     }
 
     public function index() {
