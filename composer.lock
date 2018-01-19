@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4dcf959ff128c6204e641fd52e5a87b",
+    "content-hash": "d8d55b121dd7946e13dcf6679d49a34a",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -816,44 +816,6 @@
                 "storage"
             ],
             "time": "2017-08-06T17:41:04+00:00"
-        },
-        {
-            "name": "lepiaf/serialport",
-            "version": "v1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lepiaf/serialport.git",
-                "reference": "dbec0eb5f32dd30b79b8e69cf6e18493ce0a3452"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lepiaf/serialport/zipball/dbec0eb5f32dd30b79b8e69cf6e18493ce0a3452",
-                "reference": "dbec0eb5f32dd30b79b8e69cf6e18493ce0a3452",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "lepiaf\\SerialPort\\": "src/lepiaf/SerialPort"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thierry Thuon",
-                    "email": "lepiaf@users.noreply.github.com"
-                }
-            ],
-            "description": "Serial port access convenience class",
-            "time": "2017-03-13T13:29:35+00:00"
         },
         {
             "name": "monolog/monolog",

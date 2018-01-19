@@ -75,20 +75,30 @@ trait Utilities
     }
 
     public function sendSms($phoneNumber, $message) {
-        $configure = new TTYConfigure();
-        
-        $configure->removeOption('9600');
-        $configure->setOption(env('COM_BAUD_RATE'));
+        // $output = '';
 
-        $serialPort = new SerialPort(new SeparatorParser(), $configure);
+        exec("mode " . env('COM_PORT') . " BAUD=" . env('COM_BAUD_RATE') . " PARITY=n DATA=8 xon=off");
+        $port = fopen(env('COM_PORT'), 'w+');
 
-        $serialPort->open(env('COM_PORT'));
+        fwrite($port, "AT+CREG=1\r");
+        sleep(2);
 
-        while($data = $serialPort->read()) {
-            if($data === 'OK') {
-                $serialPort->write('AT\n\r');
-                $serialPort->close();
-            }
-        }
+        // $output .= nl2br(fread($port, 128));
+
+        fwrite($port, "AT+CMGF=1\r");
+        sleep(2);
+
+        // $output .= nl2br(fread($port, 128));
+
+        fwrite($port, "AT+CMGS=\"" . $phoneNumber . "\"\r");
+        sleep(1);
+        fwrite($port, $message . chr(26));
+        sleep(2);
+
+        // $output .= nl2br(fread($port, 128));
+
+        fclose($port);
+
+        // return $output;
     }
 }
