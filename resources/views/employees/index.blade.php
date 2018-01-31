@@ -27,7 +27,7 @@
                         @endif
                     @endforeach
 
-                    @if($criticalCounter > 0)
+                    @if($criticalCounter === 0)
                         <div class="alert alert-primary">
                             <h5 class="text-center no-margin">No stocks in critical level found.</h5>
                         </div>
