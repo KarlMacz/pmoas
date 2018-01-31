@@ -5,6 +5,10 @@ blockquote footer {
     color: #999;
 }
 
+.list-group-item-text {
+    word-wrap: break-word;
+}
+
 .navbar.navbar-fixed-top + .body-content {
     padding-top: 60px;
 }
@@ -179,6 +183,31 @@ hr.minimalist {
 .card.card-danger {
     background-color: #e74c3c;
     color: white;
+}
+
+.profiler {
+    margin-bottom: 15px;
+}
+
+.profiler > .image {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+    height: 40px;
+}
+
+.profiler > .title {
+    display: inline-block;
+    font-size: 2em;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.profiler > .sub-title {
+    display: inline-block;
+    font-size: 1.25em;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .rating {
