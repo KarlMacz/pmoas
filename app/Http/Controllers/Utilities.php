@@ -75,30 +75,32 @@ trait Utilities
     }
 
     public function sendSms($phoneNumber, $message) {
-        // $output = '';
+        if(env('COM_PORT', null) !== null) {
+            // $output = '';
 
-        exec("mode " . env('COM_PORT') . " BAUD=" . env('COM_BAUD_RATE') . " PARITY=n DATA=8 xon=off");
-        $port = fopen(env('COM_PORT'), 'w+');
+            exec("mode " . env('COM_PORT') . " BAUD=" . env('COM_BAUD_RATE') . " PARITY=n DATA=8 xon=off");
+            $port = fopen(env('COM_PORT'), 'w+');
 
-        fwrite($port, "AT+CREG=1\r");
-        sleep(2);
+            fwrite($port, "AT+CREG=1\r");
+            sleep(2);
 
-        // $output .= nl2br(fread($port, 128));
+            // $output .= nl2br(fread($port, 128));
 
-        fwrite($port, "AT+CMGF=1\r");
-        sleep(2);
+            fwrite($port, "AT+CMGF=1\r");
+            sleep(2);
 
-        // $output .= nl2br(fread($port, 128));
+            // $output .= nl2br(fread($port, 128));
 
-        fwrite($port, "AT+CMGS=\"" . $phoneNumber . "\"\r");
-        sleep(1);
-        fwrite($port, $message . chr(26));
-        sleep(2);
+            fwrite($port, "AT+CMGS=\"" . $phoneNumber . "\"\r");
+            sleep(1);
+            fwrite($port, $message . chr(26));
+            sleep(2);
 
-        // $output .= nl2br(fread($port, 128));
+            // $output .= nl2br(fread($port, 128));
 
-        fclose($port);
+            fclose($port);
 
-        // return $output;
+            // return $output;
+        }
     }
 }
