@@ -38,6 +38,7 @@ class EmployeeController extends Controller
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('employees.index', [
+            'products' => Products::get(),
             'pendingTransactions' => Transactions::where('delivery_status', 'Pending')->get(),
             'dispatchedTransactions' => Transactions::where('delivery_status', 'Dispatched')->get(),
             'logs' => Logs::orderBy('created_at', 'desc')->get()

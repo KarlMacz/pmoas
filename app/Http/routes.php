@@ -107,6 +107,18 @@ Route::group(['as' => 'clients.'], function() {
     });
 });
 
+Route::group(['as' => 'profile.'], function() {
+    Route::group(['as' => 'get.'], function() {
+        Route::get('profile', ['as' => 'index', 'uses' => 'ProfileController@index']);
+    });
+
+    Route::group(['as' => 'post.'], function() {
+        Route::post('profile/update/account', ['as' => 'update_account', 'uses' => 'ProfileController@postUpdateAccount']);
+        Route::post('profile/update/password', ['as' => 'update_password', 'uses' => 'ProfileController@postUpdatePassword']);
+        Route::post('profile/update/info', ['as' => 'update_info', 'uses' => 'ProfileController@postUpdateInfo']);
+    });
+});
+
 Route::group(['as' => 'payments.'], function() {
     Route::group(['as' => 'get.'], function() {
         Route::get('payment/paypal/status/{tid?}', ['as' => 'paypal_status', 'uses' => 'PaymentController@payPalStatus']);

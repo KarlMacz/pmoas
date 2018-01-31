@@ -39,9 +39,6 @@
                                         </form>
                                     @endif
                                 @endif
-                                @if($transaction->delivery_status === 'Delivered')
-                                    <button class="mark-transaction-button btn btn-primary btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-check fa-fw"></span> Mark as Delivered</button>
-                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -42,6 +42,8 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{{ route('home.get.index') }}">Homepage</a></li>
                                 <li class="divider"></li>
+                                <li><a href="{{ route('profile.get.index') }}">Profile</a></li>
+                                <li class="divider"></li>
                                 <li><a href="{{ route('auth.get.logout') }}">Logout</a></li>
                             </ul>
                         </li>

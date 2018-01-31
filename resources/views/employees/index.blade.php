@@ -8,10 +8,39 @@
         <div class="row">
             <div class="col-sm-8">
                 <h3 class="column-header">
-                    <span>Pending Client Order(s)</span>
-                    @if($pendingTransactions->count() > 0)
-                        <a href="{{ route('employees.get.orders') }}" class="btn btn-primary btn-xs pull-right"><span class="fa fa-reply fa-fw"></span> Go to Client Orders</a>
+                    <span>Stock(s) in Critical Level</span>
+                    <a href="{{ route('employees.get.warehouse') }}" class="btn btn-primary btn-xs pull-right"><span class="fa fa-reply fa-fw"></span> Go to Warehouse Management</a>
+                </h3>
+                @if($products->count() > 0)
+                    <?php
+                        $criticalCounter = 0;
+                    ?>
+                    @foreach($products as $product)
+                        @if($product->remaining_quantity <= $product->quantity_critical_level)
+                            <?php
+                                $criticalCounter++;
+                            ?>
+                            <div class="alert alert-danger">
+                                <h3 class="no-margin">{{ $product->name }}</h3>
+                                <h5 class="no-margin">Quantity Remaining: {{ $product->remaining_quantity }}</h5>
+                            </div>
+                        @endif
+                    @endforeach
+
+                    @if($criticalCounter > 0)
+                        <div class="alert alert-primary">
+                            <h5 class="text-center no-margin">No stocks in critical level found.</h5>
+                        </div>
                     @endif
+                @else
+                    <div class="alert alert-primary">
+                        <h5 class="text-center no-margin">No stocks in critical level found.</h5>
+                    </div>
+                @endif
+                <hr>
+                <h3 class="column-header">
+                    <span>Pending Client Order(s)</span>
+                    <a href="{{ route('employees.get.orders') }}" class="btn btn-primary btn-xs pull-right"><span class="fa fa-reply fa-fw"></span> Go to Client Orders</a>
                 </h3>
                 @if($pendingTransactions->count() > 0)
                     @foreach($pendingTransactions as $transaction)
@@ -44,17 +73,15 @@
                         <h5 class="text-center no-margin">No pending client orders found.</h5>
                     </div>
                 @endif
-                <br>
-                <h3 class="column-header">
+                <hr>
+                <h3 class="hr-header">
                     <span>Dispatched Client Order(s)</span>
-                    @if($dispatchedTransactions->count() > 0)
-                        <a href="{{ route('employees.get.orders') }}" class="btn btn-primary btn-xs pull-right"><span class="fa fa-reply fa-fw"></span> Go to Client Orders</a>
-                    @endif
+                    <a href="{{ route('employees.get.orders') }}" class="btn btn-primary btn-xs pull-right"><span class="fa fa-reply fa-fw"></span> Go to Client Orders</a>
                 </h3>
                 @if($dispatchedTransactions->count() > 0)
                     @foreach($dispatchedTransactions as $transaction)
                         @if($transaction->delivery_status === 'Dispatched')
-                            <div class="alert alert-info">
+                            <div class="alert alert-success">
                                 <h3 class="no-margin">Transaction ID No. {{ sprintf('%010d', $transaction->id) }}</h3>
                                 <h5 style="margin: 15px 0;">
                                     <div style="margin: 0 0 5px 10px;">
