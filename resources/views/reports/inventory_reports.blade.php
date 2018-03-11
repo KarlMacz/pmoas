@@ -25,12 +25,14 @@
             <tbody>
                 @if(count($reports) > 0)
                     @foreach($reports as $report)
-                        <tr>
-                            <td>{{ $report }}</td>
-                            <td class="text-center">
-                                <button class="view-report-button btn btn-primary btn-xs" data-type="inventory" data-id="{{ $report }}"><span class="fa fa-th-list fa-fw"></span> View</button>
-                            </td>
-                        </tr>
+                        @if($report !== '.gitignore')
+                            <tr>
+                                <td>{{ $report }}</td>
+                                <td class="text-center">
+                                    <button class="view-report-button btn btn-primary btn-xs" data-type="inventory" data-id="{{ $report }}"><span class="fa fa-th-list fa-fw"></span> View</button>
+                                </td>
+                            </tr>
+                        @endif
                     @endforeach
                 @else
                     <tr>

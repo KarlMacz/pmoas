@@ -100,6 +100,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/reports/product_information'),
         ],
+        'receipts' => [
+            'driver' => 'local',
+            'root' => storage_path('app/receipts'),
+        ],
     ],
 
 ];

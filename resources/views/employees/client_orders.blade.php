@@ -1,6 +1,7 @@
 @extends('layouts.employees')
 
 @section('meta')
+    <meta name="main-route" content="{{ url('/') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
@@ -50,9 +51,8 @@
                                     @endif
                                     <button class="delete-transaction-button btn btn-danger btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-trash fa-fw"></span> Delete</button>
                                 @elseif($transaction->delivery_status === 'Dispatched')
+                                    <button class="print-transaction-receipt-button btn btn-info btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-print fa-fw"></span> Print Receipt</button>
                                     <button class="mark-transaction-button btn btn-primary btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-check fa-fw"></span> Mark as Delivered</button>
-                                @else
-                                    <div class="text-center">No actions needed to perform.</div>
                                 @endif
                             </td>
                         </tr>

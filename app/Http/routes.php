@@ -67,6 +67,7 @@ Route::group(['as' => 'employees.'], function() {
         Route::get('reports/supplier', ['as' => 'reports_supplier', 'uses' => 'EmployeeController@supplierReport']);
         Route::get('reports/product_information', ['as' => 'reports_product_information', 'uses' => 'EmployeeController@productInformationReport']);
         Route::get('reports/view/{type}/{file}', ['as' => 'reports_view', 'uses' => 'EmployeeController@viewReport']);
+        Route::get('receipts/view/{id}', ['as' => 'receipts_view', 'uses' => 'EmployeeController@viewReceipt']);
         Route::get('help/employees', ['as' => 'help', 'uses' => 'EmployeeController@help']);
     });
 

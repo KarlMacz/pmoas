@@ -4,4 +4,6 @@
 !documents/
 !contracts/
 !public/
+!receipts/
+!reports/
 !.gitignore

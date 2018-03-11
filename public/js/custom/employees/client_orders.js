@@ -38,6 +38,11 @@ $(document).ready(function() {
         openModal('mark-transaction-modal', 'static');
     });
 
+    $('.print-transaction-receipt-button').click(function() {
+        setModalContent('status-modal', 'View Receipt', '<iframe src="' + $('meta[name="main-route"]').attr('content') + '/receipts/view/' + $(this).data('id') + '" frameborder="0" style="height: 400px; width: 100%;"></iframe>');
+        delayOpenModal('status-modal');
+    });
+
     $('#mark-transaction-modal .yes-button').click(function() {
         closeModal('mark-transaction-modal');
         delayOpenModal('loading-modal', 'static');

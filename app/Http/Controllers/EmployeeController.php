@@ -28,7 +28,7 @@ use App\Transactions;
 
 class EmployeeController extends Controller
 {
-    use Reports, Utilities;
+    use Receipts, Reports, Utilities;
 
     public function __construct() {
         $this->middleware(['auth', 'employees']);
@@ -289,6 +289,14 @@ class EmployeeController extends Controller
         }
 
         return response(Storage::disk($disk)->get($file), 200)->header('Content-Type', 'application/pdf');
+    }
+
+    public function viewReceipt($id) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        $this->generateReceipt($id);
+
+        return response(Storage::disk('receipts')->get('order_receipt_' . sprintf('%010d', $id) . '.pdf'), 200)->header('Content-Type', 'application/pdf');
     }
 
     public function orders() {
@@ -753,7 +761,7 @@ class EmployeeController extends Controller
         if($transaction) {
             $query = Transactions::where('id', $request->input('id'))->update([
                 'delivery_status' => 'Dispatched',
-                'datetime_delivered' => date('Y-m-d')
+                'datetime_delivered' => date('Y-m-d H:i:s')
             ]);
 
             if($query) {
