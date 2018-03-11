@@ -1,0 +1,7 @@
+*
+!deliveries/
+!inventories/
+!product_information/
+!sales/
+!suppliers/
+!.gitignore
