@@ -110,7 +110,9 @@ class ClientController extends Controller
         if($data['contract']) {
             $pdf = PDF::loadView('pdf.contract', $data);
 
-            return $pdf->stream();
+            return $pdf->stream('contract_' . hash('sha256', $contract->id) . '.pdf', [
+                'Attachment' => false
+            ]);
         }
     }
 
