@@ -9,18 +9,20 @@ $(document).ready(function() {
 
     $('#delete-supplier-modal .yes-button').click(function() {
         closeModal('delete-supplier-modal');
-        delayOpenModal('loading-modal', 'static');
+        openModal('loading-modal', 'static');
 
         ajaxRequest('/suppliers/delete', 'POST', {
             id: supplierId
         }, function(response) {
             closeModal('loading-modal');
             setModalContent('status-modal', 'Delete Supplier', response.message);
-            delayOpenModal('status-modal', 'static');
+            openModal('status-modal', 'static');
 
-            delayCloseModal('status-modal', function() {
+            setTimeout(function() {
+                closeModal('status-modal');
+
                 location.reload();
-            });
+            }, 2000);
         });
     });
 

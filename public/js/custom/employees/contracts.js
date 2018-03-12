@@ -9,18 +9,20 @@ $(document).ready(function() {
 
     $('#delete-contract-modal .yes-button').click(function() {
         closeModal('delete-contract-modal');
-        delayOpenModal('loading-modal', 'static');
+        openModal('loading-modal', 'static');
 
         ajaxRequest('/enterprise_contracts/delete', 'POST', {
             id: contractId
         }, function(response) {
             closeModal('loading-modal');
             setModalContent('status-modal', 'Delete Contract', response.message);
-            delayOpenModal('status-modal', 'static');
+            openModal('status-modal', 'static');
 
-            delayCloseModal('status-modal', function() {
+            setTimeout(function() {
+                closeModal('status-modal');
+
                 location.reload();
-            });
+            }, 2000);
         });
     });
 

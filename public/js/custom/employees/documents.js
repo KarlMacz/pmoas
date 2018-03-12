@@ -9,18 +9,20 @@ $(document).ready(function() {
 
     $('#delete-document-modal .yes-button').click(function() {
         closeModal('delete-document-modal');
-        delayOpenModal('loading-modal', 'static');
+        openModal('loading-modal', 'static');
 
         ajaxRequest('/enterprise_contracts/document/delete', 'POST', {
             id: documentId
         }, function(response) {
             closeModal('loading-modal');
             setModalContent('status-modal', 'Delete Document', response.message);
-            delayOpenModal('status-modal', 'static');
+            openModal('status-modal', 'static');
 
-            delayCloseModal('status-modal', function() {
+            setTimeout(function() {
+                closeModal('status-modal');
+
                 location.reload();
-            });
+            }, 2000);
         });
     });
 

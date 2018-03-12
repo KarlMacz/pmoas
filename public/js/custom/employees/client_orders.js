@@ -9,18 +9,20 @@ $(document).ready(function() {
 
     $('#confirm-transaction-modal .yes-button').click(function() {
         closeModal('confirm-transaction-modal');
-        delayOpenModal('loading-modal', 'static');
+        openModal('loading-modal', 'static');
 
         ajaxRequest('/client_orders/confirm', 'POST', {
             id: transactionId
         }, function(response) {
             closeModal('loading-modal');
             setModalContent('status-modal', 'Confirm Transaction', response.message);
-            delayOpenModal('status-modal', 'static');
+            openModal('status-modal', 'static');
 
-            delayCloseModal('status-modal', function() {
+            setTimeout(function() {
+                closeModal('status-modal');
+
                 location.reload();
-            });
+            }, 2000);
         });
     });
 
@@ -38,23 +40,25 @@ $(document).ready(function() {
 
     $('.print-transaction-receipt-button').click(function() {
         setModalContent('status-modal', 'View Receipt', '<iframe src="' + $('meta[name="main-route"]').attr('content') + '/receipts/view/' + $(this).data('id') + '" frameborder="0" style="height: 400px; width: 100%;"></iframe>');
-        delayOpenModal('status-modal');
+        openModal('status-modal');
     });
 
     $('#mark-transaction-modal .yes-button').click(function() {
         closeModal('mark-transaction-modal');
-        delayOpenModal('loading-modal', 'static');
+        openModal('loading-modal', 'static');
 
         ajaxRequest('/client_orders/mark', 'POST', {
             id: transactionId
         }, function(response) {
             closeModal('loading-modal');
             setModalContent('status-modal', 'Mark Transaction as Delivered', response.message);
-            delayOpenModal('status-modal', 'static');
+            openModal('status-modal', 'static');
 
-            delayCloseModal('status-modal', function() {
+            setTimeout(function() {
+                closeModal('status-modal');
+
                 location.reload();
-            });
+            }, 2000);
         });
     });
 
@@ -72,18 +76,20 @@ $(document).ready(function() {
 
     $('#delete-transaction-modal .yes-button').click(function() {
         closeModal('delete-transaction-modal');
-        delayOpenModal('loading-modal', 'static');
+        openModal('loading-modal', 'static');
 
         ajaxRequest('/client_orders/delete', 'POST', {
             id: transactionId
         }, function(response) {
             closeModal('loading-modal');
             setModalContent('status-modal', 'Delete Transaction', response.message);
-            delayOpenModal('status-modal', 'static');
+            openModal('status-modal', 'static');
 
-            delayCloseModal('status-modal', function() {
+            setTimeout(function() {
+                closeModal('status-modal');
+
                 location.reload();
-            });
+            }, 2000);
         });
     });
 

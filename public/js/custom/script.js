@@ -38,7 +38,7 @@ function delayCloseModal(id, doSomething) {
     setTimeout(function() {
         $('#' + id + '.modal').modal('hide');
 
-        if(backdrop !== undefined && backdrop !== null) {
+        if(doSomething !== undefined && doSomething !== null) {
             doSomething();
         }
     }, 2000);
