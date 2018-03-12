@@ -51,6 +51,9 @@ Route::group(['as' => 'employees.'], function() {
         Route::get('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@editProduct']);
         Route::get('warehouse_management', ['as' => 'warehouse', 'uses' => 'EmployeeController@warehouse']);
         Route::get('warehouse_management/restock/{id}', ['as' => 'warehouse_restock', 'uses' => 'EmployeeController@warehouseRestock']);
+        Route::get('suppliers', ['as' => 'suppliers', 'uses' => 'EmployeeController@suppliers']);
+        Route::get('suppliers/add', ['as' => 'suppliers_add', 'uses' => 'EmployeeController@addSupplier']);
+        Route::get('suppliers/edit/{id}', ['as' => 'suppliers_edit', 'uses' => 'EmployeeController@editSupplier']);
         Route::get('enterprise_contracts', ['as' => 'contracts', 'uses' => 'EmployeeController@contracts']);
         Route::get('enterprise_contracts/add', ['as' => 'contracts_add', 'uses' => 'EmployeeController@addContract']);
         Route::get('enterprise_contracts/{id}/document', ['as' => 'contract_documents', 'uses' => 'EmployeeController@document']);
@@ -81,6 +84,9 @@ Route::group(['as' => 'employees.'], function() {
         Route::post('products_catalogue/edit/{id}', ['as' => 'products_edit', 'uses' => 'EmployeeController@postEditProduct']);
         Route::post('products_catalogue/delete', ['as' => 'products_delete', 'uses' => 'EmployeeController@postDeleteProduct']);
         Route::post('warehouse_management/restock/{id}', ['as' => 'warehouse_restock', 'uses' => 'EmployeeController@postWarehouseRestock']);
+        Route::post('suppliers/add', ['as' => 'suppliers_add', 'uses' => 'EmployeeController@postAddSupplier']);
+        Route::post('suppliers/edit/{id}', ['as' => 'suppliers_edit', 'uses' => 'EmployeeController@postEditSupplier']);
+        Route::post('suppliers/delete', ['as' => 'suppliers_delete', 'uses' => 'EmployeeController@postDeleteSupplier']);
         Route::post('enterprise_contracts/add', ['as' => 'contracts_add', 'uses' => 'EmployeeController@postAddContract']);
         Route::post('enterprise_contracts/delete', ['as' => 'contracts_delete', 'uses' => 'EmployeeController@postDeleteContract']);
         Route::post('enterprise_contracts/{id}/document/add', ['as' => 'contract_documents_add', 'uses' => 'EmployeeController@postAddDocument']);
