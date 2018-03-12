@@ -6,6 +6,7 @@ use PDF;
 use Storage;
 
 use App\Products;
+use App\Suppliers;
 use App\Transactions;
 
 trait Reports
@@ -62,6 +63,18 @@ trait Reports
         ]);
 
         Storage::disk('delivery_report')->put($reportFilename, $pdf->output());
+    }
+
+    public function generateSupplierReport() {
+        $range = date('Y_m_d');
+        $suppliers = Suppliers::get();
+
+        $reportFilename = $range . '_supplier_report.pdf';
+        $pdf = PDF::loadView('pdf.supplier_reports', [
+            'suppliers' => $suppliers
+        ]);
+
+        Storage::disk('product_information_report')->put($reportFilename, $pdf->output());
     }
 
     public function generateProductInformationReport() {
