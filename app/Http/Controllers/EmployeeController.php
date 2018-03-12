@@ -243,6 +243,10 @@ class EmployeeController extends Controller
     public function supplierReport() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
         
+        if(!Storage::disk('supplier_report')->exists(date('Y_m_d') . '_supplier_report.pdf')) {
+            $this->generateSupplierReport();
+        }
+
         return view('reports.supplier_reports', [
             'reports' => Storage::disk('supplier_report')->files()
         ]);
