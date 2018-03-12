@@ -15,6 +15,9 @@
         <div>Inventory Report</div>
     </div>
     <div class="container-spacious">
+        <div class="form-group text-right">
+            <button type="button" class="generate-report-button btn btn-primary" data-type="inventory"><span class="fa fa-refresh fa-fw"></span> Generate Report</button>
+        </div>
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
