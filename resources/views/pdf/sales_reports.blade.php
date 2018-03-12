@@ -131,20 +131,22 @@
                 <?php
                     $totalEarnings = 0;
                 ?>
-                @foreach($transactions as $transaction)
-                    <?php
-                        $totalEarnings += $transaction->total_amount;
-                    ?>
-                    <tr>
-                        <td>{{ $transaction->id }}</td>
-                        <td>
-                            @foreach($transaction->orders as $order)
-                                <div>{{ $order->product->name }} (x{{ $order->quantity }})</div>
-                            @endforeach
-                        </td>
-                        <td>Php {{ $transaction->total_amount }}</td>
-                    </tr>
-                @endforeach
+                @if($transactions->count() > 0)
+                    @foreach($transactions as $transaction)
+                        <?php
+                            $totalEarnings += $transaction->total_amount;
+                        ?>
+                        <tr>
+                            <td>{{ $transaction->id }}</td>
+                            <td>
+                                @foreach($transaction->orders as $order)
+                                    <div>{{ $order->product->name }} (x{{ $order->quantity }})</div>
+                                @endforeach
+                            </td>
+                            <td>Php {{ $transaction->total_amount }}</td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
             <tfoot>
                 <tr>

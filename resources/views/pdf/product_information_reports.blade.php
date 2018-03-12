@@ -128,22 +128,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($products as $product)
-                    <?php
-                        $daysUntilExpiration = (strtotime($product->stocks->last()->expiration_date) - strtotime(date('Y-m-d H:i:s'))) / 86400;
-                    ?>
-                    <tr>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ date('F d, Y', strtotime($product->stocks->last()->expiration_date)) }}</td>
-                        <td>
-                            @if($daysUntilExpiration <= 7)
-                                <span style="color: #e74c3c;">Near expiration.</span>
-                            @else
-                                <span style="color: #18bc9c;">Good</span>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
+                @if($products->count() > 0)
+                    @foreach($products as $product)
+                        <?php
+                            $daysUntilExpiration = (strtotime($product->stocks->last()->expiration_date) - strtotime(date('Y-m-d H:i:s'))) / 86400;
+                        ?>
+                        <tr>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ date('F d, Y', strtotime($product->stocks->last()->expiration_date)) }}</td>
+                            <td>
+                                @if($daysUntilExpiration <= 7)
+                                    <span style="color: #e74c3c;">Near expiration.</span>
+                                @else
+                                    <span style="color: #18bc9c;">Good</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>

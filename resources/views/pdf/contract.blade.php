@@ -151,9 +151,11 @@
                 <tr>
                     <td width="25%" class="text-right">Rules / Prohibitions:</td>
                     <td>
-                        @foreach($contract->rules as $rule)
-                            <div>{{ $rule->rule }}</div>
-                        @endforeach
+                        @if($contract->rules->count() > 0)
+                            @foreach($contract->rules as $rule)
+                                <div>{{ $rule->rule }}</div>
+                            @endforeach
+                        @endif
                     </td>
                 </tr>
             </tbody>

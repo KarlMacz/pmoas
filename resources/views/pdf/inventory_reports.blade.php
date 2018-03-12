@@ -127,12 +127,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($products as $product)
-                    <tr>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->remaining_quantity }}</td>
-                    </tr>
-                @endforeach
+                @if($products->count() > 0)
+                    @foreach($products as $product)
+                        <tr>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->remaining_quantity }}</td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>

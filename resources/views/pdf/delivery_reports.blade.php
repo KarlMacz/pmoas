@@ -128,17 +128,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($transactions as $transaction)
-                    <tr>
-                        <td>{{ $transaction->account->user_info->first_name . ' ' . $transaction->account->user_info->last_name }}</td>
-                        <td>
-                            @foreach($transaction->orders as $order)
-                                <div>{{ $order->product->name }} (x{{ $order->quantity }})</div>
-                            @endforeach
-                        </td>
-                        <td>{{ $transaction->datetime_delivered }}</td>
-                    </tr>
-                @endforeach
+                @if($transactions->count() > 0)
+                    @foreach($transactions as $transaction)
+                        <tr>
+                            <td>{{ $transaction->account->user_info->first_name . ' ' . $transaction->account->user_info->last_name }}</td>
+                            <td>
+                                @foreach($transaction->orders as $order)
+                                    <div>{{ $order->product->name }} (x{{ $order->quantity }})</div>
+                                @endforeach
+                            </td>
+                            <td>{{ $transaction->datetime_delivered }}</td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>
