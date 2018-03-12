@@ -16,6 +16,8 @@ class CreateStocksTable extends Migration
             $table->increments('id');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('supplier_id')->unsigned();
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->integer('quantity')->unsigned();
             $table->double('total_amount');
             $table->date('expiration_date');
