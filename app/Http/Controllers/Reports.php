@@ -33,7 +33,7 @@ trait Reports
                 break;
         }
 
-        $reportFilename = $range . '_' . $rangeType . '_sales_report.pdf';
+        $reportFilename = $rangeType . '_sales_report_' . $range . '.pdf';
         $pdf = PDF::loadView('pdf.sales_reports', [
             'type' => $rangeType,
             'transactions' => $transactions
@@ -45,7 +45,7 @@ trait Reports
     public function generateInventoryReport() {
         $range = date('Y_m_d');
 
-        $reportFilename = $range . '_inventory_report.pdf';
+        $reportFilename = 'inventory_report_' . $range . '.pdf';
         $pdf = PDF::loadView('pdf.inventory_reports', [
             'products' => Products::get()
         ]);
@@ -57,7 +57,7 @@ trait Reports
         $range = date('Y_m_d', strtotime('-1 day'));
         $transactions = Transactions::where('datetime_delivered', 'like', date('Y-m-d', strtotime('-1 day')))->where('delivery_status', 'Delivered')->get();
 
-        $reportFilename = $range . '_delivery_report.pdf';
+        $reportFilename = 'delivery_report_' . $range . '.pdf';
         $pdf = PDF::loadView('pdf.delivery_reports', [
             'transactions' => $transactions
         ]);
@@ -69,7 +69,7 @@ trait Reports
         $range = date('Y_m_d');
         $suppliers = Suppliers::get();
 
-        $reportFilename = $range . '_supplier_report.pdf';
+        $reportFilename = 'supplier_report_' . $range . '.pdf';
         $pdf = PDF::loadView('pdf.supplier_reports', [
             'suppliers' => $suppliers
         ]);
@@ -81,7 +81,7 @@ trait Reports
         $range = date('Y_m_d');
         $products = Products::get();
 
-        $reportFilename = $range . '_product_information_report.pdf';
+        $reportFilename = 'product_information_report_' . $range . '.pdf';
         $pdf = PDF::loadView('pdf.product_information_reports', [
             'products' => $products
         ]);

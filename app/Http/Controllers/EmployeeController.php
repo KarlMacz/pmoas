@@ -196,20 +196,56 @@ class EmployeeController extends Controller
         ]);
     }
 
+    public function startGeneratingReport($type) {
+        switch($type) {
+            case 'sales':
+                if(!Storage::disk('sales_report')->exists('daily_sales_report_' . date('Y_m_d', strtotime('-1 day')) . '.pdf')) {
+                    $this->generateSalesReport('daily');
+                }
+
+                if(!Storage::disk('sales_report')->exists('monthly_sales_report_' . date('Y_m', strtotime('-1 month')) . '.pdf')) {
+                    $this->generateSalesReport('monthly');
+                }
+
+                if(!Storage::disk('sales_report')->exists('yearly_sales_report_' . date('Y', strtotime('-1 year')) . '.pdf')) {
+                    $this->generateSalesReport('yearly');
+                }
+
+                break;
+            case 'inventory':
+                if(!Storage::disk('inventory_report')->exists('inventory_report_' . date('Y_m_d') . '.pdf')) {
+                    $this->generateInventoryReport();
+                }
+
+                break;
+            case 'delivery':
+                if(!Storage::disk('delivery_report')->exists('delivery_report_' . date('Y_m_d', strtotime('-1 day')) . '.pdf')) {
+                    $this->generateDeliveryReport();
+                }
+
+                break;
+            case 'supplier':
+                if(!Storage::disk('supplier_report')->exists('supplier_report_' . date('Y_m_d') . '.pdf')) {
+                    $this->generateSupplierReport();
+                }
+                
+                break;
+            case 'product_information':
+                if(!Storage::disk('product_information_report')->exists('product_information_report_' . date('Y_m_d') . '.pdf')) {
+                    $this->generateProductInformationReport();
+                }
+
+                break;
+        }
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Generator has been executed.'
+        ]);
+    }
+
     public function salesReport() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
-
-        if(!Storage::disk('sales_report')->exists(date('Y_m_d', strtotime('-1 day')) . '_daily_sales_report.pdf')) {
-            $this->generateSalesReport('daily');
-        }
-
-        if(!Storage::disk('sales_report')->exists(date('Y_m', strtotime('-1 month')) . '_monthly_sales_report.pdf')) {
-            $this->generateSalesReport('monthly');
-        }
-
-        if(!Storage::disk('sales_report')->exists(date('Y', strtotime('-1 year')) . '_yearly_sales_report.pdf')) {
-            $this->generateSalesReport('yearly');
-        }
         
         return view('reports.sales_reports', [
             'reports' => Storage::disk('sales_report')->files()
@@ -218,10 +254,6 @@ class EmployeeController extends Controller
 
     public function inventoryReport() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
-
-        if(!Storage::disk('inventory_report')->exists(date('Y_m_d') . '_inventory_report.pdf')) {
-            $this->generateInventoryReport();
-        }
         
         return view('reports.inventory_reports', [
             'reports' => Storage::disk('inventory_report')->files()
@@ -230,10 +262,6 @@ class EmployeeController extends Controller
 
     public function deliveryReport() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
-        
-        if(!Storage::disk('delivery_report')->exists(date('Y_m_d', strtotime('-1 day')) . '_delivery_report.pdf')) {
-            $this->generateDeliveryReport();
-        }
 
         return view('reports.delivery_reports', [
             'reports' => Storage::disk('delivery_report')->files()
@@ -242,10 +270,6 @@ class EmployeeController extends Controller
 
     public function supplierReport() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
-        
-        if(!Storage::disk('supplier_report')->exists(date('Y_m_d') . '_supplier_report.pdf')) {
-            $this->generateSupplierReport();
-        }
 
         return view('reports.supplier_reports', [
             'reports' => Storage::disk('supplier_report')->files()
@@ -254,10 +278,6 @@ class EmployeeController extends Controller
 
     public function productInformationReport() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
-
-        if(!Storage::disk('product_information_report')->exists(date('Y_m_d') . '_product_information_report.pdf')) {
-            $this->generateProductInformationReport();
-        }
         
         return view('reports.product_information_reports', [
             'reports' => Storage::disk('product_information_report')->files()
