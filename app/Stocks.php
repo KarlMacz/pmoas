@@ -11,4 +11,8 @@ class Stocks extends Model
     public function product() {
         return $this->belongsTo('App\Products', 'product_id');
     }
+
+    public function supplier() {
+        return $this->belongsTo('App\Suppliers', 'supplier_id');
+    }
 }
