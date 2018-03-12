@@ -21,7 +21,9 @@ $(document).ready(function() {
             delayCloseModal('status-modal');
 
             if(response.status === 'Success') {
-                location.reload();
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
             }
         });
     });
@@ -57,7 +59,9 @@ $(document).ready(function() {
             delayCloseModal('status-modal');
 
             if(response.status === 'Success') {
-                location.reload();
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
             }
         });
     });
@@ -88,7 +92,9 @@ $(document).ready(function() {
             delayCloseModal('status-modal');
 
             if(response.status === 'Success') {
-                location.reload();
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
             }
         });
     });
