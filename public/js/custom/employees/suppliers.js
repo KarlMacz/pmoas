@@ -21,9 +21,7 @@ $(document).ready(function() {
             delayCloseModal('status-modal');
 
             if(response.status === 'Success') {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
+                location.reload();
             }
         });
     });
