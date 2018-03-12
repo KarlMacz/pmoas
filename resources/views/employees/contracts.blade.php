@@ -1,6 +1,7 @@
 @extends('layouts.employees')
 
 @section('meta')
+    <meta name="main-route" content="{{ url('/') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
