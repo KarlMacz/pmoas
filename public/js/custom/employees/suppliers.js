@@ -18,13 +18,9 @@ $(document).ready(function() {
             setModalContent('status-modal', 'Delete Supplier', response.message);
             delayOpenModal('status-modal', 'static');
 
-            delayCloseModal('status-modal');
-
-            if(response.status === 'Success') {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
+            delayCloseModal('status-modal', function() {
+                location.reload();
+            });
         });
     });
 

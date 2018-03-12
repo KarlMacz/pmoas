@@ -18,13 +18,9 @@ $(document).ready(function() {
             setModalContent('status-modal', 'Confirm Transaction', response.message);
             delayOpenModal('status-modal', 'static');
 
-            delayCloseModal('status-modal');
-
-            if(response.status === 'Success') {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
+            delayCloseModal('status-modal', function() {
+                location.reload();
+            });
         });
     });
 
@@ -56,13 +52,9 @@ $(document).ready(function() {
             setModalContent('status-modal', 'Mark Transaction as Delivered', response.message);
             delayOpenModal('status-modal', 'static');
 
-            delayCloseModal('status-modal');
-
-            if(response.status === 'Success') {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
+            delayCloseModal('status-modal', function() {
+                location.reload();
+            });
         });
     });
 
@@ -89,13 +81,9 @@ $(document).ready(function() {
             setModalContent('status-modal', 'Delete Transaction', response.message);
             delayOpenModal('status-modal', 'static');
 
-            delayCloseModal('status-modal');
-
-            if(response.status === 'Success') {
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
-            }
+            delayCloseModal('status-modal', function() {
+                location.reload();
+            });
         });
     });
 

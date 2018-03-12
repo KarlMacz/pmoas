@@ -5,9 +5,7 @@ $(document).ready(function() {
         ajaxRequest('/reports/generate/' + $(this).data('type'), 'GET', {}, function(response) {
             closeModal('loading-modal');
 
-            setTimeout(function() {
-                location.reload();
-            }, 1000);
+            location.reload();
         });
     });
 

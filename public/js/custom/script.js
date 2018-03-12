@@ -34,9 +34,13 @@ function closeModal(id) {
     $('#' + id + '.modal').modal('hide');
 }
 
-function delayCloseModal(id) {
+function delayCloseModal(id, doSomething) {
     setTimeout(function() {
         $('#' + id + '.modal').modal('hide');
+
+        if(backdrop !== undefined && backdrop !== null) {
+            doSomething();
+        }
     }, 2000);
 }
 
