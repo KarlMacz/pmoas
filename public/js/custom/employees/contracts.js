@@ -1,6 +1,11 @@
 $(document).ready(function() {
     var contractId = null;
 
+    $('.view-contract-button').click(function() {
+        setModalContent('status-modal', 'View Contract', '<iframe src="' + $('meta[name="main-route"]').attr('content') + '/contracts/view/' + $(this).data('id') + '" frameborder="0" style="height: 400px; width: 100%;"></iframe>');
+        openModal('status-modal');
+    });
+
     $('.delete-contract-button').click(function() {
         contractId = $(this).data('id');
 
