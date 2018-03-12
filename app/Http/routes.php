@@ -105,7 +105,6 @@ Route::group(['as' => 'clients.'], function() {
         Route::get('return_products', ['as' => 'products_return', 'uses' => 'ClientController@returnProducts']);
         Route::get('return_products/{id}', ['as' => 'products_return_process', 'uses' => 'ClientController@returnProductsProcess']);
         Route::get('contracts', ['as' => 'contracts', 'uses' => 'ClientController@contracts']);
-        Route::get('contracts/view/{code}', ['as' => 'contracts_view', 'uses' => 'ClientController@viewContract']);
         Route::get('help/clients', ['as' => 'help', 'uses' => 'ClientController@help']);
     });
 
@@ -164,6 +163,7 @@ Route::group(['as' => 'resources.'], function() {
     Route::group(['as' => 'get.'], function() {
         Route::get('resources/date_time', ['as' => 'date_time', 'uses' => 'ResourceController@dateTime']);
         Route::get('resources/download/{type}/{file}', ['as' => 'download', 'uses' => 'ResourceController@download']);
+        Route::get('contracts/view/{code}', ['as' => 'contracts_view', 'uses' => 'ResourceController@viewContract']);
     });
 
     Route::group(['as' => 'post.'], function() {
