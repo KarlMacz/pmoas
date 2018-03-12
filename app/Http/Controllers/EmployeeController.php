@@ -24,6 +24,7 @@ use App\Logs;
 use App\Passwords;
 use App\Products;
 use App\Stocks;
+use App\Suppliers;
 use App\Transactions;
 
 class EmployeeController extends Controller
@@ -108,6 +109,28 @@ class EmployeeController extends Controller
 
         return view('employees.warehouse_restock', [
             'product' => Products::where('id', $id)->first()
+        ]);
+    }
+
+    public function suppliers() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.suppliers', [
+            'suppliers' => Suppliers::get()
+        ]);
+    }
+
+    public function addSupplier() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.add_suppliers');
+    }
+
+    public function editSupplier($id) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.edit_suppliers', [
+            'supplier' => Suppliers::where('id', $id)->first()
         ]);
     }
 
@@ -648,6 +671,74 @@ class EmployeeController extends Controller
         }
 
         return redirect()->route('employees.get.warehouse_restock', $id);
+    }
+
+    public function postAddSupplier(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.suppliers_add', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $supplier = Suppliers::create([
+            'name' => $request->input('name')
+        ]);
+
+        if($supplier) {
+            session()->flash('flash_status', 'Success');
+            session()->flash('flash_message', 'Supplier has been added.');
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to add supplier.');
+        }
+
+        return redirect()->route('employees.get.suppliers_add');
+    }
+
+    public function postEditSupplier($id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.suppliers_edit', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $supplier = Suppliers::where('id', $id)->update([
+            'name' => $request->input('name')
+        ]);
+
+        if($supplier) {
+            session()->flash('flash_status', 'Success');
+            session()->flash('flash_message', 'Supplier has been edited.');
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to edit supplier.');
+        }
+
+        return redirect()->route('employees.get.suppliers_edit', $id);
+    }
+
+    public function postDeleteSupplier(Request $request) {
+        $supplier = Suppliers::where('id', $request->input('id'))->delete();
+
+        if($supplier) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Supplier has been deleted.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to delete supplier.'
+            ]);
+        }
     }
 
     public function postAddContract(Request $request) {
