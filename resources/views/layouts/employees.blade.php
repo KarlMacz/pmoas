@@ -77,6 +77,13 @@
                     @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Employee - Logistics Department')
                         <li><a href="{{ route('employees.get.warehouse') }}"><i class="fa fa-home fa-fw"></i> Warehouse Management</a></li>
                     @endif
+                    <li>
+                        <a href="#"><i class="fa fa-truck fa-fw"></i> Suppliers <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="{{ route('employees.get.suppliers') }}"><span class="fa fa-th-list fa-fw"></span> View All Suppliers</a></li>
+                            <li><a href="{{ route('employees.get.suppliers_add') }}"><span class="fa fa-plus fa-fw"></span> Add Supplier</a></li>
+                        </ul>
+                    </li>
                     @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor')
                         <li>
                             <a href="#"><i class="fa fa-folder fa-fw"></i> Contract Management <span class="fa arrow"></span></a>
