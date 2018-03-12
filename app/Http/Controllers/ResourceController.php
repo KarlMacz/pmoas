@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Auth;
 use Hash;
+use PDF;
 use Storage;
 
+use App\Contracts;
 use App\Products;
 
 class ResourceController extends Controller
@@ -54,6 +57,30 @@ class ResourceController extends Controller
                 'status' => 'Failed',
                 'message' => 'No product not found.'
             ]);
+        }
+    }
+
+    public function viewContract($code) {
+        if(Auth::check()) {
+            $contracts = Contracts::get();
+
+            foreach($contracts as $contract) {
+                if(hash('sha256', $contract->id) === $code) {
+                    $data['contract'] = $contract;
+
+                    break;
+                }
+            }
+
+            if($data['contract']) {
+                $pdf = PDF::loadView('pdf.contract', $data);
+
+                return $pdf->stream('contract_' . hash('sha256', $contract->id) . '.pdf', [
+                    'Attachment' => false
+                ]);
+            }
+        } else {
+            abort('404');
         }
     }
 }

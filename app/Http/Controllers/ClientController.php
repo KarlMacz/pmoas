@@ -8,7 +8,6 @@ use App\Http\Requests;
 
 use Auth;
 use Input;
-use PDF;
 use Validator;
 
 use App\Cancellations;
@@ -94,26 +93,6 @@ class ClientController extends Controller
         return view('clients.contracts', [
             'contracts' => Contracts::where('contractee_id', Auth::user()->id)->get()
         ]);
-    }
-
-    public function viewContract($code) {
-        $contracts = Contracts::get();
-
-        foreach($contracts as $contract) {
-            if(hash('sha256', $contract->id) === $code) {
-                $data['contract'] = $contract;
-
-                break;
-            }
-        }
-
-        if($data['contract']) {
-            $pdf = PDF::loadView('pdf.contract', $data);
-
-            return $pdf->stream('contract_' . hash('sha256', $contract->id) . '.pdf', [
-                'Attachment' => false
-            ]);
-        }
     }
 
     public function postOrder(Request $request) {
