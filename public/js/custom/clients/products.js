@@ -31,19 +31,19 @@ $(document).ready(function() {
         }
 
         setModalContent('add-to-cart-modal', 'Add to Cart', '<h3 style="margin-top: 0;">' + name + '</h3><p>' + description + '</p><h4 class="text-right"><span class="pull-left">' + quantity + ' piece(s) left.</span> Php ' + price + ' / piece.</h4><form id="add-to-cart-form"><input type="hidden" name="id" value="' + $(this).data('id') + '"><div class="form-group"><label for="quantity-field">Quantity:</label><input type="number" name="quantity" id="quantity-field" class="form-control" min="1" max="' + quantity + '" placeholder="Quantity" required></div></form>');
-        delayOpenModal('add-to-cart-modal', 'static');
+        openModal('add-to-cart-modal', 'static');
     });
 
     $('#add-to-cart-modal .modal-footer > .yes-button').click(function() {
         if($('#quantity-field').val() !== '') {
             closeModal('add-to-cart-modal');
-            delayOpenModal('loading-modal', 'static');
+            openModal('loading-modal', 'static');
 
             ajaxRequest('/cart/add', 'POST', $('#add-to-cart-form').serialize(), function(response) {
                 closeModal('loading-modal');
                 setModalContent('status-modal', 'Add to Cart', response.message);
-                delayOpenModal('status-modal', 'static');
-                delayCloseModal('status-modal');
+                openModal('status-modal', 'static');
+                closeModal('status-modal');
             });
         } else {
             $('#quantity-field').focus();
