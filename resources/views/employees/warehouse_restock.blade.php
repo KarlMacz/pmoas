@@ -27,6 +27,15 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label for="supplier-field">Supplier:</label>
+                <select name="supplier" class="form-control" id="supplier-field" required>
+                    <option value="" selected disabled>Select an option...</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="form-group text-right">
                 <button class="btn btn-success" type="submit"><span class="fa fa-plus fa-fw"></span> Re-stock</button>
             </div>

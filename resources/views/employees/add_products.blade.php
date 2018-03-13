@@ -1,9 +1,5 @@
 @extends('layouts.employees')
 
-@section('resources')
-    <script src="{{ asset('js/custom/employees/add_products.js') }}"></script>
-@endsection
-
 @section('content')
     <div class="page-header">
         <h1 class="no-margin">Products Catalogue</h1>
@@ -74,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="well lighten">
+            <!-- <div class="well lighten">
                 <div style="margin-bottom: 10px;">
                     <button type="button" class="add-stock-button btn btn-primary btn-sm"><span class="fa fa-plus fa-fw"></span> Add Stock</button>
                 </div>
@@ -98,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="form-group text-right">
                 <button class="btn btn-success" type="submit"><span class="fa fa-plus fa-fw"></span> Add</button>
             </div>

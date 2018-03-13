@@ -108,7 +108,8 @@ class EmployeeController extends Controller
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('employees.warehouse_restock', [
-            'product' => Products::where('id', $id)->first()
+            'product' => Products::where('id', $id)->first(),
+            'suppliers' => Suppliers::get()
         ]);
     }
 
@@ -603,9 +604,9 @@ class EmployeeController extends Controller
             'price' => 'required|numeric|min:1',
             'min_pieces' => 'required|numeric|min:1',
             'description' => 'required|string|max:1000',
-            'product_image' => 'mimes:jpg,jpeg,png,bmp',
-            'quantity.*' => 'required|numeric|min:1',
-            'expiration_date.*' => 'required|date'
+            'product_image' => 'mimes:jpg,jpeg,png,bmp'
+            // 'quantity.*' => 'required|numeric|min:1',
+            // 'expiration_date.*' => 'required|date'
         ]);
 
         if($validator->fails()) {
@@ -616,9 +617,9 @@ class EmployeeController extends Controller
 
         $quantity = 0;
 
-        foreach($request->input('quantity') as $qty) {
+        /*foreach($request->input('quantity') as $qty) {
             $quantity += $qty;
-        }
+        }*/
 
         if($request->hasFile('product_image')) {
             $image = $request->file('product_image');
@@ -640,16 +641,16 @@ class EmployeeController extends Controller
         ]);
 
         if($product) {
-            $id = $product->id;
+            // $id = $product->id;
 
-            foreach($request->input('quantity') as $index => $qty) {
+            /*foreach($request->input('quantity') as $index => $qty) {
                 Stocks::create([
                     'product_id' => $id,
                     'quantity' => $qty,
                     'total_amount' => ($qty * $request->input('price')),
                     'expiration_date' => $request->input('expiration_date')[$index]
                 ]);
-            }
+            }*/
 
             session()->flash('flash_status', 'Success');
             session()->flash('flash_message', 'Product has been added.');
@@ -721,7 +722,8 @@ class EmployeeController extends Controller
     public function postWarehouseRestock($id, Request $request) {
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|numeric|min:1',
-            'expiration_date' => 'required|date'
+            'expiration_date' => 'required|date',
+            'supplier' => 'required|numeric|min:1',
         ]);
 
         if($validator->fails()) {
@@ -735,6 +737,7 @@ class EmployeeController extends Controller
 
         $stock = Stocks::create([
             'product_id' => $id,
+            'supplier_id' => $request->input('supplier'),
             'quantity' => $request->input('quantity'),
             'expiration_date' => $request->input('expiration_date')
         ]);
