@@ -267,7 +267,7 @@ class EmployeeController extends Controller
     }
 
     public function salesReport() {
-        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Sales Department' || Auth::user()->user_info->position !== 'Accountant') {
+        if(Auth::user()->user_info->position !== 'Administrator' && Auth::user()->user_info->position !== 'Auditor' && Auth::user()->user_info->position !== 'Employee - Sales Department' && Auth::user()->user_info->position !== 'Accountant') {
             return redirect()->route('employees.get.index');
         }
 
@@ -279,7 +279,7 @@ class EmployeeController extends Controller
     }
 
     public function inventoryReport() {
-        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Logistics Department') {
+        if(Auth::user()->user_info->position !== 'Administrator' && Auth::user()->user_info->position !== 'Auditor' && Auth::user()->user_info->position !== 'Employee - Logistics Department') {
             return redirect()->route('employees.get.index');
         }
 
@@ -291,7 +291,7 @@ class EmployeeController extends Controller
     }
 
     public function deliveryReport() {
-        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Sales Department' || Auth::user()->user_info->position !== 'Accountant') {
+        if(Auth::user()->user_info->position !== 'Administrator' && Auth::user()->user_info->position !== 'Auditor' && Auth::user()->user_info->position !== 'Employee - Sales Department' && Auth::user()->user_info->position !== 'Accountant') {
             return redirect()->route('employees.get.index');
         }
 
@@ -303,7 +303,7 @@ class EmployeeController extends Controller
     }
 
     public function supplierReport() {
-        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Logistics Department') {
+        if(Auth::user()->user_info->position !== 'Administrator' && Auth::user()->user_info->position !== 'Auditor' && Auth::user()->user_info->position !== 'Employee - Logistics Department') {
             return redirect()->route('employees.get.index');
         }
 
@@ -315,7 +315,7 @@ class EmployeeController extends Controller
     }
 
     public function productInformationReport() {
-        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Logistics Department') {
+        if(Auth::user()->user_info->position !== 'Administrator' && Auth::user()->user_info->position !== 'Auditor' && Auth::user()->user_info->position !== 'Employee - Logistics Department') {
             return redirect()->route('employees.get.index');
         }
 
