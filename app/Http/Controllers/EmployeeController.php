@@ -267,6 +267,10 @@ class EmployeeController extends Controller
     }
 
     public function salesReport() {
+        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant') {
+            return view('employees.get.index');
+        }
+
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
         
         return view('reports.sales_reports', [
@@ -275,6 +279,10 @@ class EmployeeController extends Controller
     }
 
     public function inventoryReport() {
+        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department') {
+            return view('employees.get.index');
+        }
+
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
         
         return view('reports.inventory_reports', [
@@ -283,6 +291,10 @@ class EmployeeController extends Controller
     }
 
     public function deliveryReport() {
+        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant') {
+            return view('employees.get.index');
+        }
+
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('reports.delivery_reports', [
@@ -291,6 +303,10 @@ class EmployeeController extends Controller
     }
 
     public function supplierReport() {
+        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department') {
+            return view('employees.get.index');
+        }
+
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
         return view('reports.supplier_reports', [
@@ -299,6 +315,10 @@ class EmployeeController extends Controller
     }
 
     public function productInformationReport() {
+        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department') {
+            return view('employees.get.index');
+        }
+        
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
         
         return view('reports.product_information_reports', [
