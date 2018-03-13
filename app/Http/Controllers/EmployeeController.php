@@ -235,41 +235,25 @@ class EmployeeController extends Controller
     public function startGeneratingReport($type) {
         switch($type) {
             case 'sales':
-                if(!Storage::disk('sales_report')->exists('daily_sales_report_' . date('Y_m_d', strtotime('-1 day')) . '.pdf')) {
-                    $this->generateSalesReport('daily');
-                }
-
-                if(!Storage::disk('sales_report')->exists('monthly_sales_report_' . date('Y_m', strtotime('-1 month')) . '.pdf')) {
-                    $this->generateSalesReport('monthly');
-                }
-
-                if(!Storage::disk('sales_report')->exists('yearly_sales_report_' . date('Y', strtotime('-1 year')) . '.pdf')) {
-                    $this->generateSalesReport('yearly');
-                }
+                $this->generateSalesReport('daily');
+                $this->generateSalesReport('monthly');
+                $this->generateSalesReport('yearly');
 
                 break;
             case 'inventory':
-                if(!Storage::disk('inventory_report')->exists('inventory_report_' . date('Y_m_d') . '.pdf')) {
-                    $this->generateInventoryReport();
-                }
+                $this->generateInventoryReport();
 
                 break;
             case 'delivery':
-                if(!Storage::disk('delivery_report')->exists('delivery_report_' . date('Y_m_d', strtotime('-1 day')) . '.pdf')) {
-                    $this->generateDeliveryReport();
-                }
+                $this->generateDeliveryReport();
 
                 break;
             case 'supplier':
-                if(!Storage::disk('supplier_report')->exists('supplier_report_' . date('Y_m_d') . '.pdf')) {
-                    $this->generateSupplierReport();
-                }
+                $this->generateSupplierReport();
                 
                 break;
             case 'product_information':
-                if(!Storage::disk('product_information_report')->exists('product_information_report_' . date('Y_m_d') . '.pdf')) {
-                    $this->generateProductInformationReport();
-                }
+                $this->generateProductInformationReport();
 
                 break;
         }
