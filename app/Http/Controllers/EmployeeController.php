@@ -156,6 +156,18 @@ class EmployeeController extends Controller
         return view('employees.register_employees');
     }
 
+    public function editEmployee($id) {
+        if(Auth::user()->user_info->position !== 'Administrator') {
+            return view('employees.get.index');
+        }
+
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.edit_employees', [
+            'account' => Accounts::where('id', $id)->where('role', 'Employee')->first()
+        ]);
+    }
+
     public function clients() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
@@ -261,6 +273,8 @@ class EmployeeController extends Controller
                 break;
         }
 
+        $this->createLog(Auth::user()->id, 'Success', 'started generating ' . $type . ' report.');
+
         return response()->json([
             'status' => 'Success',
             'message' => 'Generator has been executed.'
@@ -364,9 +378,9 @@ class EmployeeController extends Controller
 
     public function postRegisterCompanyClient(Request $request) {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|alpha|max:255',
-            'middle_name' => 'alpha|max:255',
-            'last_name' => 'required|alpha|max:255',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'string|max:255',
+            'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact_number' => [
                 'required',
@@ -413,7 +427,7 @@ class EmployeeController extends Controller
             ]);
 
             if($client) {
-                $this->createLog(Auth::user()->id, 'Success', 'registered ' . $request->input('first_name') . ' ' . $request->input('last_name') . ' to the system.');
+                $this->createLog(Auth::user()->id, 'Success', 'registered company client ' . $request->input('first_name') . ' ' . $request->input('last_name') . ' to the system.');
 
                 session()->flash('flash_status', 'Success');
                 session()->flash('flash_message', 'Company client has been registered.');
@@ -432,9 +446,9 @@ class EmployeeController extends Controller
     public function postRegisterEmployee(Request $request) {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:accounts',
-            'first_name' => 'required|alpha|max:255',
-            'middle_name' => 'alpha|max:255',
-            'last_name' => 'required|alpha|max:255',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'string|max:255',
+            'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact_number' => [
                 'required',
@@ -492,7 +506,7 @@ class EmployeeController extends Controller
                     $message->to($email_address, $full_name)->subject(config('company.name') . ' Account Verification');
                 });
 
-                $this->createLog(Auth::user()->id, 'Success', 'registered ' . $request->input('first_name') . ' ' . $request->input('last_name') . ' to the system.');
+                $this->createLog(Auth::user()->id, 'Success', 'registered employee ' . $request->input('first_name') . ' ' . $request->input('last_name') . ' to the system.');
 
                 session()->flash('flash_status', 'Success');
                 session()->flash('flash_message', 'Employee has been registered. An e-mail has been sent to the employee\' e-mail address for account verification.');
@@ -506,6 +520,81 @@ class EmployeeController extends Controller
         }
 
         return redirect()->route('employees.get.employees_register');
+    }
+
+    public function postEditEmployee($id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'string|max:255',
+            'last_name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'contact_number' => [
+                'required',
+                'numeric',
+                'regex:/^(09|(\+)?639)[0-9]{9}$/'
+            ],
+            'birth_date' => 'required|date',
+            'gender' => 'required|string|max:255',
+            'position' =>'required|string|max:255'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.employees_edit', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $accounts = Accounts::where('email', $request->input('email'))->where('id', '<>', $id)->get();
+
+        if($accounts->count() > 0) {
+            $account = Accounts::where('id', $id)->update([
+                'email' => $request->input('email')
+            ]);
+
+            $employee = Employees::where('id', $id)->update([
+                'first_name' => $request->input('first_name'),
+                'middle_name' => $request->input('middle_name'),
+                'last_name' => $request->input('last_name'),
+                'address' => $request->input('address'),
+                'contact_number' => $request->input('contact_number'),
+                'birth_date' => $request->input('birth_date'),
+                'gender' => $request->input('gender'),
+                'position' => $request->input('position')
+            ]);
+
+            if($account || $employee) {
+                $this->createLog(Auth::user()->id, 'Success', 'edited employee ' . $request->input('first_name') . ' ' . $request->input('last_name') . '\'s information.');
+
+                session()->flash('flash_status', 'Success');
+                session()->flash('flash_message', 'Employee information has been edited.');
+            } else {
+                session()->flash('flash_status', 'Failed');
+                session()->flash('flash_message', 'Failed to edit employee information.');
+            }
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'E-mail address already been used by a client or another employee.');
+        }
+
+        return redirect()->route('employees.get.employees_edit', $id);
+    }
+
+    public function postDeleteEmployee(Request $request) {
+        $employee = Employees::where('account_id', $request->input('id'))->delete();
+
+        if($employee) {
+            Accounts::where('id', $request->input('id'))->where('role', 'Employee')->delete();
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Employee has been deleted.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to delete employee.'
+            ]);
+        }
     }
 
     public function postAddProduct(Request $request) {
