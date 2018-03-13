@@ -23,6 +23,7 @@
                     <th width="10%">Payment Method</th>
                     <th width="10%">Is Paid</th>
                     <th width="10%">Delivery Status</th>
+                    <th></th>
                     <th width="20%"></th>
                 </tr>
             </thead>
@@ -40,6 +41,7 @@
                             <td class="text-center">{{ $transaction->payment_method }}</td>
                             <td class="text-center">{{ ($transaction->amount_paid === $transaction->total_amount ? 'Yes' : 'No') }}</td>
                             <td class="text-center">{{ $transaction->delivery_status }}</td>
+                            <td>{{ date('F d, Y', strtotime($transaction->created_at)) }}</td>
                             <td class="text-center">
                                 @if($transaction->delivery_status === 'Pending')
                                     @if($transaction->payment_method === 'PayPal')
