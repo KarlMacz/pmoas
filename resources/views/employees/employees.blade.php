@@ -13,6 +13,7 @@
                 <th>E-mail Address</th>
                 <th>Contact Number</th>
                 <th>Position</th>
+                <th width="10%"></th>
             </tr>
         </thead>
         <tbody>
