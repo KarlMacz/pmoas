@@ -696,21 +696,13 @@ class EmployeeController extends Controller
 
     public function postDeleteProduct(Request $request) {
         $stocks = Stocks::where('product_id', $request->input('id'))->delete();
+        $product = Products::where('id', $request->input('id'))->delete();
 
-        if($stocks) {
-            $product = Products::where('id', $request->input('id'))->delete();
-
-            if($product) {
-                return response()->json([
-                    'status' => 'Success',
-                    'message' => 'Product has been deleted.'
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 'Failed',
-                    'message' => 'Successfully deleted all product stocks but failed to delete product information.'
-                ]);
-            }
+        if($product) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Product has been deleted.'
+            ]);
         } else {
             return response()->json([
                 'status' => 'Failed',
