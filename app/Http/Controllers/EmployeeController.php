@@ -137,7 +137,7 @@ class EmployeeController extends Controller
 
     public function employees() {
         if(Auth::user()->user_info->position !== 'Administrator') {
-            return view('employees.get.index');
+            return redirect()->route('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
@@ -149,7 +149,7 @@ class EmployeeController extends Controller
 
     public function registerEmployee() {
         if(Auth::user()->user_info->position !== 'Administrator') {
-            return view('employees.get.index');
+            return redirect()->route('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
@@ -159,7 +159,7 @@ class EmployeeController extends Controller
 
     public function editEmployee($id) {
         if(Auth::user()->user_info->position !== 'Administrator') {
-            return view('employees.get.index');
+            return redirect()->route('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
@@ -267,8 +267,8 @@ class EmployeeController extends Controller
     }
 
     public function salesReport() {
-        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant') {
-            return view('employees.get.index');
+        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Sales Department' || Auth::user()->user_info->position !== 'Accountant') {
+            return redirect()->route('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
@@ -279,8 +279,8 @@ class EmployeeController extends Controller
     }
 
     public function inventoryReport() {
-        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department') {
-            return view('employees.get.index');
+        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Logistics Department') {
+            return redirect()->route('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
@@ -291,8 +291,8 @@ class EmployeeController extends Controller
     }
 
     public function deliveryReport() {
-        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant') {
-            return view('employees.get.index');
+        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Sales Department' || Auth::user()->user_info->position !== 'Accountant') {
+            return redirect()->route('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
@@ -303,8 +303,8 @@ class EmployeeController extends Controller
     }
 
     public function supplierReport() {
-        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department') {
-            return view('employees.get.index');
+        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Logistics Department') {
+            return redirect()->route('employees.get.index');
         }
 
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
@@ -315,10 +315,10 @@ class EmployeeController extends Controller
     }
 
     public function productInformationReport() {
-        if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department') {
-            return view('employees.get.index');
+        if(Auth::user()->user_info->position !== 'Administrator' || Auth::user()->user_info->position !== 'Auditor' || Auth::user()->user_info->position !== 'Employee - Logistics Department') {
+            return redirect()->route('employees.get.index');
         }
-        
+
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
         
         return view('reports.product_information_reports', [
