@@ -62,6 +62,7 @@ Route::group(['as' => 'employees.'], function() {
         Route::get('accounting/income', ['as' => 'accounting_income', 'uses' => 'EmployeeController@accountingIncome']);
         Route::get('employees', ['as' => 'employees_view', 'uses' => 'EmployeeController@employees']);
         Route::get('employees/register', ['as' => 'employees_register', 'uses' => 'EmployeeController@registerEmployee']);
+        Route::get('employees/edit/{id}', ['as' => 'employees_edit', 'uses' => 'EmployeeController@editEmployee']);
         Route::get('clients', ['as' => 'clients_view', 'uses' => 'EmployeeController@clients']);
         Route::get('company_clients/register', ['as' => 'company_clients_register', 'uses' => 'EmployeeController@registerCompanyClient']);
         Route::get('reports/sales', ['as' => 'reports_sales', 'uses' => 'EmployeeController@salesReport']);
@@ -92,6 +93,8 @@ Route::group(['as' => 'employees.'], function() {
         Route::post('enterprise_contracts/{id}/document/add', ['as' => 'contract_documents_add', 'uses' => 'EmployeeController@postAddDocument']);
         Route::post('enterprise_contracts/document/delete', ['as' => 'contract_documents_delete', 'uses' => 'EmployeeController@postDeleteDocument']);
         Route::post('employees/register', ['as' => 'employees_register', 'uses' => 'EmployeeController@postRegisterEmployee']);
+        Route::post('employees/edit/{id}', ['as' => 'employees_edit', 'uses' => 'EmployeeController@postEditEmployee']);
+        Route::post('employees/delete', ['as' => 'employees_delete', 'uses' => 'EmployeeController@postDeleteEmployee']);
         Route::post('company_clients/register', ['as' => 'company_clients_register', 'uses' => 'EmployeeController@postRegisterCompanyClient']);
     });
 });
