@@ -36,7 +36,9 @@
                             <td>Php {{ $contract->maximum_amount }}</td>
                             <td class="text-center">{{ $contract->mode_of_payment }}</td>
                             <td class="text-center">
-                                <button class="view-contract-button btn btn-primary btn-xs" data-id="{{ hash('sha256', $contract->id) }}"><span class="fa fa-th-list fa-fw"></span> View</button>
+                                @if(Auth::user()->user_info->position !== 'Administrator')
+                                    <button class="view-contract-button btn btn-primary btn-xs" data-id="{{ hash('sha256', $contract->id) }}"><span class="fa fa-th-list fa-fw"></span> View</button>
+                                @endif
                                 <a href="{{ route('employees.get.contract_documents', $contract->id) }}" class="btn btn-info btn-xs"><span class="fa fa-th-list fa-fw"></span> Manage Documents</a>
                                 <button class="delete-contract-button btn btn-danger btn-xs" data-id="{{ $contract->id }}"><span class="fa fa-trash fa-fw"></span> Delete</button>
                             </td>
