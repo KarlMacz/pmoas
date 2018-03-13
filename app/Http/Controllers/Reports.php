@@ -18,17 +18,17 @@ trait Reports
         switch($rangeType) {
             case 'daily':
                 $range = date('Y_m_d');
-                $transactions = Transactions::where('created_at', 'like', date('Y-m-d'))->get();
+                $transactions = Transactions::where('created_at', 'like', date('Y-m-d') . '%')->get();
 
                 break;
             case 'monthly':
                 $range = date('Y_m');
-                $transactions = Transactions::where('created_at', 'like', date('Y-m'))->get();
+                $transactions = Transactions::where('created_at', 'like', date('Y-m') . '%')->get();
 
                 break;
             case 'yearly':
                 $range = date('Y');
-                $transactions = Transactions::where('created_at', 'like', date('Y'))->get();
+                $transactions = Transactions::where('created_at', 'like', date('Y') . '%')->get();
 
                 break;
         }
@@ -55,7 +55,7 @@ trait Reports
 
     public function generateDeliveryReport() {
         $range = date('Y_m_d');
-        $transactions = Transactions::where('datetime_delivered', 'like', date('Y-m-d'))->where('delivery_status', 'Delivered')->get();
+        $transactions = Transactions::where('datetime_delivered', 'like', date('Y-m-d') . '%')->where('delivery_status', 'Delivered')->get();
 
         $reportFilename = 'delivery_report_' . $range . '.pdf';
         $pdf = PDF::loadView('pdf.delivery_reports', [
