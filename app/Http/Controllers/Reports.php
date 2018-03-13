@@ -74,7 +74,7 @@ trait Reports
             'suppliers' => $suppliers
         ]);
 
-        Storage::disk('product_information_report')->put($reportFilename, $pdf->output());
+        Storage::disk('supplier_report')->put($reportFilename, $pdf->output());
     }
 
     public function generateProductInformationReport() {
