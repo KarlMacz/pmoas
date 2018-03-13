@@ -121,26 +121,24 @@
                             </ul>
                         </li>
                     @endif
-                    @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department')
-                        <li>
-                            <a href="#"><i class="fa fa-print fa-fw"></i> Reports <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant')
-                                    <li><a href="{{ route('employees.get.reports_sales') }}"><span class="fa fa-file-o fa-fw"></span> Sales Report</a></li>
-                                @endif
-                                @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department')
-                                    <li><a href="{{ route('employees.get.reports_inventory') }}"><span class="fa fa-file-o fa-fw"></span> Inventory Report</a></li>
-                                @endif
-                                @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant')
-                                    <li><a href="{{ route('employees.get.reports_delivery') }}"><span class="fa fa-file-o fa-fw"></span> Delivery Report</a></li>
-                                @endif
-                                @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department')
-                                    <li><a href="{{ route('employees.get.reports_supplier') }}"><span class="fa fa-file-o fa-fw"></span> Supplier Report</a></li>
-                                    <li><a href="{{ route('employees.get.reports_product_information') }}"><span class="fa fa-file-o fa-fw"></span> Product Information Report</a></li>
-                                @endif
-                            </ul>
-                        </li>
-                    @endif
+                    <li>
+                        <a href="#"><i class="fa fa-print fa-fw"></i> Reports <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant')
+                                <li><a href="{{ route('employees.get.reports_sales') }}"><span class="fa fa-file-o fa-fw"></span> Sales Report</a></li>
+                            @endif
+                            @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department')
+                                <li><a href="{{ route('employees.get.reports_inventory') }}"><span class="fa fa-file-o fa-fw"></span> Inventory Report</a></li>
+                            @endif
+                            @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Sales Department' || Auth::user()->user_info->position === 'Accountant')
+                                <li><a href="{{ route('employees.get.reports_delivery') }}"><span class="fa fa-file-o fa-fw"></span> Delivery Report</a></li>
+                            @endif
+                            @if(Auth::user()->user_info->position === 'Administrator' || Auth::user()->user_info->position === 'Auditor' || Auth::user()->user_info->position === 'Employee - Logistics Department')
+                                <li><a href="{{ route('employees.get.reports_supplier') }}"><span class="fa fa-file-o fa-fw"></span> Supplier Report</a></li>
+                                <li><a href="{{ route('employees.get.reports_product_information') }}"><span class="fa fa-file-o fa-fw"></span> Product Information Report</a></li>
+                            @endif
+                        </ul>
+                    </li>
                     @if(Auth::user()->user_info->position === 'Administrator')
                         <li><a href="{{ route('maintenance.get.index') }}"><i class="fa fa-wrench fa-fw"></i> Maintenance</a></li>
                     @endif
