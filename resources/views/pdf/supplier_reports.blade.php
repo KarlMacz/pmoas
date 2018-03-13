@@ -144,6 +144,10 @@
                             @endforeach
                         @endif
                     @endforeach
+                @else
+                    <tr>
+                        <td class="text-center" colspan="5">No results found.</td>
+                    </tr>
                 @endif
             </tbody>
         </table>

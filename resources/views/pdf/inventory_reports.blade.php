@@ -134,6 +134,10 @@
                             <td>{{ $product->remaining_quantity }}</td>
                         </tr>
                     @endforeach
+                @else
+                    <tr>
+                        <td class="text-center" colspan="2">No results found.</td>
+                    </tr>
                 @endif
             </tbody>
         </table>

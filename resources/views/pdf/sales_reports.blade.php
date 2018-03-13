@@ -146,6 +146,10 @@
                             <td>Php {{ $transaction->total_amount }}</td>
                         </tr>
                     @endforeach
+                @else
+                    <tr>
+                        <td class="text-center" colspan="3">No results found.</td>
+                    </tr>
                 @endif
             </tbody>
             <tfoot>
