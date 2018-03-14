@@ -74,6 +74,7 @@ Route::group(['as' => 'employees.'], function() {
         Route::get('reports/view/{type}/{file}', ['as' => 'reports_view', 'uses' => 'EmployeeController@viewReport']);
         Route::get('receipts/view/{id}', ['as' => 'receipts_view', 'uses' => 'EmployeeController@viewReceipt']);
         Route::get('help/employees', ['as' => 'help', 'uses' => 'EmployeeController@help']);
+        Route::get('help/employees/add', ['as' => 'help_add', 'uses' => 'EmployeeController@addHelp']);
     });
 
     Route::group(['as' => 'post.'], function() {
@@ -96,6 +97,8 @@ Route::group(['as' => 'employees.'], function() {
         Route::post('employees/edit/{id}', ['as' => 'employees_edit', 'uses' => 'EmployeeController@postEditEmployee']);
         Route::post('employees/delete', ['as' => 'employees_delete', 'uses' => 'EmployeeController@postDeleteEmployee']);
         Route::post('company_clients/register', ['as' => 'company_clients_register', 'uses' => 'EmployeeController@postRegisterCompanyClient']);
+        Route::post('help/employees/add', ['as' => 'help_add', 'uses' => 'EmployeeController@postAddHelp']);
+        Route::post('help/employees/delete', ['as' => 'help_delete', 'uses' => 'EmployeeController@postDeleteHelp']);
     });
 });
 

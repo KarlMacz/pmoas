@@ -14,6 +14,7 @@ use App\Cancellations;
 use App\Carts;
 use App\CartItems;
 use App\Contracts;
+use App\Helps;
 use App\Logs;
 use App\Orders;
 use App\Products;
@@ -52,7 +53,9 @@ class ClientController extends Controller
     public function help() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
-        return view('clients.help');
+        return view('clients.help', [
+            'helps' => Helps::where('type', 'Clients')->get()
+        ]);
     }
 
     public function products() {

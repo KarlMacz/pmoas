@@ -20,6 +20,7 @@ use App\Contracts;
 use App\ContractRules;
 use App\Documents;
 use App\Employees;
+use App\Helps;
 use App\Logs;
 use App\Passwords;
 use App\Products;
@@ -71,7 +72,16 @@ class EmployeeController extends Controller
     public function help() {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
-        return view('employees.help');
+        return view('employees.help', [
+            'employee_helps' => Helps::where('type', 'Employees')->get(),
+            'client_helps' => Helps::where('type', 'Clients')->get()
+        ]);
+    }
+
+    public function addHelp() {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return view('employees.add_help');
     }
 
     public function products() {
@@ -1027,6 +1037,52 @@ class EmployeeController extends Controller
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Failed to delete transaction.'
+            ]);
+        }
+    }
+
+    public function postAddHelp(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string|max:1000',
+            'type' => 'required|string|max:9'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('employees.get.add_help')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $help = Helps::create([
+            'question' => $request->input('question'),
+            'answer' => $request->input('answer'),
+            'type' => $request->input('type')
+        ]);
+
+        if($help) {
+            session()->flash('flash_status', 'Success');
+            session()->flash('flash_message', 'FAQ has been added.');
+        } else {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Failed to add FAQ.');
+        }
+
+        return redirect()->route('employees.get.help_add');
+    }
+
+    public function postDeleteHelp(Request $request) {
+        $help = Helps::where('id', $request->input('id'))->delete();
+
+        if($help) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'FAQ has been deleted.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to delete FAQ.'
             ]);
         }
     }
