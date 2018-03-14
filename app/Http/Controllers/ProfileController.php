@@ -112,14 +112,9 @@ class ProfileController extends Controller
 
     public function postUpdateInfo(Request $request) {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|alpha|max:255',
-            'middle_name' => 'alpha|max:255',
-            'last_name' => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^()$/'
-            ],
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'string|max:255',
+            'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact_number' => [
                 'required',
