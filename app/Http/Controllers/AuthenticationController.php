@@ -197,12 +197,14 @@ class AuthenticationController extends Controller
                 'numeric',
                 'regex:/^(09|(\+)?639)[0-9]{9}$/'
             ],
-            'birth_date' => 'required|date',
+            'birth_date' => 'required|date|before:' . date('Y-m-d', strtotime('+1 day', strtotime('-18 years'))),
             'gender' => 'required|string|max:255',
             'secret_question' => 'required|string|max:255',
             'secret_answer' => 'required|string|max:255',
             'agreement' => 'accepted',
             'g-recaptcha-response' => 'required|recaptcha'
+        ], [
+            'birth_date.before' => 'You must be at least 18 years old.',
         ]);
 
         if($validator->fails()) {
