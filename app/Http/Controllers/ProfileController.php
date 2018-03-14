@@ -10,6 +10,8 @@ use Auth;
 use Validator;
 
 use App\Accounts;
+use App\Clients;
+use App\Employees;
 use App\Passwords;
 
 class ProfileController extends Controller
@@ -131,10 +133,11 @@ class ProfileController extends Controller
         }
 
         $id = Auth::user()->id;
+        $my_role = Auth::user()->role;
 
         Auth::logout();
 
-        if(Auth::user()->role === 'Employee') {
+        if($my_role === 'Employee') {
             $account_info = Employees::where('account_id', $id)->update([
                 'first_name' => $request->input('first_name'),
                 'middle_name' => $request->input('middle_name'),
