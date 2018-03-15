@@ -189,7 +189,7 @@
                             <?php
                                 $total_amount = 0;
                             ?>
-                            @if($transaction->orders->count() > 0)
+                            @if(count($transaction->orders) > 0)
                                 @foreach($transaction->orders as $order)
                                     <?php
                                         $total_amount += $order->product->price_per_piece * $order->quantity;
