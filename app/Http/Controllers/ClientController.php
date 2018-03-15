@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use Auth;
 use Input;
+use Storage;
 use Validator;
 
 use App\Cancellations;
@@ -96,6 +97,12 @@ class ClientController extends Controller
         return view('clients.contracts', [
             'contracts' => Contracts::where('contractee_id', Auth::user()->id)->get()
         ]);
+    }
+
+    public function viewReceipt($id) {
+        $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
+
+        return response(Storage::disk('receipts')->get('order_receipt_' . sprintf('%010d', $id) . '.pdf'), 200)->header('Content-Type', 'application/pdf');
     }
 
     public function postOrder(Request $request) {

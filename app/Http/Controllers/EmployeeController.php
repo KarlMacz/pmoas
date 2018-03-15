@@ -370,8 +370,6 @@ class EmployeeController extends Controller
     public function viewReceipt($id) {
         $this->createLog(Auth::user()->id, 'Success', 'visited ' . url()->current());
 
-        $this->generateReceipt($id);
-
         return response(Storage::disk('receipts')->get('order_receipt_' . sprintf('%010d', $id) . '.pdf'), 200)->header('Content-Type', 'application/pdf');
     }
 
@@ -979,6 +977,7 @@ class EmployeeController extends Controller
 
             if($query) {
                 @$this->sendSms($transaction->account->user_info->contact_number, 'Your order from ' . config('company.name') . ' has been dispatched. Transaction ID No. ' . sprintf('%010d', $transaction->id) . '.');
+                @$this->generateReceipt($id);
 
                 return response()->json([
                     'status' => 'Success',

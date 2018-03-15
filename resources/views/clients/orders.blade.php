@@ -1,5 +1,20 @@
 @extends('layouts.clients')
 
+@section('meta')
+    <meta name="main-route" content="{{ url('/') }}">
+@endsection
+
+@section('resources')
+    <script>
+        $(document).ready(function() {
+            $('.print-transaction-receipt-button').click(function() {
+                setModalContent('status-modal', 'View Receipt', '<iframe src="' + $('meta[name="main-route"]').attr('content') + '/client_receipts/view/' + $(this).data('id') + '" frameborder="0" style="height: 400px; width: 100%;"></iframe>');
+                openModal('status-modal');
+            });
+        });
+    </script>
+@endsection
+
 @section('content')
     <div class="page-header">
         <h1 class="no-margin">Orders</h1>
@@ -38,6 +53,9 @@
                                             <button type="submit" class="btn btn-info btn-xs"><span class="fa fa-paypal"></span> PayPal</button>
                                         </form>
                                     @endif
+                                @endif
+                                @if($transaction->delivery_status === 'Dispatched')
+                                    <button class="print-transaction-receipt-button btn btn-info btn-xs" data-id="{{ $transaction->id }}"><span class="fa fa-print fa-fw"></span> View Receipt</button>
                                 @endif
                             </td>
                         </tr>

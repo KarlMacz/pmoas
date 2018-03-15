@@ -23,6 +23,7 @@
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#about-us-section">About Us</a></li>
+                    <li><a href="#products-section">Products</a></li>
                     <li><a href="#contact-us-section">Contact Us</a></li>
                     <li><a href="#feedbacks-section">Feedbacks</a></li>
                     <li><a href="#comments-and-suggestions-section">Comments & Suggestions</a></li>
@@ -72,6 +73,45 @@
                             <h3 class="text-center">Mission</h3>
                             <p class="text-faded text-justify">The company aims to provide the customers the competitive advantage with product innovations through functional ingredients. The company believes that good products come with state-of-the art technologies. Our global principals extend their technical expertise to help our customers achieve success.</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="products-section" class="bg-primary">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="card card-success">
+                        <div class="card-content">
+                            <h1 class="section-heading text-center no-margin">Products</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if($products->count() > 0)
+                            @foreach($products as $product)
+                                <div class="col-sm-6">
+                                    <div class="tick">
+                                        <div class="tick-image">
+                                            @if($product->image)
+                                                <img src="{{ asset('uploads/' . $product->image) }}" style="width: 100%;">
+                                            @else
+                                                No Image Available
+                                            @endif
+                                        </div>
+                                        <div class="tick-content">
+                                            <div class="tick-title">{{ $product->name }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-sm-12">
+                                <div class="tick">
+                                    <div class="tick-content text-center">No products found.</div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

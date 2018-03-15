@@ -152,6 +152,10 @@ hr.minimalist {
     width: 100%;
 }
 
+.card > .card-image {
+    display: flex;
+}
+
 .card > .card-header {
     font-size: 2em;
     padding: 15px;
@@ -183,6 +187,45 @@ hr.minimalist {
 .card.card-danger {
     background-color: #e74c3c;
     color: white;
+}
+
+.tick {
+    background-color: white;
+    color: #222;
+    font-size: 0;
+    position: relative;
+    padding: 10px;
+    width: 100%;
+}
+
+.tick > .tick-image {
+    border: 1px solid #ccc;
+    display: inline-block;
+    font-size: 15px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px;
+    margin-right: 10px;
+    width: 140px;
+    box-sizing: border-box;
+}
+
+.tick > .tick-image img {
+    width: 100%;
+}
+
+.tick > .tick-content {
+    display: inline-block;
+    font-size: 15px;
+    vertical-align: middle;
+    padding: 5px;
+    height: 100%;
+    width: calc(100% - 150px);
+    box-sizing: border-box;
+}
+
+.tick > .tick-content > .tick-title {
+    font-size: 1.25em;
 }
 
 .profiler {

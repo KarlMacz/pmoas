@@ -111,6 +111,7 @@ Route::group(['as' => 'clients.'], function() {
         Route::get('return_products', ['as' => 'products_return', 'uses' => 'ClientController@returnProducts']);
         Route::get('return_products/{id}', ['as' => 'products_return_process', 'uses' => 'ClientController@returnProductsProcess']);
         Route::get('contracts', ['as' => 'contracts', 'uses' => 'ClientController@contracts']);
+        Route::get('client_receipts/view/{id}', ['as' => 'receipts_view', 'uses' => 'ClientController@viewReceipt']);
         Route::get('help/clients', ['as' => 'help', 'uses' => 'ClientController@help']);
     });
 

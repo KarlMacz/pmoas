@@ -10,6 +10,7 @@ use Auth;
 use Validator;
 
 use App\Feedbacks;
+use App\Products;
 
 class HomeController extends Controller
 {
@@ -28,7 +29,8 @@ class HomeController extends Controller
         }
 
         return view('home.index', [
-            'feedbacks' => Feedbacks::get()
+            'feedbacks' => Feedbacks::get(),
+            'products' => Products::get()
         ]);
     }
 
