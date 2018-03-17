@@ -175,5 +175,7 @@ Route::group(['as' => 'resources.'], function() {
 
     Route::group(['as' => 'post.'], function() {
         Route::post('resources/products', ['as' => 'products', 'uses' => 'ResourceController@postProducts']);
+        Route::post('resources/requests/authorization', ['as' => 'requests_authorization', 'uses' => 'ResourceController@postAuthorization']);
+        Route::post('resources/requests/jobs', ['as' => 'requests_jobs', 'uses' => 'ResourceController@postJobs']);
     });
 });

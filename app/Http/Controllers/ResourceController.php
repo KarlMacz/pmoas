@@ -11,7 +11,9 @@ use Hash;
 use PDF;
 use Storage;
 
+use App\Authorizations;
 use App\Contracts;
+use App\Jobs;
 use App\Products;
 
 class ResourceController extends Controller
@@ -19,7 +21,9 @@ class ResourceController extends Controller
     public function __construct() {
         $this->middleware('auth', [
             'except' => [
-                'dateTime'
+                'dateTime',
+                'postAuthorization',
+                'postJobs'
             ]
         ]);
     }
@@ -40,23 +44,6 @@ class ResourceController extends Controller
             }
         } else {
             return redirect()->back();
-        }
-    }
-
-    public function postProducts() {
-        $products = Products::with('stocks')->get();
-
-        if($products) {
-            return response()->json([
-                'status' => 'Success',
-                'message' => $products->count() . ' product found.',
-                'data' => $products
-            ]);
-        } else {
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'No product not found.'
-            ]);
         }
     }
 
@@ -81,6 +68,80 @@ class ResourceController extends Controller
             }
         } else {
             abort('404');
+        }
+    }
+
+    public function postProducts() {
+        $products = Products::with('stocks')->get();
+
+        if($products) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => $products->count() . ' product found.',
+                'data' => $products
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Products not found.'
+            ]);
+        }
+    }
+
+    public function postAuthorization(Request $request) {
+        if($request->has('authorization_key')) {
+            $authorization = Authorizations::where('authorization_key', $request->input('authorization_key'))->where('status', 'Active')->first();
+
+            if($authorization) {
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => 'Access Granted.',
+                    'token' => csrf_token()
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Access Denied.'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Missing authorization key.'
+            ]);
+        }
+    }
+
+    public function postJobs(Request $request) {
+        if($request->has('authorization_key')) {
+            $authorization = Authorizations::where('authorization_key', $request->input('authorization_key'))->where('status', 'Active')->first();
+
+            if($authorization) {
+                $jobs = Jobs::where('status', 'Active')->get();
+
+                if($jobs) {
+                    return response()->json([
+                        'status' => 'Success',
+                        'message' => $jobs->count() . ' jobs found.',
+                        'data' => $jobs
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Jobs not found.'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Invalid authorization key.'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Missing authorization key.'
+            ]);
         }
     }
 }
