@@ -144,4 +144,38 @@ class ResourceController extends Controller
             ]);
         }
     }
+
+    public function postUpdateJobStatus(Request $request) {
+        if($request->has('authorization_key')) {
+            $authorization = Authorizations::where('authorization_key', $request->input('authorization_key'))->where('status', 'Active')->first();
+
+            if($authorization) {
+                $job = Jobs::where('id', $request->input('id'))->update([
+                    'status' => 'Sent'
+                ]);
+
+                if($job) {
+                    return response()->json([
+                        'status' => 'Success',
+                        'message' => 'Job has been updated.'
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Failed to update job.'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Invalid authorization key.'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Missing authorization key.'
+            ]);
+        }
+    }
 }
