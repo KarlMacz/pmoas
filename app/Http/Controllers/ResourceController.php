@@ -148,7 +148,7 @@ class ResourceController extends Controller
 
     public function postUpdateJobStatus(Request $request) {
         if($request->has('authorization_key')) {
-            $authorization = Authorizations::where('authorization_key', $request->input('authorization_key'))->where('status', 'Pending')->first();
+            $authorization = Authorizations::where('authorization_key', $request->input('authorization_key'))->where('status', 'Active')->first();
 
             if($authorization) {
                 $job = Jobs::where('id', $request->input('id'))->update([
