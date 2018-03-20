@@ -218,7 +218,7 @@ class AuthenticationController extends Controller
             'g-recaptcha-response' => 'required|recaptcha'
         ], [
             'birth_date.before' => 'You must be at least 18 years old.',
-            'birth_date.after' => 'You must be 60 years old or below.',
+            'birth_date.after' => 'You must be 60 years old or below.'
         ]);
 
         if($validator->fails()) {
