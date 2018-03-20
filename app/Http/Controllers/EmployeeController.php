@@ -21,6 +21,7 @@ use App\ContractRules;
 use App\Documents;
 use App\Employees;
 use App\Helps;
+use App\Jobs;
 use App\Logs;
 use App\Passwords;
 use App\Products;
@@ -976,7 +977,12 @@ class EmployeeController extends Controller
             ]);
 
             if($query) {
-                @$this->sendSms($transaction->account->user_info->contact_number, 'Your order from ' . config('company.name') . ' has been dispatched. Transaction ID No. ' . sprintf('%010d', $transaction->id) . '.');
+                // @$this->sendSms($transaction->account->user_info->contact_number, 'Your order from ' . config('company.name') . ' has been dispatched. Transaction ID No. ' . sprintf('%010d', $transaction->id) . '.');
+                Jobs::create([
+                    'contact_number' => $transaction->account->user_info->contact_number,
+                    'message' => 'Your order from ' . config('company.name') . ' has been dispatched. Transaction ID No. ' . sprintf('%010d', $transaction->id) . '.'
+                ]);
+
                 @$this->generateReceipt($request->input('id'));
 
                 return response()->json([
