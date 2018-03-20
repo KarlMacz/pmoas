@@ -25,6 +25,18 @@ class Authenticate
             }
         }
 
+        if(Auth::check()) {
+            $account = Accounts::where('id', Auth::user()->id)->first();
+
+            if($account) {
+                if(strtotime($account->last_active) < strtotime('-' . config('session.lifetime') . ' minutes')) {
+                    Accounts::where('id', Auth::user()->id)->update([
+                        'last_active' => date('Y-m-d H:i:s')
+                    ]);
+                }
+            }
+        }
+
         return $next($request);
     }
 }

@@ -83,6 +83,10 @@ class AuthenticationController extends Controller
     public function logout() {
         $this->createLog(Auth::user()->id, 'Success', 'has logged out.');
 
+        Accounts::where('id', Auth::user()->id)->update([
+            'login_ip' => null
+        ]);
+
         Auth::logout();
 
         return redirect()->route('auth.get.login');
@@ -161,6 +165,10 @@ class AuthenticationController extends Controller
 
         if(Auth::attempt(['username' => $username, 'password' => $password, 'is_verified' => true])) {
             $this->createLog(Auth::user()->id, 'Success', 'has logged in.');
+
+            Accounts::where('id', Auth::user()->id)->update([
+                'login_ip' => $request->ip()
+            ]);
 
             if(Auth::user()->role === 'Employee') {
                 return redirect()->route('employees.get.index');

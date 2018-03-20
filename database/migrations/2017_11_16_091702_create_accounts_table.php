@@ -21,6 +21,8 @@ class CreateAccountsTable extends Migration
             $table->string('verification_code')->nullable();
             $table->string('role')->default('Client');
             $table->integer('login_attempts')->unsigned()->default(0);
+            $table->ipAddress('login_ip')->nullable();
+            $table->dateTime('last_active');
             $table->rememberToken();
             $table->timestamps();
         });
