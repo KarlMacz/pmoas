@@ -163,17 +163,17 @@ class AuthenticationController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
+        $accountCheck = Accounts::where('username', $username)->first();
+
+        if($accountCheck->login_ip != null && $accountCheck->login_ip != $request->ip() && strtotime($accountCheck->last_active) >= strtotime('-' . config('session.lifetime') . ' minutes')) {
+            session()->flash('flash_status', 'Failed');
+            session()->flash('flash_message', 'Account is currently logged in to another device on the same network.');
+
+            return redirect()->route('auth.get.login');
+        }
+
         if(Auth::attempt(['username' => $username, 'password' => $password, 'is_verified' => true])) {
             $this->createLog(Auth::user()->id, 'Success', 'has logged in.');
-
-            if(Auth::user()->login_ip != null && strtotime(Auth::user()->last_active) >= strtotime('-' . config('session.lifetime') . ' minutes')) {
-                Auth::logout();
-                
-                session()->flash('flash_status', 'Failed');
-                session()->flash('flash_message', 'Account is currently logged in to another device on the same network.');
-
-                return redirect()->route('auth.get.login');
-            }
 
             Accounts::where('id', Auth::user()->id)->update([
                 'login_ip' => $request->ip()
