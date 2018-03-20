@@ -129,7 +129,7 @@ class ResourceController extends Controller
                 } else {
                     return response()->json([
                         'status' => 'Failed',
-                        'message' => 'Job not found.'
+                        'message' => 'No pending job at the moment.'
                     ]);
                 }
             } else {
