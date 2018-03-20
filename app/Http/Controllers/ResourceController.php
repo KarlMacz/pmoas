@@ -123,7 +123,7 @@ class ResourceController extends Controller
                 if($job) {
                     return response()->json([
                         'status' => 'Success',
-                        'message' => $job->count() . ' job found.',
+                        'message' => '1 job found.',
                         'data' => $job
                     ]);
                 } else {
