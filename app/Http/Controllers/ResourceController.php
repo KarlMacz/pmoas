@@ -23,7 +23,8 @@ class ResourceController extends Controller
             'except' => [
                 'dateTime',
                 'postAuthorization',
-                'postJobs'
+                'postJobs',
+                'postUpdateJobStatus'
             ]
         ]);
     }
