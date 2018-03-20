@@ -115,21 +115,21 @@ class ResourceController extends Controller
 
     public function postJobs(Request $request) {
         if($request->has('authorization_key')) {
-            $authorization = Authorizations::where('authorization_key', $request->input('authorization_key'))->where('status', 'Active')->take(15)->first();
+            $authorization = Authorizations::where('authorization_key', $request->input('authorization_key'))->where('status', 'Active')->first();
 
             if($authorization) {
-                $jobs = Jobs::where('status', 'Pending')->get();
+                $job = Jobs::where('status', 'Pending')->first();
 
-                if($jobs) {
+                if($job) {
                     return response()->json([
                         'status' => 'Success',
-                        'message' => $jobs->count() . ' jobs found.',
-                        'data' => $jobs
+                        'message' => $job->count() . ' job found.',
+                        'data' => $job
                     ]);
                 } else {
                     return response()->json([
                         'status' => 'Failed',
-                        'message' => 'Jobs not found.'
+                        'message' => 'Job not found.'
                     ]);
                 }
             } else {
